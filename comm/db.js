@@ -347,46 +347,14 @@ class DataSet {
 // 查询特定类型字段时使用的SQL
 var field2SQLFuncMap = {
     geometry: field => {
-        return `st_astext(${field}) as "${field}"`;
+        return `ST_AsGeoJSON(${field}) as "${field}"`;
     }
 };
 
 // 从数据库特定类型字段后映射为合适的js对象
 var dbType2EntityObjMap = {
     geometry: value => {
-        console.time("WKT")
-        if (value) {
-            if (value.startsWith("POINT")) {
-                let fi = value.indexOf('(');
-                let coord_str = value.substring(fi + 1, value.length - 1);
-                let xy = coord_str.split(' ');
-                return {
-                    x: Number(xy[0]),
-                    y: Number(xy[1])
-                };
-            }
-            else if (value.startsWith("MULTIPOLYGON")) {
-                let coord_str = value.substring(12);
-                coord_str = coord_str.replace(/\(/g, '[').replace(/\)/g, ']').replace(/ /g, ',');
-                let coord_array = eval(`(${coord_str})`);
-                let cs = [];
-                coord_array.forEach(ps => {
-                    ps.forEach(rs => {
-                        let nps = [];
-                        for (let i = 0; i < rs.length; i += 2) {
-                            nps.push([rs[i], rs[i + 1]]);
-                        }
-                        cs.push(nps);
-                    });
-                });
-                return cs;
-            }
-            else {
-                throw `geometry WKT parse: not support WKT text "${value.substring(0, 30)}..."`;
-            }
-        }
-        console.timeEnd("WKT")
-        return value;
+        return JSON.parse(value)
     }
 };
 
@@ -396,14 +364,7 @@ var dbType2EntityObjMap = {
 var entityValue2SQLMap = {
     geometry: value => {
         if (value) {
-            // 此处仅转换点
-            let x = Number(value.x), y = Number(value.y);
-            if (!isNaN(x) && !isNaN(y)) {
-                return `st_geomfromtext('POINT(${x} ${y})',3857)`;
-            }
-            else {
-                throw 'geometry 仅支持转换point类型';
-            }
+            return `ST_SetSRID(ST_GeomFromGeoJSON('${JSON.stringify(value)}'),4326)`;
         }
         return null;
     }
