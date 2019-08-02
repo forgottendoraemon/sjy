@@ -39,7 +39,10 @@ const controller = {
     },
     /**
      * 提交最新位置
-     * {time,geom}
+     * {
+     * time:new Date(),
+     * geom:{"type":"Point","coordinates":[101.1,36.1]}
+     * }
      */
     post: async ($form, $user) => {
         const location = {
