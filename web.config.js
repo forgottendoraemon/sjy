@@ -1,6 +1,7 @@
 const config={
-    prot:80
-    
+    server:{
+        port:80
+    }
 }
 
 module.exports = config;

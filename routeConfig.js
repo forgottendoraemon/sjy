@@ -1,11 +1,11 @@
 function configStatic (app) {
     const staticFileHander = require("koa-static");
 
-    //首页由静态文件中间件在注册的静态文件目录中寻找到index.html
-    app.use(staticFileHander(`${__dirname}/HTMapMarkersystem/dist`, {
-        maxAge: 1000 * 60 * 60 * 24 * 1 // 1天(dist/static/assets目录文件名不带hash值, 可能会造成修改后浏览器仍使用修改前的文件)
-    }));
-    app.use(staticFileHander(`${__dirname}/HTMapMarkersystem-Mobile/dist`));
+    // //首页由静态文件中间件在注册的静态文件目录中寻找到index.html
+    // app.use(staticFileHander(`${__dirname}/HTMapMarkersystem/dist`, {
+    //     maxAge: 1000 * 60 * 60 * 24 * 1 // 1天(dist/static/assets目录文件名不带hash值, 可能会造成修改后浏览器仍使用修改前的文件)
+    // }));
+    // app.use(staticFileHander(`${__dirname}/HTMapMarkersystem-Mobile/dist`));
     app.use(staticFileHander(`${__dirname}/static`));
 }
 
@@ -334,8 +334,8 @@ function configHistory (app) {
 
 module.exports.config = function (app) {
     configController(app);
-    configMobile(app);
-    configHistory(app);
+    // configMobile(app);
+    // configHistory(app);
     configStatic(app);
 }
 

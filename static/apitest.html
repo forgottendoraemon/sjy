@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <title>API Controller Test</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</head>
+
+<body style="padding: 20px;">
+    <div class="form-group">
+        <label for="apiurl">API URL</label>
+        <input type="text" class="form-control" id="apiurl" value="/api/builds" placeholder="API URL '/api/...'">
+    </div>
+    <div class="form-group">
+        <label for="method">HTTP Method</label>
+        <select class="form-control" id="method">
+            <option value="GET" selected>GET</option>
+            <option value="POST">POST</option>
+            <option value="PUT">PUT</option>
+            <option value="DELETE">DELETE</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="data">Form Data</label>
+        <textarea class="form-control" id="data" rows="3"
+            placeholder="javascript object:&#13;&#10;{name:''...}"></textarea>
+    </div>
+    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+    <div class="form-group">
+        <label for="result" id="result-info">Result</label>
+        <textarea class="form-control" id="result" rows="5"></textarea>
+    </div>
+    <script>
+        $("#submit").click(function () {
+            $("#result").val("");
+            $("#result-info").text(`runing...`);
+            var data, dataText = $("#data").val();
+            if (dataText) {
+                data = eval(`(${dataText})`);
+            }
+            const starttime = new Date().getTime();
+            $.ajax({
+                url: $("#apiurl").val(),
+                method: $("#method").val(),
+                data: data
+            }).then(function (result) {
+                $("#result").css("color", "#495057").val(JSON.stringify(result));
+                $("#result-info").text(`Result ${new Date().getTime() - starttime}ms`);
+            }).fail(function (xhr) {
+                $("#result").css("color", "red").val(xhr.responseText);
+                $("#result-info").text(`Result ${new Date().getTime() - starttime}ms`);
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
