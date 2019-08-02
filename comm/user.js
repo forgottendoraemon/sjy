@@ -2,12 +2,11 @@
  * 用户管理通用业务
  */
 
-//id, name, password, roles, last_login_time, createtime, email, parentid
+//id, name, password, roles, lastlogintime, createtime, email, parentid
 
 const { DataSet, execSQL } = require('./db');
 const { defaultAdmin } = require('../web.config').user
 const userSet = new DataSet('users');
-const layerSet = new DataSet('layers');
 
 /* 用户名密码表单验证函数 */
 function verifyUserName (username) {
@@ -174,7 +173,7 @@ async function changePassword (user, password, newpassword) {
  * @param {*} user 用户
  */
 async function updateUserLoginTimeNow (user) {
-    user.last_login_time = new Date();
+    user.lastlogintime = new Date();
     await userSet.update(user);
 }
 
@@ -211,21 +210,6 @@ async function createUser (user) {
     user.password = ph;
     user.createtime = new Date();
     await userSet.add(user, uid);
-
-    if (user.roles !== RoleNames.SubUser) {
-        // 初始化底图
-        await initBasemapLayer({
-            ownerid: user.id,
-            name: '在线地图',
-            type: 'base-map',
-            zindex: 1,
-            visible: true,
-            style: {
-                currentMap: 'Google地图'
-            }
-        })
-    }
-
     return user;
 }
 
@@ -317,11 +301,11 @@ const RoleNames = {
      */
     Administrator: "admin",
     /**
-     * 组织管理员
+     * 工作人员
      */
     Organizer: "organizer",
     /**
-     * 组织成员
+     * 访客
      */
     SubUser: "subuser"
 };

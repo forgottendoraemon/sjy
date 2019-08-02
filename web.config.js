@@ -14,6 +14,12 @@ const config={
         max: 20,
         idleTimeoutMillis: 3000
     },
+    user:{
+        defaultAdmin:{
+            username:"adminu",
+            password:"admin123"
+        }
+    }
 }
 
 module.exports = config;

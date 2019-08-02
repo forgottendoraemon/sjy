@@ -1,7 +1,6 @@
 const pg = require('pg');
 const uuid = require('node-uuid');
-const config = require('../dbConfig');
-const EventEmitterAsync = require('./EventEmitterAsync');
+const config = require('../web.config').db;
 
 var pool = new pg.Pool(config);
 /**
@@ -344,27 +343,6 @@ class DataSet {
         await execSQL(sql, psv);
     }
 }
-
-/**
- * 数据更新操作事件触发器
- */
-const UpdateEventEmitter = new EventEmitterAsync();
-
-// 事件封装
-const updateFuncs = [
-    'add',
-    'removeById', 'removeByWhere', 'reomve',
-    'update', 'updateById', 'updateByWhere'
-];
-updateFuncs.forEach(p => {
-    const f = DataSet.prototype[p];
-    DataSet.prototype[p] = async function (...arg) {
-        await UpdateEventEmitter.emit(`${this.tableName}-before-${p}`, { arguments: arg, sender: this });
-        const result = await f.apply(this, arg);
-        await UpdateEventEmitter.emit(`${this.tableName}-after-${p}`, { arguments: arg, sender: this, result });
-        return result;
-    }
-});
 
 // 查询特定类型字段时使用的SQL
 var field2SQLFuncMap = {
