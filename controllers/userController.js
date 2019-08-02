@@ -59,7 +59,6 @@ module.exports = {
         if (ctx.isAuthenticated()) {
             let user = ctx.req.user;
             const clientUser = usercomm.toClientUser(user);
-            clientUser.vaservice = await getUserVAServiceStatus(user.id);
             ctx.response.ok(clientUser);
         }
         else {
