@@ -18,7 +18,33 @@ const config={
         defaultAdmin:{
             username:"adminu",
             password:"admin123"
-        }
+        },
+        enableRegisterEmail:true
+    },
+    /**
+     * 邮件发送配置
+     */
+    emali: {
+        /**
+         * 发件邮箱
+         */
+        from: "498814515@qq.com",
+        /**
+         * SMTP密码
+         */
+        SMTPPassword: "vjukyysvqfxtbjfj",
+        /**
+         * 服务商
+         */
+        service: 'qq',
+        /**
+         * 端口
+         */
+        port: 465,
+        /**
+         * 向同一个邮箱发送邮件的最小间隔
+         */
+        minInterval: 60000
     }
 }
 

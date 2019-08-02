@@ -448,6 +448,5 @@ function table (tableName) {
 module.exports = {
     execSQL,
     DataSet,
-    table,
-    UpdateEventEmitter
+    table
 }

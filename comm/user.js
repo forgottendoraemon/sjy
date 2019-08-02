@@ -91,24 +91,6 @@ async function exitEmail (email) {
  */
 async function getRegisterUserInfos () {
     const users = await userSet.query('roles<>$1', [RoleNames.SubUser]);
-    for (let i = 0; i < users.length; i++) {
-        const { id, roles } = users[i];
-
-        //统计用户使用的数据总条数
-        const cr = await execSQL(
-            `SELECT 
-                SUM((SELECT COUNT(features.id) FROM features WHERE features.layerid=layers.id)) as count 
-            FROM layers 
-            WHERE layers.ownerid=$1`, [id]);
-        users[i].recordCount = Number(cr.rows[0].count) || 0;
-
-        //统计组织管理员用户的子用户数量
-        if (roles === RoleNames.Organizer) {
-            const cr = await execSQL(`SELECT COUNT(id) FROM users WHERE parentid=$1`, [id]);
-            users[i].subUserCount = Number(cr.rows[0].count);
-        }
-        users[i].subUserCount = users[i].subUserCount || 0;
-    }
     return users;
 }
 
@@ -269,7 +251,7 @@ function validPassword (user, password) {
 function initUser () {
     userSet.count(`name='${defaultAdmin.username}'`).then(function (count) {
         if (count == 0) {
-            createUser({ name: defaultAdmin.username, password: defaultAdmin.passowrd, roles: RoleNames.Administrator }).then(() => console.log("user inited"));
+            createUser({ name: defaultAdmin.username, password: defaultAdmin.password, roles: RoleNames.Administrator }).then(() => console.log("user inited"));
         }
     }, function (err) {
         console.log(`init user data error ${err}`);
