@@ -19,7 +19,8 @@ const config={
             username:"adminu",
             password:"admin123"
         },
-        enableRegisterEmail:true
+        enableRegisterEmail:true,
+        differentEnable:true
     },
     /**
      * 邮件发送配置
