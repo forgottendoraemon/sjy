@@ -317,7 +317,8 @@ const specialParameter = {
     $form: ctx => ctx.request.body,
     $user: ctx => ctx.req.user,
     $userId: ctx => ctx.req.user.id,
-    $files: ctx => ctx.request.files
+    $files: ctx => ctx.request.files,
+    $query:ctx=>ctx.request.query
 }
 function apiParameterBind (ctx, args) {
     return args.map(a => {
