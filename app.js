@@ -21,4 +21,5 @@ require("./authConfig").config(app);
 require("./routeConfig").config(app);
 
 app.listen(port);
+// zhushi
 console.log(`\x1B[32mapp started at port ${port}\x1B[39m`);
