@@ -20,7 +20,7 @@ const controller = {
                 FROM public.locations
                 join users on userid = users.id
                 where users.roles = $1`,
-            [RoleNames.SubUser]
+            [RoleNames.Visitor]
         );
         return result.rows;
     },
@@ -33,7 +33,7 @@ const controller = {
                 FROM public.locations
                 join users on userid = users.id
                 where users.roles = $1`,
-            [RoleNames.Organizer]
+            [RoleNames.Worker]
         );
         return result.rows;
     },

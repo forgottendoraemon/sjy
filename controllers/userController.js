@@ -108,7 +108,7 @@ module.exports = {
      */
     postregister: async (ctx) => {
         //基础表单验证
-        const cr = usercomm.verifyCreateUserReq(ctx, usercomm.RoleNames.SubUser);
+        const cr = usercomm.verifyCreateUserReq(ctx, usercomm.RoleNames.Visitor);
         //用户名占用验证
         let existuser = await usercomm.existUserName(cr.username);
         if (existuser) {
@@ -123,7 +123,7 @@ module.exports = {
                     name: cr.username,
                     password: cr.password,
                     email: cr.email,
-                    roles: usercomm.RoleNames.SubUser
+                    roles: usercomm.RoleNames.Visitor
                 });
                 //登录该用户
                 await new Promise((resolve, reject) => {
@@ -211,7 +211,9 @@ module.exports = {
     deleteuser: async (ctx) => {
         if (currentUserIsAdmin(ctx)) {
             let uid = ctx.request.query.id;
-            //TODO:删除组织账号后尚未删除其子账号
+            if(ctx.req.user.id==uid){
+                throw '不能删除自身';
+            }
             if (await usercomm.deleteUser(uid)) {
                 ctx.response.ok();
             }

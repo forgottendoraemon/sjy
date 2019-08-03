@@ -91,7 +91,8 @@ function addMapping (router, mapping, controllerName) {
                 }
                 catch (ex) {
                     let exm = ex.message || ex;
-                    ctx.response.ok({ error: true, message: exm });
+                    // ctx.response.ok({ error: true, message: exm });
+                    ctx.response.badRequest(exm);
                 }
             }
         }
@@ -102,7 +103,8 @@ function addMapping (router, mapping, controllerName) {
                 }
                 catch (ex) {
                     let exm = ex.message || ex;
-                    ctx.response.ok({ error: true, message: exm });
+                    // ctx.response.ok({ error: true, message: exm });
+                    ctx.response.badRequest(exm);
                 }
             }
         }
@@ -176,7 +178,8 @@ function addApiMapping (router, mapping, controllerName) {
                 }
                 catch (ex) {
                     let exm = ex.message || ex;
-                    ctx.response.ok({ error: true, message: exm });
+                    // ctx.response.ok({ error: true, message: exm });
+                    ctx.response.badRequest(exm);
                 }
             }
         }
@@ -193,7 +196,8 @@ function addApiMapping (router, mapping, controllerName) {
                 }
                 catch (ex) {
                     let exm = ex.message || ex;
-                    ctx.response.ok({ error: true, message: exm });
+                    // ctx.response.ok({ error: true, message: exm });
+                    ctx.response.badRequest(exm);
                 }
             }
         }

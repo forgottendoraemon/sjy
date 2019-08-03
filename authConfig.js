@@ -42,12 +42,14 @@ async function getUserIdByClientId (clientid) {
 function config (app) {
     //登录时序列化用户标识到session
     passport.serializeUser(async function (user, done) {
-        const clientid = await bindUserToClient(user);
+        // const clientid = await bindUserToClient(user);
+        const clientid = user.id;
         done(null, clientid);
     });
     //从请求的session中反序列化用户
     passport.deserializeUser(async function (clientid, done) {
-        const userid = await getUserIdByClientId(clientid);
+        // const userid = await getUserIdByClientId(clientid);
+        const userid = clientid;
         if (userid) {
             let user = await usercomm.getUserById(userid);
             if (user) {

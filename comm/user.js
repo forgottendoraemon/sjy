@@ -54,8 +54,8 @@ function verifyCreateUserReq (ctx, roles) {
     verifyUserName(username);
     verifyPassowrd(password);
 
-    //组织管理员用户必须填写邮箱
-    if (roles === RoleNames.Organizer) {
+    // 访客必须提供邮箱
+    if (roles === RoleNames.Visitor) {
         verifyEmail(email);
     }
 
@@ -90,7 +90,7 @@ async function exitEmail (email) {
  * 及其使用情况(不包括组织子用户)
  */
 async function getRegisterUserInfos () {
-    const users = await userSet.query('roles<>$1', [RoleNames.SubUser]);
+    const users = await userSet.query('roles<>$1', [RoleNames.Visitor]);
     return users;
 }
 
@@ -285,11 +285,11 @@ const RoleNames = {
     /**
      * 工作人员
      */
-    Organizer: "organizer",
+    Worker: "worker",
     /**
      * 访客
      */
-    SubUser: "subuser"
+    Visitor: "visitor"
 };
 
 initUser();
