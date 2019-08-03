@@ -20,5 +20,5 @@ require("./authConfig").config(app);
 // url与处理函数之间的映射
 require("./routeConfig").config(app);
 
-app.listen(port)
+app.listen(port);
 console.log(`\x1B[32mapp started at port ${port}\x1B[39m`);
