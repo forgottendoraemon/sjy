@@ -1,6 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiNDk4ODE0NTE1IiwiYSI6ImNqbnUyMzNhNjAyYjQzcG82anB3MndoZ3MifQ.-Iie0JVj-BP2Rcj5ZYNSJA';
 var map = new mapboxgl.Map({
     container: 'map', // container id
+    // style: 'mapbox/style.json'
     style: {
         "version": 8,
         "name": "Blank",
@@ -23,8 +24,8 @@ var map = new mapboxgl.Map({
                 "tiles": [`${location.protocol}//${location.host}/tiles/{z}/{x}/{y}.mvt`]
             }
         },
-        "sprite": "mapbox://sprites/498814515/cjyvil68d12ze1cmz8wxayrcp/ey8axhwqsol6mv793ckmoaxka",
-        "glyphs": "mapbox://fonts/498814515/{fontstack}/{range}.pbf",
+        "sprite": `${location.protocol}//${location.host}/mapboxgl/sprite`,
+        "glyphs": `${location.protocol}//${location.host}/mapboxgl/{fontstack}/{range}.pbf`,
         "layers": [
             {
                 "id": "background",
@@ -125,6 +126,7 @@ var map = new mapboxgl.Map({
                 "source": "composite",
                 "source-layer": "xiandao",
                 "layout": { "line-cap": "round", "line-join": "round" },
+                
                 "paint": {
                     "line-color": "#ffffff",
                     "line-width": [
@@ -266,6 +268,11 @@ var map = new mapboxgl.Map({
                 "type": "symbol",
                 "source": "composite",
                 "source-layer": "xiangdao",
+                "filter": [
+                    "all",
+                    ["match", ["get", "name"], ["null"], false, true],
+                    ["has", "name"]
+                ],
                 "layout": {
                     "text-field": ["to-string", ["get", "name"]],
                     "text-size": [
@@ -294,6 +301,11 @@ var map = new mapboxgl.Map({
                 "type": "symbol",
                 "source": "composite",
                 "source-layer": "xiandao",
+                "filter": [
+                    "all",
+                    ["match", ["get", "name"], ["null"], false, true],
+                    ["has", "name"]
+                ],
                 "layout": {
                     "text-field": ["to-string", ["get", "name"]],
                     "text-size": [
@@ -318,13 +330,15 @@ var map = new mapboxgl.Map({
                 "type": "symbol",
                 "source": "composite",
                 "source-layer": "shengdao",
+                "minzoom": 6,
                 "layout": {
-                    "symbol-placement": ["step", ["zoom"], "point", 11, "line"],
+                    "text-letter-spacing": 0.05,
                     "text-field": ["to-string", ["get", "name"]],
                     "text-size": 9,
                     "text-rotation-alignment": "viewport",
                     "icon-rotation-alignment": "viewport",
-                    "icon-image": ["step", ["zoom"], "", 12, "rectangle-yellow-3"]
+                    "icon-image": "rectangle-yellow-3",
+                    "symbol-placement": "line"
                 },
                 "paint": {}
             },
