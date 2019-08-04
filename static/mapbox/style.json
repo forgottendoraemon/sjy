@@ -1,0 +1,355 @@
+{
+    "version": 8,
+    "name": "Blank",
+    "metadata": {
+        "mapbox:autocomposite": true,
+        "mapbox:type": "template",
+        "mapbox:sdk-support": {
+            "js": "0.54.0",
+            "android": "7.4.0",
+            "ios": "4.11.0"
+        }
+    },
+    "center": [99.08313660502631, 34.75840285686732],
+    "zoom": 12.093924202362706,
+    "bearing": 0,
+    "pitch": 0,
+    "sources": {
+        "composite": {
+            "url": "mapbox://498814515.dsyl0vyc,498814515.071z0s2e,498814515.2dt8sss4,498814515.duzhdrvd,498814515.8won14se,498814515.appweyc7,498814515.4r75bpxa,498814515.cski9lcv,498814515.apaorttj,498814515.3aaqbt0b,498814515.5aepsrbk",
+            "type": "vector"
+        }
+    },
+    "sprite": "mapbox://sprites/498814515/cjyvil68d12ze1cmz8wxayrcp/ey8axhwqsol6mv793ckmoaxka",
+    "glyphs": "mapbox://fonts/498814515/{fontstack}/{range}.pbf",
+    "layers": [
+        {
+            "id": "background",
+            "type": "background",
+            "layout": {},
+            "paint": {"background-color": "#efe9e1"}
+        },
+        {
+            "id": "xingzhengquhua",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "shengjie-26boy7",
+            "layout": {"line-cap": "round", "line-join": "round"},
+            "paint": {
+                "line-color": "#a6a6a6",
+                "line-width": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    7,
+                    0.75,
+                    12,
+                    1.5
+                ],
+                "line-dasharray": [2, 2, 6, 2]
+            }
+        },
+        {
+            "id": "quhua",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "quhua-aml3a2",
+            "layout": {"line-cap": "round", "line-join": "round"},
+            "paint": {
+                "line-color": "#808080",
+                "line-width": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    3,
+                    0.5,
+                    10,
+                    2
+                ]
+            }
+        },
+        {
+            "id": "shuixi",
+            "type": "fill",
+            "source": "composite",
+            "source-layer": "shuixi-3ifcsj",
+            "layout": {},
+            "paint": {"fill-color": "#78bced"}
+        },
+        {
+            "id": "shidi",
+            "type": "fill",
+            "source": "composite",
+            "source-layer": "shidi-2ip1ee",
+            "layout": {},
+            "paint": {
+                "fill-color": "#c8dd97",
+                "fill-opacity": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    5,
+                    0,
+                    6,
+                    0.5
+                ]
+            }
+        },
+        {
+            "id": "xiangdao",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "xiangdao-14mibe",
+            "layout": {"line-cap": "round", "line-join": "round"},
+            "paint": {
+                "line-color": "#fff",
+                "line-width": [
+                    "interpolate",
+                    ["exponential", 1.5],
+                    ["zoom"],
+                    13,
+                    0.5,
+                    15,
+                    1.8,
+                    18,
+                    15
+                ]
+            }
+        },
+        {
+            "id": "xiandao",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "xiandao-8ryeuw",
+            "layout": {"line-cap": "round", "line-join": "round"},
+            "paint": {
+                "line-color": "#ffffff",
+                "line-width": [
+                    "interpolate",
+                    ["exponential", 1.5],
+                    ["zoom"],
+                    12,
+                    0.5,
+                    14,
+                    2,
+                    18,
+                    18
+                ]
+            }
+        },
+        {
+            "id": "shengdao",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "shengdao-0cvb0s",
+            "layout": {"line-cap": "round", "line-join": "round"},
+            "paint": {
+                "line-color": "#fff",
+                "line-width": [
+                    "interpolate",
+                    ["exponential", 1.5],
+                    ["zoom"],
+                    5,
+                    0.75,
+                    18,
+                    32
+                ]
+            }
+        },
+        {
+            "id": "guodao-case",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "guodao-85etbf",
+            "layout": {"line-cap": "round", "line-join": "round"},
+            "paint": {
+                "line-width": [
+                    "interpolate",
+                    ["exponential", 1.5],
+                    ["zoom"],
+                    10,
+                    1,
+                    18,
+                    2
+                ],
+                "line-color": "#fff",
+                "line-gap-width": [
+                    "interpolate",
+                    ["exponential", 1.5],
+                    ["zoom"],
+                    5,
+                    0.75,
+                    18,
+                    32
+                ]
+            }
+        },
+        {
+            "id": "guodao",
+            "type": "line",
+            "source": "composite",
+            "source-layer": "guodao-85etbf",
+            "layout": {"line-cap": "round", "line-join": "round"},
+            "paint": {
+                "line-color": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    0,
+                    "#f2934a",
+                    6,
+                    "#f2934a",
+                    9,
+                    "#ffa35c"
+                ],
+                "line-width": [
+                    "interpolate",
+                    ["exponential", 1.5],
+                    ["zoom"],
+                    5,
+                    0.75,
+                    18,
+                    32
+                ]
+            }
+        },
+        {
+            "id": "poi",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "poi-3gn7hu",
+            "layout": {
+                "text-field": ["to-string", ["get", "name"]],
+                "text-size": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    13,
+                    0,
+                    13.1,
+                    12
+                ]
+            },
+            "paint": {
+                "text-color": "#cb7b4d",
+                "text-halo-width": 0.5,
+                "text-halo-blur": 0.5,
+                "text-halo-color": "#fff"
+            }
+        },
+        {
+            "id": "cun",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "cun-0vxibe",
+            "layout": {
+                "text-field": ["to-string", ["get", "name"]],
+                "text-size": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    9,
+                    0,
+                    10,
+                    10,
+                    14,
+                    16
+                ]
+            },
+            "paint": {}
+        },
+        {
+            "id": "xiangdao-label",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "xiangdao-14mibe",
+            "layout": {
+                "text-field": ["to-string", ["get", "name"]],
+                "text-size": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    10,
+                    8,
+                    18,
+                    14
+                ],
+                "text-letter-spacing": 0.01,
+                "symbol-placement": "line",
+                "text-max-angle": 30,
+                "text-rotation-alignment": "map",
+                "text-padding": 1
+            },
+            "paint": {
+                "text-halo-color": "#fff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "xiandao-label",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "xiandao-8ryeuw",
+            "layout": {
+                "text-field": ["to-string", ["get", "name"]],
+                "text-size": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    10,
+                    10,
+                    18,
+                    16
+                ],
+                "symbol-placement": "line"
+            },
+            "paint": {
+                "text-halo-color": "#fff",
+                "text-halo-width": 1,
+                "text-halo-blur": 1
+            }
+        },
+        {
+            "id": "shengdao-label",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "shengdao-0cvb0s",
+            "layout": {
+                "symbol-placement": ["step", ["zoom"], "point", 11, "line"],
+                "text-field": ["to-string", ["get", "name"]],
+                "text-size": 9,
+                "text-rotation-alignment": "viewport",
+                "icon-rotation-alignment": "viewport",
+                "icon-image": ["step", ["zoom"], "", 12, "rectangle-yellow-3"]
+            },
+            "paint": {}
+        },
+        {
+            "id": "xiangzhen",
+            "type": "symbol",
+            "source": "composite",
+            "source-layer": "xiangzhen-7d3jly",
+            "layout": {
+                "text-field": ["to-string", ["get", "name"]],
+                "text-size": [
+                    "interpolate",
+                    ["linear"],
+                    ["zoom"],
+                    5,
+                    8,
+                    16,
+                    16
+                ],
+                "text-max-width": 7
+            },
+            "paint": {}
+        }
+    ],
+    "created": "2019-08-03T12:29:49.661Z",
+    "id": "cjyvil68d12ze1cmz8wxayrcp",
+    "modified": "2019-08-04T08:05:50.298Z",
+    "owner": "498814515",
+    "visibility": "private",
+    "draft": false
+}
