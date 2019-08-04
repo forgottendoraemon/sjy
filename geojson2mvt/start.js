@@ -17,7 +17,7 @@ const options = {
     ], //[miny,minx,maxy,maxx]
     zoom: {
         min: 5,
-        max: 14 //此选项22级需要调整node进程的内存大小
+        max: 22 //此选项22级需要调整node进程的内存大小
     }
 }
 
@@ -27,4 +27,4 @@ for (let f of geojson_files) {
 
 geojson2mvt(options);
 
-// 若提示内存超出，可以尝试使用 node –max_old_space_size=4096 start.js
+// 若提示内存超出，可以尝试使用 node geojson2mvt/start.js –-max-old-space-size=4096 --max-new-space-size=4096

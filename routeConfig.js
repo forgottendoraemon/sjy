@@ -1,4 +1,4 @@
-function configStatic (app) {
+function configStatic(app) {
     const staticFileHander = require("koa-static");
 
     // //首页由静态文件中间件在注册的静态文件目录中寻找到index.html
@@ -6,7 +6,7 @@ function configStatic (app) {
     //     maxAge: 1000 * 60 * 60 * 24 * 1 // 1天(dist/static/assets目录文件名不带hash值, 可能会造成修改后浏览器仍使用修改前的文件)
     // }));
     // app.use(staticFileHander(`${__dirname}/HTMapMarkersystem-Mobile/dist`));
-    app.use(staticFileHander(`${__dirname}/static`));
+    app.use(staticFileHander(`${__dirname}/static`, { brotli: false }));
 }
 
 /**
@@ -18,7 +18,7 @@ const ControllerSuffix = 'controller';
  * 由控制器文件名映射到控制器名称
  * @param {*} filename 控制器文件名(*.js)
  */
-function getControllerName (filename) {
+function getControllerName(filename) {
     let controllerName = filename.substring(0, filename.length - 3);
     const dl = controllerName.length - ControllerSuffix.length;
     if (dl > 0 && controllerName.substring(dl).toLowerCase() === ControllerSuffix) {
@@ -27,7 +27,7 @@ function getControllerName (filename) {
     return controllerName;
 }
 
-function configController (app) {
+function configController(app) {
     const Router = require("koa-router");
     let router = new Router();
 
@@ -41,7 +41,7 @@ function configController (app) {
  * /mobile访问移动端页面
  * @param {*} app 
  */
-function configMobile (app) {
+function configMobile(app) {
     const Router = require("koa-router");
     let router = new Router();
     const send = require('koa-send');
@@ -53,7 +53,7 @@ function configMobile (app) {
 
 /*普通控制器简单路由绑定*/
 
-function addMapping (router, mapping, controllerName) {
+function addMapping(router, mapping, controllerName) {
     let methods = ['get', 'post', 'put', 'delete'];
     for (var action in mapping) {
         let actionhandlerSrc = mapping[action];
@@ -115,7 +115,7 @@ function addMapping (router, mapping, controllerName) {
     }
 }
 
-function addControllers (router) {
+function addControllers(router) {
     const fs = require('fs');
     var files = fs.readdirSync(__dirname + '/controllers');
     var js_files = files.filter((f) => {
@@ -132,7 +132,7 @@ function addControllers (router) {
 
 
 /* API控制器路由（带简单参数绑定） */
-function addApiMapping (router, mapping, controllerName) {
+function addApiMapping(router, mapping, controllerName) {
     let methods = ['get', 'post', 'put', 'delete'];
     for (var action in mapping) {
         let actionLowerCase = action.toLowerCase();
@@ -207,7 +207,7 @@ function addApiMapping (router, mapping, controllerName) {
     }
 }
 
-function addApiControllers (router) {
+function addApiControllers(router) {
     const fs = require('fs');
     var files = fs.readdirSync(__dirname + '/controllers/api');
     var js_files = files.filter((f) => {
@@ -222,7 +222,7 @@ function addApiControllers (router) {
     }
 }
 
-function getFuncArguments (func) {
+function getFuncArguments(func) {
     let fstr = func.toString();
     let argumentstr;
     if (func.length > 0) {
@@ -243,7 +243,7 @@ function getFuncArguments (func) {
     }
 }
 
-function isAsyncFunction (func) {
+function isAsyncFunction(func) {
     return func.toString().startsWith("async");
 }
 
@@ -277,7 +277,7 @@ const ApiResultparser = {
  * @param {*} action 
  * @param {*} ctx 
  */
-function ApiActionAuth (action, ctx) {
+function ApiActionAuth(action, ctx) {
     if (action.share) {
         const shareid = ctx.query.shareid || ctx.params.shareid || ctx.request.body.shareid;
         if (shareid) {
@@ -301,7 +301,7 @@ const NoParseResult = {};
  * @param {Object|Function} result 返回值，若返回值为一个函数则传入ctx并执行该函数，不再使用默认的返回响应处理
  * @param {*} ctx 
  */
-function parseApiResult (method, result, ctx) {
+function parseApiResult(method, result, ctx) {
     if (result !== NoParseResult) {
         ApiResultparser[method](result, ctx);
     }
@@ -318,9 +318,9 @@ const specialParameter = {
     $user: ctx => ctx.req.user,
     $userId: ctx => ctx.req.user.id,
     $files: ctx => ctx.request.files,
-    $query:ctx=>ctx.request.query
+    $query: ctx => ctx.request.query
 }
-function apiParameterBind (ctx, args) {
+function apiParameterBind(ctx, args) {
     return args.map(a => {
         if (specialParameter[a]) {
             return specialParameter[a](ctx);
@@ -332,7 +332,7 @@ function apiParameterBind (ctx, args) {
 // SPA应用浏览器回退支持配置
 // 此配置将非静态资源的url的get请求统一定向到默认路由'/'从而返回页面
 // 因此此路由配置需要在动态服务器接口路由之后,静态资源路由之前执行
-function configHistory (app) {
+function configHistory(app) {
     const historyApiFallback = require('koa2-connect-history-api-fallback');
     app.use(historyApiFallback());
 }

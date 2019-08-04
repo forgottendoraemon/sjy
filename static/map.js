@@ -20,7 +20,7 @@ var map = new mapboxgl.Map({
         "sources": {
             "composite": {
                 "type": "vector",
-                "tiles": ['http://127.0.0.1:8080/tiles/{z}/{x}/{y}.mvt']
+                "tiles": [`${location.protocol}//${location.host}/tiles/{z}/{x}/{y}.mvt`]
             }
         },
         "sprite": "mapbox://sprites/498814515/cjyvil68d12ze1cmz8wxayrcp/ey8axhwqsol6mv793ckmoaxka",
