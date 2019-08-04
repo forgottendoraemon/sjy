@@ -17,7 +17,7 @@ const options = {
     ], //[miny,minx,maxy,maxx]
     zoom: {
         min: 5,
-        max: 18
+        max: 14 //此选项22级需要调整node进程的内存大小
     }
 }
 
