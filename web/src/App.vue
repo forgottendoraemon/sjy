@@ -1,42 +1,40 @@
 <template>
   <div id="app">
-    <Header/>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <Header />
+    <div class="app-main">
+      <transition name="slide-left">
+        <keep-alive>
+          <!-- 路由切换后，其内容将显示在下面的位置 -->
+          <router-view />
+        </keep-alive>
+      </transition>
     </div>
-    <router-view/>
   </div>
 </template>
 
 <script>
-import Header from '@/components/Header'
+import Header from "@/components/Header";
 export default {
-  components:{
+  components: {
     Header
   }
-}
+};
 </script>
 
-
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
-#nav {
-  padding: 30px;
+#app{
+  height: 100%;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+.app-main {
+  position: relative;
+  height: calc(100% - 61px);
+  width: 100%;
 }
 </style>

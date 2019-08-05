@@ -5,23 +5,27 @@
       background-color="#030133"
       active-text-color="#fff"
       text-color="#fff"
+      :router=true
+      :default-active="currentRoute"
     >
       <router-link class="logo" to="/">
-        <img src="../assets/logo.png" alt="logo">
+        <img src="../assets/logo.png" alt="logo" />
       </router-link>
-      <!-- 已登陆 -->
-        <el-menu-item class="right"  index="login">登陆</el-menu-item>
-        <el-menu-item class="right"  index="register">注册</el-menu-item>
-        <el-menu-item class="right" route="/map" index="map">地图</el-menu-item>
-        <el-menu-item class="right" route="/" index="home">首页</el-menu-item>
+      <el-menu-item class="right" index="/login">登陆</el-menu-item>
+      <el-menu-item class="right" index="/register">注册</el-menu-item>
+      <el-menu-item class="right" index="/map">地图</el-menu-item>
+      <el-menu-item class="right" index="/">首页</el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script>
-
+import { mapState } from "vuex";
 export default {
   computed: {
+    ...mapState({
+      currentRoute: state => state.currentRoute
+    })
   },
   methods: {
   }
@@ -29,6 +33,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h1{
+    color: #fff;
+}
 .header {
   border-bottom: none;
 }
