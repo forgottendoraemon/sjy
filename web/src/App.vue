@@ -36,5 +36,6 @@ body {
   position: relative;
   height: calc(100% - 61px);
   width: 100%;
+  overflow: auto;
 }
 </style>

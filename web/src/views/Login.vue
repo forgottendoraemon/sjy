@@ -112,7 +112,6 @@ export default {
           try {
             await axios.post("/user/login", data);
             this.$router.push("/map");
-            window.console.log(this.$router)
           } catch (error) {
             this.errorTip = error.response.data;
             this.showMessage(error.response.data);
