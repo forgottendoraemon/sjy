@@ -9,7 +9,7 @@
       :default-active="currentRoute"
     >
       <router-link class="logo" to="/">
-        <img src="../assets/logo.png" alt="logo" />
+        <img src="../assets/images/logo.png" alt="logo" />
       </router-link>
       <!-- 已登陆 -->
       <template v-if="isLogin">

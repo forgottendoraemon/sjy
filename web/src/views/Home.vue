@@ -4,13 +4,13 @@
     :height="bannerHeight + 'px'"
     >
     <el-carousel-item>
-      <img src="../assets/cjbanner.jpg" />
+      <img src="../assets/images/cjbanner.jpg" />
     </el-carousel-item>
     <el-carousel-item>
-      <img src="../assets/cjbanner5.jpg" />
+      <img src="../assets/images/cjbanner5.jpg" />
     </el-carousel-item>
     <el-carousel-item>
-      <img src="../assets/hybanner5.jpg" />
+      <img src="../assets/images/hybanner5.jpg" />
     </el-carousel-item>
   </el-carousel>
 </template>

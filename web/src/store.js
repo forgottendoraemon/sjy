@@ -11,6 +11,8 @@ export default new Vuex.Store({
     isLogin: false, // 是否已登陆
     isAdministrator: false, // 是否是管理员
     isShowHeaderMenu: true, // 是否显示 ‘登录’， ‘注册’ menu item
+    isAsiderOpen:false,
+    LayersList:[]
   },
   mutations: {
     updateCurrentRoute(state, newvalue) {
@@ -42,6 +44,14 @@ export default new Vuex.Store({
     setIsShowHeaderMenu(state, newvalue){
       if (state.isShowHeaderMenu !== newvalue) {
         state.isShowHeaderMenu = newvalue
+      }
+    },
+    toggleAsiderOpen(state){
+      state.isAsiderOpen = !state.isAsiderOpen;
+    },
+    setLayerList(state, newvalue){
+      if (state.LayersList !== newvalue) {
+        state.LayersList = newvalue
       }
     }
   },

@@ -36,6 +36,16 @@
     ],
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "rules": {
+      "no-console": "off",
+      "no-debugger": "off",
+      "vue/no-unused-vars": "off",
+      "vue/no-empty-pattern": "off",
+      "no-undef":"off",
+      "vue/no-undef":"off",
+      "no-unused-vars": "off",
+      "no-empty-pattern": "off"
     }
   },
   "postcss": {
