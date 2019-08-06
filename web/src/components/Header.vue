@@ -5,14 +5,23 @@
       background-color="#030133"
       active-text-color="#fff"
       text-color="#fff"
-      :router=true
+      :router="true"
       :default-active="currentRoute"
     >
       <router-link class="logo" to="/">
         <img src="../assets/logo.png" alt="logo" />
       </router-link>
-      <el-menu-item class="right" index="/login">登陆</el-menu-item>
-      <el-menu-item class="right" index="/register">注册</el-menu-item>
+      <!-- 已登陆 -->
+      <template v-if="isLogin">
+        <el-menu-item class="right" @click="logout">
+          <span>退出</span>
+        </el-menu-item>
+        <el-menu-item class="right" v-show="userinfo.isAdministrator" index="admin">后台管理</el-menu-item>
+        <el-menu-item class="user-center right" index="/user">{{userinfo.name}}</el-menu-item>
+      </template>
+      <!-- 未登陆 -->
+      <el-menu-item v-if="!isLogin && isShowHeaderMenu" class="right" index="/login">登陆</el-menu-item>
+      <el-menu-item v-if="!isLogin && isShowHeaderMenu" class="right" index="/register">注册</el-menu-item>
       <el-menu-item class="right" index="/map">地图</el-menu-item>
       <el-menu-item class="right" index="/">首页</el-menu-item>
     </el-menu>
@@ -21,20 +30,32 @@
 
 <script>
 import { mapState } from "vuex";
+import mixins from "@/assets/js/mixins.js";
+
 export default {
+  mixins: [mixins],
   computed: {
     ...mapState({
-      currentRoute: state => state.currentRoute
+      currentRoute: state => state.currentRoute,
+      userinfo: state => state.userinfo,
+      isLogin: state => state.isLogin,
+      isAdministrator: state => state.isAdministrator,
+      isShowHeaderMenu:state => state.isShowHeaderMenu,
     })
   },
   methods: {
+    async logout() {
+      await this.$store.dispatch("logout");
+      this.routerPush("/");
+      this.$store.commit("setIsShowHeaderMenu",true);
+    }
   }
 };
 </script>
 
 <style scoped lang="scss">
-h1{
-    color: #fff;
+h1 {
+  color: #fff;
 }
 .header {
   border-bottom: none;

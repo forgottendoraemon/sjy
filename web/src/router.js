@@ -5,10 +5,13 @@ import store from './store'
 
 Vue.use(Router)
 
-/**
- * 当进入某个路由后，更新当前路由状态值
- */
-function beforeEnter(to, from, next){
+
+async function beforeEnter(to, from, next){
+  // 如果from为空（浏览器刷新），获取用户信息
+  if(from.name == null){
+    await store.dispatch('updateUserInfo');
+  }
+  // 更新当前路由的值
   store.commit('updateCurrentRoute', to.path);
   next();
 }
@@ -18,7 +21,6 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home
-    
   },
   {
     path: '/about',
@@ -42,10 +44,12 @@ const routes = [
   }
 ];
 
-routes.forEach(r=>r.beforeEnter=beforeEnter);
-
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach(beforeEnter);
+
+export default router;

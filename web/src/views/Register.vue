@@ -230,7 +230,7 @@ export default {
         let data = Object.assign({}, this.userForm);
         delete data.password2;
 
-        axios.post("/user/register", data).then(res => {
+        axios.post("/user/register", data).then(() => {
           this.showMessage("注册成功", "success");
           setTimeout(() => this.routerPush("/login"), 1000);
           this.isLoging = false;

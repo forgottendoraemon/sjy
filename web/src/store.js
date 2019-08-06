@@ -1,20 +1,72 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from '@/assets/js/axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    currentRoute:"/"
+    currentRoute: "/",
+    userinfo: null,
+    isLogin: false, // 是否已登陆
+    isAdministrator: false, // 是否是管理员
+    isShowHeaderMenu: true, // 是否显示 ‘登录’， ‘注册’ menu item
   },
   mutations: {
-    updateCurrentRoute(state, newvalue){
+    updateCurrentRoute(state, newvalue) {
+      window.console.log(`updateCurrentRoute = ${newvalue}`);
       if (state.currentRoute !== newvalue) {
         state.currentRoute = newvalue
+      }
+    },
+    /**
+     * 更新用户信息
+     * @param {*} state 
+     * @param {*} newvalue 
+     */
+    setUserInfo(state, newvalue) {
+      window.console.log(`setUserInfo = ${newvalue}`);
+      if (state.userinfo !== newvalue) {
+        if(newvalue){
+          state.isLogin = true;
+          state.isAdministrator = newvalue.isAdministrator;
+          state.isShowHeaderMenu = false;
+        }
+        else{
+          state.isLogin = false;
+          state.isAdministrator = false;
+        }
+        state.userinfo = newvalue;
+      }
+    },
+    setIsShowHeaderMenu(state, newvalue){
+      if (state.isShowHeaderMenu !== newvalue) {
+        state.isShowHeaderMenu = newvalue
       }
     }
   },
   actions: {
-    
+    /**
+     * 从服务器获取用户信息
+     */
+    async updateUserInfo() {
+      try {
+        const result = await axios.get('/user/user');
+        this.commit('setUserInfo', result.data);
+      } catch (error) {
+        this.commit('setUserInfo', null);
+      }
+    },
+    /**
+     * 退出并更新用户信息
+     */
+    async logout(){
+      try {
+        await axios.get('/user/logout');
+        this.commit('setUserInfo', null);
+      } catch (error) {
+        this.commit('setUserInfo', null);
+      }
+    }
   }
 })
