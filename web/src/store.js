@@ -12,7 +12,9 @@ export default new Vuex.Store({
     isAdministrator: false, // 是否是管理员
     isShowHeaderMenu: true, // 是否显示 ‘登录’， ‘注册’ menu item
     isAsiderOpen:false,
-    LayersList:[]
+    LayersList:[],
+    currentSelectFeature:null,
+    currentSelectLayerInfo:null,
   },
   mutations: {
     updateCurrentRoute(state, newvalue) {
@@ -53,7 +55,17 @@ export default new Vuex.Store({
       if (state.LayersList !== newvalue) {
         state.LayersList = newvalue
       }
-    }
+    },
+    setCurrentSelectFeature(state, newvalue){
+      if (state.currentSelectFeature !== newvalue) {
+        state.currentSelectFeature = newvalue
+      }
+    },
+    setCurrentSelectLayerInfo(state, newvalue){
+      if (state.currentSelectLayerInfo !== newvalue) {
+        state.currentSelectLayerInfo = newvalue
+      }
+    },
   },
   actions: {
     /**

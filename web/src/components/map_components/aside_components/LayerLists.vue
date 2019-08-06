@@ -29,7 +29,7 @@
                 <span class="title_text">{{item.name}}</span>
               </el-col>
               <!-- 查看表格 -->
-              <el-col :span="4" style="padding-right:0">
+              <el-col :span="4" style="padding-right:0" v-if="item.enableTable">
                 <a @click="openLayerTable(index, item.id)" class="grid-content openLayerTable">
                   <i class="iconfont icon-biaoge font-fcolor-409ef"></i>
                 </a>

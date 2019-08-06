@@ -31,8 +31,8 @@
     <MarkerTable ref="MarkerTable" />
     <Share></Share>-->
     <!-- 标注的属性框 -->
-    <!-- <AttrPanel :tableHeight.sync="tableHeight" ref="attrPanel"></AttrPanel>
-    <AddElePanel :tableHeight.sync="tableHeight"></AddElePanel>-->
+    <AttrPanel :tableHeight.sync="tableHeight" ref="attrPanel"></AttrPanel>
+    <!-- <AddElePanel :tableHeight.sync="tableHeight"></AddElePanel>-->
   </div>
 </template>
 <script>
@@ -40,15 +40,15 @@ import Vue from "vue";
 // import Search from "@/components/map_components/Search";
 import Aside from "@/components/map_components/Aside";
 // import MarkerTable from "@/components/table_components/MarkerTable";
-// import AttrPanel from "@/components/map_components/labelAttr_components/AttrPanel";
+import AttrPanel from "@/components/map_components/AttrPanel";
 // import AddElePanel from "@/components/map_components/labelAttr_components/AddElePanel";
 // import SearchToPlace from "@/components/map_components/aside_components/asideleft_component/SearchToPlace";
 // import Share from "@/components/user_components/Share";
 
 import { mapState } from "vuex";
 import { setTimeout } from "timers";
-import mapstyle from '../../mapboxgl/style'
-import maplayers from '../../mapboxgl/maplayers'
+import mapstyle from "../../mapboxgl/style";
+import maplayers from "../../mapboxgl/maplayers";
 
 export default {
   data() {
@@ -88,16 +88,31 @@ export default {
         maxZoom: 18
       });
       mymap.on("load", () => {
-        //   const layers = [];
-        //   for (let p in mymap.style._layers) {
-        //       layers.push({
-        //           name:p,
-        //           visible:true,
-        //           type:'class'
-        //       })
-        //   }
-
-          this.$store.commit('setLayerList', maplayers);
+        this.$store.commit("setLayerList", maplayers);
+        // 处理可点击的图层
+        maplayers
+          .filter(layerconfig => layerconfig.enableClick)
+          .forEach(layerconfig => {
+            layerconfig.ids.forEach(layerid => {
+              // 给可以点击的图层，添加鼠标移入和移出的效果
+              mymap.on("mouseenter", layerid, evt => {
+                mymap.getCanvasContainer().style.cursor = "pointer";
+              });
+              mymap.on("mouseleave", layerid, evt => {
+                mymap.getCanvasContainer().style.cursor = "";
+              });
+              // 当点击可点击的图层时，打开被点击的对象的详细属性
+              mymap.on("click", layerid, evt => {
+                const [feature] = evt.features;
+                // new mapboxgl.Popup()
+                //   .setLngLat(evt.lngLat)
+                //   .setHTML(evt.features[0].properties.name)
+                //   .addTo(mymap);
+                this.$store.commit("setCurrentSelectLayerInfo",layerconfig);
+                this.$store.commit("setCurrentSelectFeature",feature);
+              });
+            });
+          });
       });
 
       Vue.prototype.$map = mymap;
@@ -106,9 +121,9 @@ export default {
   },
   components: {
     // Search,
-    Aside
+    Aside,
     // MarkerTable,
-    // AttrPanel,
+    AttrPanel,
     // MarkerProps,
     // AddElePanel,
     // SearchToPlace,
