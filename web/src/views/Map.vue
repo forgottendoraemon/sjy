@@ -26,8 +26,8 @@
     <!-- 侧边栏 -->
     <Aside ref="Aside" />
     <!-- 搜索框 -->
-    <!-- <Search />
-    <SearchToPlace></SearchToPlace>
+    <Search />
+    <!-- <SearchToPlace></SearchToPlace>
     <MarkerTable ref="MarkerTable" />
     <Share></Share>-->
     <!-- 标注的属性框 -->
@@ -37,7 +37,7 @@
 </template>
 <script>
 import Vue from "vue";
-// import Search from "@/components/map_components/Search";
+import Search from "@/components/map_components/Search";
 import Aside from "@/components/map_components/Aside";
 // import MarkerTable from "@/components/table_components/MarkerTable";
 import AttrPanel from "@/components/map_components/AttrPanel";
@@ -120,7 +120,7 @@ export default {
     }
   },
   components: {
-    // Search,
+    Search,
     Aside,
     // MarkerTable,
     AttrPanel,
@@ -169,6 +169,7 @@ export default {
   //   min-width: 760px;
   //   overflow-x: scroll;
   position: absolute;
+  overflow: hidden;
   top: 0;
   bottom: 0;
   .container {

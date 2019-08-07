@@ -8,7 +8,7 @@
       >
         <div class="header">
           <div class="title">
-            <h3 style="font-weight: 400;">{{currentSelectLayerInfo.name}}</h3>
+            <span style="font-weight: 400;">{{currentSelectLayerInfo.name}}</span>
           </div>
           <span class="close" @click="close">
             <i class="el-icon-close" style="font-size:21px"></i>
@@ -111,7 +111,7 @@ export default {
   methods: {
     // 关闭属性面板
     close() {
-      this.isClose = true;
+      this.$store.commit("setCurrentSelectFeature",null);
     },
     openViewer(imageList, $index, prop) {
       this.currentIndex = $index;

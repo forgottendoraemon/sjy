@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/icons.css'
+import './assets/scss/transition.scss';
 
 import element from 'element-ui'
 

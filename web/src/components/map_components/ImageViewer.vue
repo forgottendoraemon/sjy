@@ -87,17 +87,17 @@ export default {
     background: rgba(0, 0, 0, 0.8);
     position: relative;
   }
-  /deep/ .el-dialog__header {
+  >>> .el-dialog__header {
     height: 5%;
   }
-  /deep/ .el-dialog__title {
+  >>> .el-dialog__title {
     color: #fff;
   }
-  /deep/ .el-dialog__headerbtn {
+  >>> .el-dialog__headerbtn {
     font-size: 40px;
     z-index: 2001;
   }
-  /deep/ .el-dialog__body {
+  >>> .el-dialog__body {
     height: 95%;
   }
   .viewer-content {
