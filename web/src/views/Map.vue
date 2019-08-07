@@ -47,8 +47,8 @@ import AttrPanel from "@/components/map_components/AttrPanel";
 
 import { mapState } from "vuex";
 import { setTimeout } from "timers";
-import mapstyle from "../../mapboxgl/style";
-import maplayers from "../../mapboxgl/maplayers";
+import mapstyle from "../mapconfig/style";
+import maplayers from "../mapconfig/maplayers";
 
 export default {
   data() {
@@ -80,7 +80,6 @@ export default {
   methods: {
     // 地图初始化
     initMap() {
-      mapboxgl.accessToken = "none";
       const mymap = new mapboxgl.Map({
         container: "map-wrap",
         style: mapstyle,

@@ -116,7 +116,6 @@ export default {
     openViewer(imageList, $index, prop) {
       this.currentIndex = $index;
       this.imageList = imageList;
-      console.log(imageList)
       this.isViewerOpen = true;
     },
     // 未保存退出时恢复原状

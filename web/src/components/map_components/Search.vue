@@ -22,7 +22,7 @@
 <script>
 import { mapState } from "vuex";
 import axios from "../../assets/js/axios";
-import maplayers from "../../../mapboxgl/maplayers";
+import maplayers from "../../mapconfig/maplayers";
 
 export default {
   data() {

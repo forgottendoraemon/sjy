@@ -1,4 +1,5 @@
-{
+mapboxgl.accessToken = "none";
+module.exports = {
     "version": 8,
     "name": "Blank",
     "metadata": {
@@ -11,30 +12,30 @@
         }
     },
     "center": [99.08313660502631, 34.75840285686732],
-    "zoom": 12.093924202362706,
+    "zoom": 6,
     "bearing": 0,
     "pitch": 0,
     "sources": {
         "composite": {
-            "url": "mapbox://498814515.dsyl0vyc,498814515.071z0s2e,498814515.2dt8sss4,498814515.duzhdrvd,498814515.8won14se,498814515.appweyc7,498814515.4r75bpxa,498814515.cski9lcv,498814515.apaorttj,498814515.3aaqbt0b,498814515.5aepsrbk",
-            "type": "vector"
+            "type": "vector",
+            "tiles": [`${location.protocol}//${location.host}/tiles/{z}/{x}/{y}.mvt`]
         }
-    },
-    "sprite": "mapbox://sprites/498814515/cjyvil68d12ze1cmz8wxayrcp/ey8axhwqsol6mv793ckmoaxka",
-    "glyphs": "mapbox://fonts/498814515/{fontstack}/{range}.pbf",
+    }, 
+    "sprite": `${location.protocol}//${location.host}/mapboxgl/sprite`,
+    "glyphs": `${location.protocol}//${location.host}/mapboxgl/{fontstack}/{range}.pbf`,
     "layers": [
         {
             "id": "background",
             "type": "background",
             "layout": {},
-            "paint": {"background-color": "#efe9e1"}
+            "paint": { "background-color": "#efe9e1" }
         },
         {
             "id": "xingzhengquhua",
             "type": "line",
             "source": "composite",
-            "source-layer": "shengjie-26boy7",
-            "layout": {"line-cap": "round", "line-join": "round"},
+            "source-layer": "shengjie",
+            "layout": { "line-cap": "round", "line-join": "round" },
             "paint": {
                 "line-color": "#a6a6a6",
                 "line-width": [
@@ -53,8 +54,8 @@
             "id": "quhua",
             "type": "line",
             "source": "composite",
-            "source-layer": "quhua-aml3a2",
-            "layout": {"line-cap": "round", "line-join": "round"},
+            "source-layer": "quhua",
+            "layout": { "line-cap": "round", "line-join": "round" },
             "paint": {
                 "line-color": "#808080",
                 "line-width": [
@@ -72,15 +73,15 @@
             "id": "shuixi",
             "type": "fill",
             "source": "composite",
-            "source-layer": "shuixi-3ifcsj",
+            "source-layer": "shuixi",
             "layout": {},
-            "paint": {"fill-color": "#78bced"}
+            "paint": { "fill-color": "#78bced" }
         },
         {
             "id": "shidi",
             "type": "fill",
             "source": "composite",
-            "source-layer": "shidi-2ip1ee",
+            "source-layer": "shidi",
             "layout": {},
             "paint": {
                 "fill-color": "#c8dd97",
@@ -99,8 +100,8 @@
             "id": "xiangdao",
             "type": "line",
             "source": "composite",
-            "source-layer": "xiangdao-14mibe",
-            "layout": {"line-cap": "round", "line-join": "round"},
+            "source-layer": "xiangdao",
+            "layout": { "line-cap": "round", "line-join": "round" },
             "paint": {
                 "line-color": "#fff",
                 "line-width": [
@@ -120,8 +121,9 @@
             "id": "xiandao",
             "type": "line",
             "source": "composite",
-            "source-layer": "xiandao-8ryeuw",
-            "layout": {"line-cap": "round", "line-join": "round"},
+            "source-layer": "xiandao",
+            "layout": { "line-cap": "round", "line-join": "round" },
+            
             "paint": {
                 "line-color": "#ffffff",
                 "line-width": [
@@ -141,8 +143,8 @@
             "id": "shengdao",
             "type": "line",
             "source": "composite",
-            "source-layer": "shengdao-0cvb0s",
-            "layout": {"line-cap": "round", "line-join": "round"},
+            "source-layer": "shengdao",
+            "layout": { "line-cap": "round", "line-join": "round" },
             "paint": {
                 "line-color": "#fff",
                 "line-width": [
@@ -160,8 +162,8 @@
             "id": "guodao-case",
             "type": "line",
             "source": "composite",
-            "source-layer": "guodao-85etbf",
-            "layout": {"line-cap": "round", "line-join": "round"},
+            "source-layer": "guodao",
+            "layout": { "line-cap": "round", "line-join": "round" },
             "paint": {
                 "line-width": [
                     "interpolate",
@@ -188,8 +190,8 @@
             "id": "guodao",
             "type": "line",
             "source": "composite",
-            "source-layer": "guodao-85etbf",
-            "layout": {"line-cap": "round", "line-join": "round"},
+            "source-layer": "guodao",
+            "layout": { "line-cap": "round", "line-join": "round" },
             "paint": {
                 "line-color": [
                     "interpolate",
@@ -217,7 +219,7 @@
             "id": "poi",
             "type": "symbol",
             "source": "composite",
-            "source-layer": "poi-3gn7hu",
+            "source-layer": "poi",
             "layout": {
                 "text-field": ["to-string", ["get", "name"]],
                 "text-size": [
@@ -241,7 +243,7 @@
             "id": "cun",
             "type": "symbol",
             "source": "composite",
-            "source-layer": "cun-0vxibe",
+            "source-layer": "cun",
             "layout": {
                 "text-field": ["to-string", ["get", "name"]],
                 "text-size": [
@@ -262,7 +264,12 @@
             "id": "xiangdao-label",
             "type": "symbol",
             "source": "composite",
-            "source-layer": "xiangdao-14mibe",
+            "source-layer": "xiangdao",
+            "filter": [
+                "all",
+                ["match", ["get", "name"], ["null"], false, true],
+                ["has", "name"]
+            ],
             "layout": {
                 "text-field": ["to-string", ["get", "name"]],
                 "text-size": [
@@ -290,7 +297,12 @@
             "id": "xiandao-label",
             "type": "symbol",
             "source": "composite",
-            "source-layer": "xiandao-8ryeuw",
+            "source-layer": "xiandao",
+            "filter": [
+                "all",
+                ["match", ["get", "name"], ["null"], false, true],
+                ["has", "name"]
+            ],
             "layout": {
                 "text-field": ["to-string", ["get", "name"]],
                 "text-size": [
@@ -314,14 +326,16 @@
             "id": "shengdao-label",
             "type": "symbol",
             "source": "composite",
-            "source-layer": "shengdao-0cvb0s",
+            "source-layer": "shengdao",
+            "minzoom": 6,
             "layout": {
-                "symbol-placement": ["step", ["zoom"], "point", 11, "line"],
+                "text-letter-spacing": 0.05,
                 "text-field": ["to-string", ["get", "name"]],
                 "text-size": 9,
                 "text-rotation-alignment": "viewport",
                 "icon-rotation-alignment": "viewport",
-                "icon-image": ["step", ["zoom"], "", 12, "rectangle-yellow-3"]
+                "icon-image": "rectangle-yellow-3",
+                "symbol-placement": "line"
             },
             "paint": {}
         },
@@ -329,7 +343,7 @@
             "id": "xiangzhen",
             "type": "symbol",
             "source": "composite",
-            "source-layer": "xiangzhen-7d3jly",
+            "source-layer": "xiangzhen",
             "layout": {
                 "text-field": ["to-string", ["get", "name"]],
                 "text-size": [
