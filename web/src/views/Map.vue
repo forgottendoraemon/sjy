@@ -27,6 +27,8 @@
     <Aside ref="Aside" />
     <!-- 搜索框 -->
     <Search />
+    <!-- 表格视图 -->
+    <TableView/>
     <!-- <SearchToPlace></SearchToPlace>
     <MarkerTable ref="MarkerTable" />
     <Share></Share>-->
@@ -39,7 +41,7 @@
 import Vue from "vue";
 import Search from "@/components/map_components/Search";
 import Aside from "@/components/map_components/Aside";
-// import MarkerTable from "@/components/table_components/MarkerTable";
+import TableView from "@/components/map_components/TableView";
 import AttrPanel from "@/components/map_components/AttrPanel";
 // import AddElePanel from "@/components/map_components/labelAttr_components/AddElePanel";
 // import SearchToPlace from "@/components/map_components/aside_components/asideleft_component/SearchToPlace";
@@ -103,10 +105,7 @@ export default {
               // 当点击可点击的图层时，打开被点击的对象的详细属性
               mymap.on("click", layerid, evt => {
                 const [feature] = evt.features;
-                // new mapboxgl.Popup()
-                //   .setLngLat(evt.lngLat)
-                //   .setHTML(evt.features[0].properties.name)
-                //   .addTo(mymap);
+                console.log(feature);
                 this.$store.commit("setCurrentSelectLayerInfo",layerconfig);
                 this.$store.commit("setCurrentSelectFeature",feature);
               });
@@ -121,6 +120,7 @@ export default {
   components: {
     Search,
     Aside,
+    TableView,
     // MarkerTable,
     AttrPanel,
     // MarkerProps,

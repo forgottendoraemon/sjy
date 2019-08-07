@@ -130,7 +130,7 @@ export default {
   left: 10px;
   top: 50px;
   width: 320px;
-  z-index: 999;
+  z-index: 997;
   background-color: #ffffff;
   box-shadow: 0px 1px 1px 1px #e2e2e2;
   border-radius: 2px;

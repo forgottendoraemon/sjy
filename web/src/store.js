@@ -15,6 +15,7 @@ export default new Vuex.Store({
     LayersList:[],
     currentSelectFeature:null,
     currentSelectLayerInfo:null,
+    tableViewLayerInfo:null,
   },
   mutations: {
     updateCurrentRoute(state, newvalue) {
@@ -66,6 +67,11 @@ export default new Vuex.Store({
         state.currentSelectLayerInfo = newvalue
       }
     },
+    setTableViewLayerInfo(state, newvalue){
+      if (state.tableViewLayerInfo !== newvalue) {
+        state.tableViewLayerInfo = newvalue
+      }
+    }
   },
   actions: {
     /**

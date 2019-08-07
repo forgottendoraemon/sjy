@@ -10,10 +10,7 @@
         style="height: 100%;"
       >
         <template v-for="(item, index) in LayersList">
-          <div
-            :class="['layer', item.visible? '': 'layer_disable']"
-            :key="index"
-          >
+          <div :class="['layer', item.visible? '': 'layer_disable']" :key="index">
             <el-row :gutter="24" class="title_box">
               <!-- 显示/隐藏 图层 -->
               <el-col :span="2" class="title_eye">
@@ -30,7 +27,7 @@
               </el-col>
               <!-- 查看表格 -->
               <el-col :span="4" style="padding-right:0" v-if="item.enableTable">
-                <a @click="openLayerTable(index, item.id)" class="grid-content openLayerTable">
+                <a @click="openLayerTable(item)" class="grid-content openLayerTable">
                   <i class="iconfont icon-biaoge font-fcolor-409ef"></i>
                 </a>
               </el-col>
@@ -61,16 +58,18 @@ export default {
 
   methods: {
     layerShowToggle(item, index) {
-      for(let layerid of item.ids){
-          if (item.visible) {
-            this.$map.setLayoutProperty(layerid, "visibility", "none");
-          } else {
-            this.$map.setLayoutProperty(layerid, "visibility", "visible");
-          }
+      for (let layerid of item.ids) {
+        if (item.visible) {
+          this.$map.setLayoutProperty(layerid, "visibility", "none");
+        } else {
+          this.$map.setLayoutProperty(layerid, "visibility", "visible");
+        }
       }
       item.visible = !item.visible;
     },
-    openLayerTable(item) {}
+    openLayerTable(item) {
+      this.$store.commit("setTableViewLayerInfo", item);
+    }
   },
 
   mounted() {}
