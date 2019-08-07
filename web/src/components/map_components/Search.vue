@@ -10,10 +10,9 @@
       size="small"
       :clearable="true"
       :select-when-unmatched="true"
-      @select="handleSelected"
     >
       <template slot-scope="{ item }">
-        <div class="name text-overflow" @click="findElement(item)">{{ item.value }}</div>
+        <div class="name text-overflow" @click="findElement(item)">{{ item.name }}</div>
       </template>
     </el-autocomplete>
   </div>
@@ -23,6 +22,80 @@
 import { mapState } from "vuex";
 import axios from "../../assets/js/axios";
 import maplayers from "../../mapconfig/maplayers";
+
+/**
+ * 不同类型搜索结果的显示样式
+ */
+const styles = {
+  Point: {
+    type: "circle",
+    paint: {
+      "circle-color": "#d44949",
+      "circle-stroke-color": "#000",
+      "circle-stroke-opacity": 1,
+      "circle-blur": 0
+    }
+  },
+  LineString: {
+    type: "line",
+    layout: { "line-cap": "round", "line-join": "round" },
+    paint: { "line-color": "hsl(0, 91%, 53%)", "line-width": 3 }
+  },
+  Polygon: {
+    type: "line",
+    layout: { "line-cap": "round", "line-join": "round" },
+    paint: { "line-color": "hsl(0, 68%, 64%)", "line-width": 3 }
+  }
+};
+/**
+ * 搜索结果图层的ID
+ */
+const searchLayerId = "search-result";
+
+/**
+ * 将地图定位到指定要素，并返回要素的气泡位置
+ */
+const pantoFeature = {
+  Point: (geom, map) => {
+    map.flyTo({ center: geom.coordinates, zoom: 12 });
+    return geom.coordinates;
+  },
+  LineString: (geom, map) => {
+    let minx = Number.MAX_VALUE,
+      miny = Number.MAX_VALUE;
+    let maxx = Number.MIN_VALUE,
+      maxy = Number.MIN_VALUE;
+    geom.coordinates.forEach(([x, y]) => {
+      minx = minx < x ? minx : x;
+      miny = miny < y ? miny : y;
+      maxx = maxx > x ? maxx : x;
+      maxy = maxy > y ? maxy : y;
+    });
+    map.fitBounds([[minx, miny], [maxx, maxy]]);
+    const ci = Math.floor(geom.coordinates.length / 2);
+    return geom.coordinates[ci];
+  },
+  Polygon: (geom, map) => {
+    let minx = Number.MAX_VALUE,
+      miny = Number.MAX_VALUE;
+    let maxx = Number.MIN_VALUE,
+      maxy = Number.MIN_VALUE;
+    geom.coordinates.forEach(cs =>
+      cs.forEach(([x, y]) => {
+        minx = minx < x ? minx : x;
+        miny = miny < y ? miny : y;
+        maxx = maxx > x ? maxx : x;
+        maxy = maxy > y ? maxy : y;
+      })
+    );
+    map.fitBounds([[minx, miny], [maxx, maxy]]);
+    return [(minx + maxx) / 2, (miny + maxy) / 2];
+  }
+};
+/**
+ * 当前显示的搜索结果气泡
+ */
+var currentSearchPopup = null;
 
 export default {
   data() {
@@ -43,122 +116,68 @@ export default {
      */
     querySearch(queryString, cb) {
       if (queryString.trim() === "") {
-        cb([{ value: "没有搜索结果" }]);
+        cb([{ name: "没有搜索结果" }]);
         return;
       }
-      axios.get(`/api/mapdata/search/${queryString.trim()}`).then(({ data }) => {
-        if (data.length === 0) {
-          cb([{ value: "没有搜索结果" }]);
-        } else {
-          const rs=[];
-          data.forEach(d=>{
-            const layerCnName = maplayers.filter(l=>l.source===d.layer)[0].name;
-            d.rows.forEach(r=>{
-              rs.push({
-                value:`${layerCnName}:${r.name}`
-              })
-            })
-          })
-          cb(rs);
-        }
-      });
-    },
-    /**
-     * @desc 定位到当前选择的点/线/面图元
-     * @param {Object} layer 图元实例
-     */
-    findElement({ layer }) {
-      // console.log(layer);
-      const { layeroptions, id } = layer.LayerGroup.layerGroupData;
-      const { geometry } = layer.layerData;
-      switch (geometry.type) {
-        case "Point":
-          if (layer) {
-            // 若当前图标聚合,则先分散
-            if (layeroptions.isAggregation) {
-              let clusterLayer = this.$layerGroups.get(id).getLayers()[0];
-              clusterLayer.zoomToShowLayer(layer, () => {
-                this.$map.setView(geometry.latlng);
-                // layer.openPopup();
+      axios
+        .get(`/api/mapdata/search/${queryString.trim()}`)
+        .then(({ data }) => {
+          if (data.length === 0) {
+            cb([{ name: "没有搜索结果" }]);
+          } else {
+            const rs = [];
+            data.forEach(d => {
+              const layerCnName = maplayers.filter(l => l.source === d.layer)[0]
+                .name;
+              d.rows.forEach(r => {
+                rs.push(r);
               });
-            } else {
-              this.$map.setView(geometry.latlng);
-              // layer.openPopup();
-            }
+            });
+            cb(rs);
           }
-          break;
-        case "Line":
-          this.$map.setView(layer.getCenter());
-          // layer.openPopup();
-          break;
-        case "Rectangle":
-          var bounds = geometry.bounds;
-          this.$map.fitBounds(bounds);
-          // layer.openPopup();
-          break;
-        case "Circle":
-          this.$map.setView(geometry.latlng);
-          // layer.openPopup();
-          break;
-        case "Polygon":
-          this.$map.fitBounds(geometry.bounds);
-          // layer.openPopup();
-          break;
-      }
-      layer.fireEvent("click");
-
-      this.$store.commit("setCurrentPoint", layer.layerData);
-      this.$store.commit(
-        "setAttrFields",
-        layer.LayerGroup.layerGroupData.fields.fieldArray
-      );
-      this.$store.commit("setShowAttr", true);
+        });
     },
     /**
-     * @desc 判断属性里是否含有要查询的文本
-     * @param {Object} properties 属性
-     * @param {String} queryString 查询的文本
-     * @return {Object}
+     * 定位到选中的搜索结果
      */
-    isContainQueryString(properties, queryString) {
-      if (!properties) {
-        return {
-          isContain: false,
-          props: null
-        };
-      }
-      const props = [];
-      for (let key in properties) {
-        if (key === "lat" || key === "lng") {
-          continue;
+    findElement(e) {
+      // 将选中的搜索结果显示在地图上
+      const source = {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [
+            {
+              type: "Feature",
+              geometry: e.geom,
+              properties: { name: e.name }
+            }
+          ]
         }
-        if (
-          properties[key] &&
-          typeof properties[key] === "string" &&
-          properties[key]
-            .toLowerCase()
-            .includes(queryString.trim().toLowerCase())
-        ) {
-          props.push(key);
+      };
+      const clearFeatrue = () => {
+        if (this.$map.getLayer(searchLayerId)) {
+          this.$map.removeLayer(searchLayerId);
+          this.$map.removeSource(searchLayerId);
         }
-      }
-      if (props.length === 0) {
-        // 找不到
-        return {
-          isContain: false,
-          props: null
-        };
-      } else {
-        return {
-          isContain: true,
-          props
-        };
-      }
-    },
-    // 选中后回车打开
-    handleSelected(e) {
-      if (!e.layer) return;
-      this.findElement(e);
+        if (currentSearchPopup) {
+          currentSearchPopup.remove();
+        }
+      };
+      clearFeatrue();
+      const layer = { id: searchLayerId, source };
+      const style = styles[e.geom.type];
+      Object.assign(layer, style);
+      this.$map.addLayer(layer);
+      // 将地图定位到搜索结果位置
+      const center = pantoFeature[e.geom.type](e.geom, this.$map);
+      // 显示一个名称气泡
+      currentSearchPopup = new mapboxgl.Popup({ closeOnClick: false })
+        .setLngLat(center)
+        .setHTML(e.name)
+        .addTo(this.$map);
+      // 当用户点击气泡上的关闭按钮后，清除搜索结果
+      currentSearchPopup.once("close", clearFeatrue);
     }
   },
   watch: {}
