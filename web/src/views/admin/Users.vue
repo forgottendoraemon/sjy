@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="head">
-      <el-button type="primary" icon="el-icon-edit" size="small">创建用户</el-button>
+      <el-button type="primary" icon="el-icon-edit" size="small" @click="createUser">创建用户</el-button>
       <el-button
         :disabled="!selectUser"
         type="danger"
@@ -70,13 +70,16 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="tableData.length"
     ></el-pagination>
+    <AddUserDial/>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import axios from "../../assets/js/axios";
+import AddUserDial from '@/components/admin_components/AddUserDial'
 
 export default {
+  components:{AddUserDial},
   data() {
     return {
       allData: [],
@@ -150,6 +153,9 @@ export default {
             });
           });
       });
+    },
+    createUser(){
+      this.$store.commit('setAddUserDigVisible',true);
     }
   },
   mounted() {

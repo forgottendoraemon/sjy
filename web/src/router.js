@@ -11,8 +11,8 @@ async function beforeEnter(to, from, next){
   if(from.name == null){
     await store.dispatch('updateUserInfo');
   }
-  // 更新当前路由的值
-  store.commit('updateCurrentRoute', to.path);
+  // 更新顶部菜单路由值
+  store.commit('updateCurrentRoute', to.path.split('/').slice(0,2).join('/'));
   next();
 }
 

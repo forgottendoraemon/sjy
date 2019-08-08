@@ -19,6 +19,7 @@ export default new Vuex.Store({
     WarningLevel: null,
     peopleCount: 0,
     changePwDiaVisible:false,
+    addUserDigVisible:false,
   },
   mutations: {
     updateCurrentRoute(state, newvalue) {
@@ -78,6 +79,11 @@ export default new Vuex.Store({
     setChangePwDiaVisible(state, newvalue){
       if (state.changePwDiaVisible !== newvalue) {
         state.changePwDiaVisible = newvalue
+      }
+    },
+    setAddUserDigVisible(state, newvalue){
+      if (state.addUserDigVisible !== newvalue) {
+        state.addUserDigVisible = newvalue
       }
     }
   },

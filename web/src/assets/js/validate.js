@@ -12,7 +12,7 @@ export default {
           new Error('请输入合法用户名(字母开头的字母/数字任意组合)')
         )
       }
-      axios.get(`user/userexist?username=${value}`).then(res => {
+      axios.get(`/user/userexist?username=${value}`).then(res => {
         if (!res.data) {
           callback()
         } else {

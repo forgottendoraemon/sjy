@@ -5,22 +5,42 @@
 import axios from "../assets/js/axios";
 import { mapState } from "vuex";
 
+var timer = null;
+/**
+ * 预警状态更新间隔(ms)
+ */
+const timeInterval = 5 * 1000;
+
 export default {
   computed: {
     ...mapState({
       WarningLevel: state => state.WarningLevel,
-      peopleCount: state => state.peopleCount
+      peopleCount: state => state.peopleCount,
+      userinfo: state => state.userinfo
     })
   },
-  methods: {},
+  methods: {
+    startUpdateWarningLevel() {
+      const updateWarningLevel = () => {
+        this.$store.dispatch("updateWarningLevel").then(() => {
+          timer = setTimeout(updateWarningLevel, timeInterval);
+        });
+      };
+      updateWarningLevel();
+    },
+    stopUpdateWarningLevel() {
+      clearTimeout(timer);
+    }
+  },
   mounted() {
-    // 启动预警级别更新轮询
-    const updateWarningLevel = () => {
-      this.$store.dispatch("updateWarningLevel").then(() => {
-        setTimeout(updateWarningLevel, 5 * 1000);
-      });
-    };
-    updateWarningLevel();
+    if (
+      this.userinfo &&
+      (this.userinfo.roles == "admin" || this.userinfo.roles == "worker")
+    ) {
+      this.startUpdateWarningLevel();
+    } else {
+      this.stopUpdateWarningLevel();
+    }
   },
   create() {},
   watch: {
@@ -65,6 +85,16 @@ export default {
           dangerouslyUseHTMLString: true,
           offset: 80
         });
+      }
+    },
+    userinfo(userinfo) {
+      if (
+        userinfo &&
+        (userinfo.roles == "admin" || userinfo.roles == "worker")
+      ) {
+        this.startUpdateWarningLevel();
+      } else {
+        this.stopUpdateWarningLevel();
       }
     }
   }

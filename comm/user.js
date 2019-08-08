@@ -87,10 +87,9 @@ async function exitEmail (email) {
 
 /**
  * 读取当前系统中用户的列表
- * 及其使用情况(不包括组织子用户)
  */
 async function getRegisterUserInfos () {
-    const users = await userSet.query('roles<>$1', [RoleNames.Visitor]);
+    const users = await userSet.query();
     return users;
 }
 

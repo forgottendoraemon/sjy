@@ -127,7 +127,7 @@ const controller = {
      * 获取预警级别和园区人数
      */
     getWarningLevel: async ($user) => {
-        if (isAdministrator($user)) {
+        if ($user.roles == RoleNames.Administrator || $user.roles == RoleNames.Worker) {
             const peopleCount = await getPeopleCount();
             let level = null;
             for (let i = 0; i < WarningLvevl.length; i++) {

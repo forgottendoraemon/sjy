@@ -26,7 +26,7 @@
                 <span class="title_text">{{item.name}}</span>
               </el-col>
               <!-- 查看表格 -->
-              <el-col :span="4" style="padding-right:0" v-if="item.enableTable">
+              <el-col :span="4" style="padding-right:0" v-if="item.enableTable && isLogin">
                 <a @click="openLayerTable(item)" class="grid-content openLayerTable">
                   <i class="iconfont icon-biaoge font-fcolor-409ef"></i>
                 </a>
@@ -51,7 +51,8 @@ export default {
   },
   computed: {
     ...mapState({
-      LayersList: state => state.LayersList // 图层列表数据(全局)
+      LayersList: state => state.LayersList, // 图层列表数据(全局)
+      isLogin: state => state.isLogin
     })
   },
   created() {},
