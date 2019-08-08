@@ -28,7 +28,7 @@
     <!-- 搜索框 -->
     <Search />
     <!-- 表格视图 -->
-    <TableView/>
+    <TableView />
     <!-- <SearchToPlace></SearchToPlace>
     <MarkerTable ref="MarkerTable" />
     <Share></Share>-->
@@ -48,9 +48,9 @@ import AttrPanel from "@/components/map_components/AttrPanel";
 // import Share from "@/components/user_components/Share";
 
 import { mapState } from "vuex";
-import { setTimeout } from "timers";
 import mapstyle from "../mapconfig/style";
 import maplayers from "../mapconfig/maplayers";
+import locationLayer from "../assets/js/locationLayer";
 
 export default {
   data() {
@@ -89,6 +89,8 @@ export default {
         maxZoom: 18
       });
       mymap.on("load", () => {
+        // 处理实时位置图层
+        locationLayer(mymap, this.userinfo, maplayers);
         this.$store.commit("setLayerList", maplayers);
         // 处理可点击的图层
         maplayers
@@ -106,8 +108,8 @@ export default {
               mymap.on("click", layerid, evt => {
                 const [feature] = evt.features;
                 console.log(feature);
-                this.$store.commit("setCurrentSelectLayerInfo",layerconfig);
-                this.$store.commit("setCurrentSelectFeature",feature);
+                this.$store.commit("setCurrentSelectLayerInfo", layerconfig);
+                this.$store.commit("setCurrentSelectFeature", feature);
               });
             });
           });
@@ -122,7 +124,7 @@ export default {
     Aside,
     TableView,
     // MarkerTable,
-    AttrPanel,
+    AttrPanel
     // MarkerProps,
     // AddElePanel,
     // SearchToPlace,
@@ -132,7 +134,7 @@ export default {
   computed: {
     ...mapState({
       //   tileLayers: state => state.mapStatus.tileLayers,
-      //   userinfo: state => state.user.userinfo, // 用户信息
+      userinfo: state => state.userinfo // 用户信息
       //   isAsiderOpen: state => state.asider.isAsiderOpen, // 是否打开asider
       //   lastUserName: state => state.user.lastUserName, // 最后登录的用户名
       //   isShowMarkerTable: state => state.mapLayers.isShowMarkerTable, // 表格打开状态

@@ -21,6 +21,7 @@ module.exports = {
             where += ` and time<=$${++i}`;
             ps.push(endtime);
         }
+        where+=' order by time'
         return await historyDataSet.query(where,ps);
     }
 }
