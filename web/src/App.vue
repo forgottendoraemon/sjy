@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header />
+    <WarningHandler/>
     <div class="app-main">
       <transition name="slide-left">
         <keep-alive>
@@ -14,9 +15,11 @@
 
 <script>
 import Header from "@/components/Header";
+import WarningHandler from './components/WarningHandler';
 export default {
   components: {
-    Header
+    Header,
+    WarningHandler
   }
 };
 </script>
