@@ -23,8 +23,6 @@ async function updatePeopleCount() {
             join quhua on ST_Intersects(locations.geom,quhua.geom)
             WHERE locations.time>$1`, [new Date(new Date().getTime() - KeepTimeHour * 3600 * 1000)]);
     CurentQHPeopleCount = Number(rows[0].count);
-
-    console.log(`updatePeopleCount CurentQHPeopleCount=${CurentQHPeopleCount}`)
 }
 
 /**

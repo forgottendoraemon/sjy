@@ -7,47 +7,59 @@
       text-color="#fff"
       :router="true"
       :default-active="currentRoute"
+      style="display: flex;"
     >
       <router-link class="logo" to="/">
         <img src="../assets/images/logo.png" alt="logo" />
       </router-link>
-      <!-- 已登陆 -->
-      <template v-if="isLogin">
-        <el-menu-item class="right" @click="logout">
-          <span>退出</span>
-        </el-menu-item>
-        <el-menu-item class="right" v-show="userinfo.isAdministrator" index="admin">后台管理</el-menu-item>
-        <el-menu-item class="user-center right" index="/user">{{userinfo.name}}</el-menu-item>
-      </template>
-      <!-- 未登陆 -->
-      <el-menu-item v-if="!isLogin && isShowHeaderMenu" class="right" index="/login">登陆</el-menu-item>
-      <el-menu-item v-if="!isLogin && isShowHeaderMenu" class="right" index="/register">注册</el-menu-item>
-      <el-menu-item class="right" index="/map">地图</el-menu-item>
-      <el-menu-item class="right" index="/">首页</el-menu-item>
+      <div style="flex-grow: 1;"></div>
+      <el-menu-item index="/">首页</el-menu-item>
+      <el-menu-item index="/map">地图</el-menu-item>
+      <el-menu-item
+        v-if="userinfo"
+        class="user-center right"
+        @click="changePassword"
+        title="点击修改密码"
+      >{{userinfo.name}}</el-menu-item>
+      <el-menu-item v-show="isAdministrator" index="/admin">后台管理</el-menu-item>
+      <el-menu-item v-show="!isLogin" index="/register">注册</el-menu-item>
+      <el-menu-item v-show="!isLogin" index="/login">登陆</el-menu-item>
+      <el-menu-item v-show="isLogin" @click="logout">退出</el-menu-item>
     </el-menu>
+    <ChangePwDia :dialogVisible.sync="changePwDiaVisible" />
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import mixins from "@/assets/js/mixins.js";
+import ChangePwDia from "./ChangePwDia";
 
 export default {
+  components: { ChangePwDia },
   mixins: [mixins],
+  data() {
+    return {
+      changePwDiaVisible: false
+    };
+  },
   computed: {
     ...mapState({
       currentRoute: state => state.currentRoute,
       userinfo: state => state.userinfo,
       isLogin: state => state.isLogin,
       isAdministrator: state => state.isAdministrator,
-      isShowHeaderMenu:state => state.isShowHeaderMenu,
+      isShowHeaderMenu: state => state.isShowHeaderMenu
     })
   },
   methods: {
     async logout() {
       await this.$store.dispatch("logout");
       this.routerPush("/");
-      this.$store.commit("setIsShowHeaderMenu",true);
+      this.$store.commit("setIsShowHeaderMenu", true);
+    },
+    changePassword() {
+      this.$store.commit("setChangePwDiaVisible", true);
     }
   }
 };
@@ -65,9 +77,7 @@ h1 {
   height: 60px;
   overflow: hidden;
 }
-.el-menu--horizontal > .el-menu-item.right {
-  float: right;
-}
+
 .el-menu--horizontal > .el-menu-item {
   height: 58px;
 }

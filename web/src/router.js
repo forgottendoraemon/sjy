@@ -36,6 +36,27 @@ const routes = [
     path: '/map',
     name: 'map',
     component: () => import('./views/Map.vue')
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('./views/Admin.vue'),
+    children: [
+      {
+        path: '',
+        beforeEnter: (to, from, next) => {
+          next({
+            path: `/admin/users`
+          });
+        }
+      },
+      {
+        path: 'users',
+        name: 'users',
+        title: '用户管理',
+        component: resolve => require(['@/views/admin/Users'], resolve),
+      }
+    ]
   }
 ];
 
@@ -46,5 +67,6 @@ const router = new Router({
 })
 
 router.beforeEach(beforeEnter);
+
 
 export default router;

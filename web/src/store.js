@@ -17,7 +17,8 @@ export default new Vuex.Store({
     currentSelectLayerInfo: null,
     tableViewLayerInfo: null,
     WarningLevel: null,
-    peopleCount: 0
+    peopleCount: 0,
+    changePwDiaVisible:false,
   },
   mutations: {
     updateCurrentRoute(state, newvalue) {
@@ -72,6 +73,11 @@ export default new Vuex.Store({
     setTableViewLayerInfo(state, newvalue) {
       if (state.tableViewLayerInfo !== newvalue) {
         state.tableViewLayerInfo = newvalue
+      }
+    },
+    setChangePwDiaVisible(state, newvalue){
+      if (state.changePwDiaVisible !== newvalue) {
+        state.changePwDiaVisible = newvalue
       }
     }
   },

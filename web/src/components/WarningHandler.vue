@@ -37,7 +37,6 @@ export default {
         audio.setAttribute("src", "audio/warning.wav");
         document.body.appendChild(audio);
         // 弹框
-
         const colormap = {
           "1": "#00f",
           "2": "#f7a326",
