@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from './store'
+// import store from './store'
 Vue.use(Router)
 
 
-async function beforeEnter(to, from, next) {
-  // 如果from为空（浏览器刷新），获取用户信息
-  if (from.name == null) {
-    await store.dispatch('updateUserInfo');
-  }
-  next();
-}
+// async function beforeEnter(to, from, next) {
+//   // 如果from为空（浏览器刷新），获取用户信息
+//   if (from.name == null) {
+//     await store.dispatch('updateUserInfo');
+//   }
+//   next();
+// }
 
 const routes = [
   {
@@ -50,5 +50,5 @@ const router = new Router({
   // base: process.env.BASE_URL,
   routes
 })
-router.beforeEach(beforeEnter);
+// router.beforeEach(beforeEnter);
 export default router; 

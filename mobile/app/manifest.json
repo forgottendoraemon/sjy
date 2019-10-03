@@ -1,0 +1,320 @@
+{
+    "@platforms" : [ "android", "iPhone", "iPad" ],
+    "id" : "H53AA0CC5", /*应用的标识，创建应用时自动生成，勿手动修改*/
+    "name" : "6666", /*应用名称，程序桌面图标名称*/
+    "version" : {
+        "name" : "1.0", /*应用版本名称*/
+        "code" : ""
+    },
+    "description" : "", /*应用描述信息*/
+    "icons" : {
+        "72" : "icon.png"
+    },
+    "launch_path" : "index.html", /*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+    "developer" : {
+        "name" : "", /*开发者名称*/
+        "email" : "", /*开发者邮箱地址*/
+        "url" : ""
+    },
+    "permissions" : {
+        "Cache" : {
+            "description" : "管理应用缓存"
+        },
+        "Console" : {
+            "description" : "跟踪调试输出日志"
+        },
+        "Contacts" : {},
+        "Events" : {
+            "description" : "应用扩展事件"
+        },
+        "Maps" : {},
+        "Fingerprint" : {},
+        "Push" : {}
+    },
+    "plus" : {
+        "splashscreen" : {
+            "autoclose" : true, /*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+            "waiting" : true
+        },
+        "popGesture" : "close", /*设置应用默认侧滑返回关闭Webview窗口，"none"为无侧滑返回功能，"hide"为侧滑隐藏Webview窗口。参考http://ask.dcloud.net.cn/article/102*/
+        "runmode" : "normal", /*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+        "signature" : "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==", /*可选，保留给应用签名，暂不使用*/
+        "distribute" : {
+            "apple" : {
+                "appid" : "", /*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+                "mobileprovision" : "", /*iOS应用打包配置文件*/
+                "password" : "", /*iOS应用打包个人证书导入密码*/
+                "p12" : "", /*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+                "devices" : "universal", /*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+                "frameworks" : []
+            },
+            "google" : {
+                "packagename" : "", /*Android应用包名，如io.dcloud.HelloH5*/
+                "keystore" : "", /*Android应用打包使用的密���库文件*/
+                "password" : "", /*Android应用打包使用密钥库中证书的密码*/
+                "aliasname" : "", /*Android应用打包使用密钥库中证书的别名*/
+                "permissions" : [
+                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+                    "<uses-feature android:name=\"android.hardware.camera\"/>",
+                    "<uses-permission android:name=\"android.permission.USE_FINGERPRINT\"/>",
+                    "<uses-permission android:name=\"android.permission.CAMERA\"/>"
+                ]
+            },
+            "orientation" : [ "portrait-primary" ], /*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+            "icons" : {
+                "ios" : {
+                    "prerendered" : true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+                    "auto" : "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+                    "iphone" : {
+                        "normal" : "", /*iPhone3/3GS程序图标，分辨率：57x57*/
+                        "retina" : "", /*iPhone4程序图标，分辨率：114x114*/
+                        "retina7" : "", /*iPhone4S/5/6程序图标，分辨率：120x120*/
+                        "retina8" : "", /*iPhone6 Plus程序图标，分辨率：180x180*/
+                        "spotlight-normal" : "", /*iPhone3/3GS Spotlight搜索程序图标，分辨率：29x29*/
+                        "spotlight-retina" : "", /*iPhone4 Spotlight搜索程序图标，分辨率：58x58*/
+                        "spotlight-retina7" : "", /*iPhone4S/5/6 Spotlight搜索程序图标，分辨率：80x80*/
+                        "settings-normal" : "", /*iPhone4设置页面程序图标，分辨率：29x29*/
+                        "settings-retina" : "", /*iPhone4S/5/6设置页面程序图标，分辨率：58x58*/
+                        "settings-retina8" : ""
+                    },
+                    "ipad" : {
+                        "normal" : "", /*iPad普通屏幕程序图标，分辨率：72x72*/
+                        "retina" : "", /*iPad高分屏程序图标，分辨率：144x144*/
+                        "normal7" : "", /*iPad iOS7程序图标，分辨率：76x76*/
+                        "retina7" : "", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+                        "spotlight-normal" : "", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+                        "spotlight-retina" : "", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+                        "spotlight-normal7" : "", /*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+                        "spotlight-retina7" : "", /*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+                        "settings-normal" : "", /*iPad设置页面程序图标，分辨率：29x29*/
+                        "settings-retina" : ""
+                    }
+                },
+                "android" : {
+                    "mdpi" : "", /*普通屏程序图标，分辨率：48x48*/
+                    "ldpi" : "", /*大屏程序图标，分辨率：48x48*/
+                    "hdpi" : "", /*高分屏程序图标，分辨率：72x72*/
+                    "xhdpi" : "", /*720P高分屏程序图标，分辨率：96x96*/
+                    "xxhdpi" : ""
+                }
+            },
+            "splashscreen" : {
+                "ios" : {
+                    "iphone" : {
+                        "default" : "", /*iPhone3启动图片选，分辨率：320x480*/
+                        "retina35" : "", /*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+                        "retina40" : "", /*4.0 英寸设备(iPhone5/iPhone5s)启动图片，分辨率：640x1136*/
+                        "retina47" : "", /*4.7 英寸设备(iPhone6)启动图片，分辨率：750x1334*/
+                        "retina55" : "", /*5.5 英寸设备(iPhone6 Plus)启动图片，分辨率：1242x2208*/
+                        "retina55l" : ""
+                    },
+                    "ipad" : {
+                        "portrait" : "", /*iPad竖屏启动图片，分辨率：768x1004*/
+                        "portrait-retina" : "", /*iPad高分屏竖屏图片，分辨率：1536x2008*/
+                        "landscape" : "", /*iPad横屏启动图片，分辨率：1024x748*/
+                        "landscape-retina" : "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+                        "portrait7" : "", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+                        "portrait-retina7" : "", /*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+                        "landscape7" : "", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+                        "landscape-retina7" : ""
+                    }
+                },
+                "android" : {
+                    "mdpi" : "", /*普通屏启动图片，分辨率：240x282*/
+                    "ldpi" : "", /*大屏启动图片，分辨率：320x442*/
+                    "hdpi" : "", /*高分屏启动图片，分辨率：480x762*/
+                    "xhdpi" : "", /*720P高分屏启动图片，分辨率：720x1242*/
+                    "xxhdpi" : ""
+                }
+            },
+            "debug" : true
+        }
+    },
+    "fullscreen" : false,
+    "dependencies" : {
+        "pages" : {
+            "index.html" : {
+                "href" : "index.html",
+                "priority" : 0
+            }
+        },
+        "idle" : {
+            "resources" : [
+                "static/tiles/8/201/101.mvt",
+                "static/tiles/8/199/104.mvt",
+                "static/tiles/5/24/13.mvt",
+                "static/tiles/6/47/26.mvt",
+                "static/mapdata/poi.geojson",
+                "static/tiles/8/201/98.mvt",
+                "js/chunk-2d0e5379.fe80d446.js",
+                "static/tiles/5/25/12.mvt",
+                "static/tiles/8/196/103.mvt",
+                "static/tiles/7/96/52.mvt",
+                "static/tiles/8/193/102.mvt",
+                "static/mapdata/xiangdao.geojson",
+                "static/tiles/8/197/102.mvt",
+                "js/chunk-00e28a6a.84e0ef8f.js",
+                "static/tiles/8/193/101.mvt",
+                "static/mapdata/shengjie.geojson",
+                "static/tiles/8/198/98.mvt",
+                "static/tiles/7/96/48.mvt",
+                "static/tiles/6/47/24.mvt",
+                "static/tiles/8/196/98.mvt",
+                "static/mapdata/jumindian.geojson",
+                "static/tiles/8/191/97.mvt",
+                "static/mapdata/shidi.geojson",
+                "static/tiles/8/193/97.mvt",
+                "static/tiles/8/195/99.mvt",
+                "static/tiles/8/200/104.mvt",
+                "static/tiles/5/24/12.mvt",
+                "static/tiles/7/95/48.mvt",
+                "static/tiles/8/192/99.mvt",
+                "static/tiles/7/100/48.mvt",
+                "static/mapboxgl/mapbox-gl.css",
+                "static/tiles/8/201/97.mvt",
+                "static/tiles/8/196/104.mvt",
+                "static/tiles/8/200/98.mvt",
+                "static/tiles/8/201/103.mvt",
+                "static/tiles/8/200/99.mvt",
+                "static/tiles/8/191/99.mvt",
+                "static/tiles/7/97/50.mvt",
+                "js/chunk-vendors.1f171ac8.js",
+                "static/tiles/8/192/100.mvt",
+                "static/tiles/7/96/49.mvt",
+                "static/tiles/8/192/98.mvt",
+                "static/tiles/8/197/101.mvt",
+                "static/tiles/6/48/25.mvt",
+                "static/tiles/8/197/97.mvt",
+                "static/tiles/6/47/25.mvt",
+                "static/tiles/8/196/99.mvt",
+                "css/app.729f364b.css",
+                "static/tiles/8/197/103.mvt",
+                "static/tiles/8/193/98.mvt",
+                "static/tiles/8/193/103.mvt",
+                "static/tiles/8/194/97.mvt",
+                "static/tiles/7/96/50.mvt",
+                "static/tiles/8/195/101.mvt",
+                "static/tiles/7/100/49.mvt",
+                "static/tiles/8/195/100.mvt",
+                "static/tiles/6/49/25.mvt",
+                "static/tiles/8/198/103.mvt",
+                "static/tiles/8/197/98.mvt",
+                "static/tiles/8/200/103.mvt",
+                "static/mapdata/shengdao.geojson",
+                "static/tiles/8/201/99.mvt",
+                "static/tiles/8/195/97.mvt",
+                "static/tiles/6/50/24.mvt",
+                "static/tiles/8/195/104.mvt",
+                "static/tiles/8/194/101.mvt",
+                "js/chunk-2d0c73bd.5fcf696a.js",
+                "static/mapdata/xiangzhen.geojson",
+                "static/tiles/8/200/97.mvt",
+                "static/tiles/8/196/102.mvt",
+                "static/mapdata/xiandao.geojson",
+                "static/tiles/5/23/13.mvt",
+                "static/tiles/5/25/13.mvt",
+                "static/photo/shidi/2-1.jpg",
+                "static/mapdata/quhua.geojson",
+                "static/tiles/7/99/50.mvt",
+                "static/tiles/7/96/51.mvt",
+                "static/mapdata/guodao.geojson",
+                "static/tiles/8/195/98.mvt",
+                "js/chunk-2d0aad1c.413c7137.js",
+                "static/tiles/7/98/49.mvt",
+                "static/tiles/8/192/103.mvt",
+                "static/tiles/8/197/104.mvt",
+                "static/tiles/8/199/101.mvt",
+                "static/tiles/8/194/100.mvt",
+                "static/tiles/7/98/48.mvt",
+                "static/tiles/7/100/51.mvt",
+                "static/tiles/8/201/102.mvt",
+                "static/tiles/8/198/100.mvt",
+                "static/tiles/8/194/99.mvt",
+                "static/tiles/8/194/104.mvt",
+                "static/audio/warning.wav",
+                "static/photo/shidi/2-1.jpg.thumb.jpg",
+                "static/tiles/6/49/26.mvt",
+                "static/tiles/8/196/100.mvt",
+                "static/tiles/8/192/101.mvt",
+                "static/tiles/8/198/99.mvt",
+                "static/tiles/8/197/99.mvt",
+                "static/tiles/7/97/49.mvt",
+                "static/tiles/7/100/52.mvt",
+                "static/mapboxgl/sprite.png",
+                "static/tiles/8/200/102.mvt",
+                "static/tiles/8/191/103.mvt",
+                "static/tiles/8/191/101.mvt",
+                "static/mapdata/cun.geojson",
+                "static/tiles/7/95/49.mvt",
+                "static/tiles/8/191/104.mvt",
+                "static/tiles/8/199/98.mvt",
+                "static/tiles/7/98/52.mvt",
+                "static/tiles/8/194/98.mvt",
+                "favicon.ico",
+                "static/tiles/8/199/99.mvt",
+                "static/tiles/8/196/97.mvt",
+                "static/tiles/8/191/100.mvt",
+                "static/tiles/8/197/100.mvt",
+                "static/tiles/8/198/102.mvt",
+                "static/tiles/6/50/26.mvt",
+                "static/tiles/8/193/100.mvt",
+                "static/tiles/8/192/104.mvt",
+                "static/tiles/5/23/12.mvt",
+                "js/chunk-2d213307.6c1bb739.js",
+                "static/tiles/8/199/100.mvt",
+                "static/tiles/7/97/48.mvt",
+                "static/mapboxgl/sprite@2x.png",
+                "static/tiles/7/95/51.mvt",
+                "static/tiles/7/95/50.mvt",
+                "static/tiles/8/192/102.mvt",
+                "static/tiles/8/191/102.mvt",
+                "static/tiles/8/200/100.mvt",
+                "static/tiles/8/191/98.mvt",
+                "static/tiles/8/199/102.mvt",
+                "static/tiles/6/50/25.mvt",
+                "static/tiles/6/49/24.mvt",
+                "static/tiles/6/48/26.mvt",
+                "static/tiles/8/194/103.mvt",
+                "js/chunk-6e28f7b8.4cebe5c7.js",
+                "static/tiles/8/194/102.mvt",
+                "js/app.e245dc6c.js",
+                "static/tiles/7/98/50.mvt",
+                "static/tiles/8/193/99.mvt",
+                "static/mapboxgl/sprite.json",
+                "static/tiles/8/198/97.mvt",
+                "static/tiles/7/99/51.mvt",
+                "css/chunk-00e28a6a.2c5cb69b.css",
+                "static/tiles/8/200/101.mvt",
+                "static/tiles/8/198/101.mvt",
+                "static/mapboxgl/mapbox-gl.js",
+                "static/tiles/7/98/51.mvt",
+                "static/tiles/8/195/103.mvt",
+                "static/tiles/8/199/103.mvt",
+                "static/tiles/7/100/50.mvt",
+                "static/tiles/7/97/51.mvt",
+                "static/tiles/8/195/102.mvt",
+                "static/tiles/7/97/52.mvt",
+                "static/mapboxgl/sprite@2x.json",
+                "static/tiles/8/201/104.mvt",
+                "static/tiles/8/199/97.mvt",
+                "css/chunk-vendors.9131e34d.css",
+                "static/tiles/6/48/24.mvt",
+                "static/mapboxgl/Open Sans Regular,Arial Unicode MS Regular/0-255.pbf",
+                "static/mapdata/shuixi.geojson",
+                "static/tiles/8/201/100.mvt",
+                "static/tiles/8/196/101.mvt",
+                "static/tiles/8/192/97.mvt",
+                "static/tiles/8/193/104.mvt",
+                "static/tiles/8/198/104.mvt",
+                "static/tiles/7/99/52.mvt",
+                "static/tiles/7/99/48.mvt",
+                "static/tiles/7/99/49.mvt",
+                "static/tiles/7/95/52.mvt"
+            ]
+        }
+    }
+}
