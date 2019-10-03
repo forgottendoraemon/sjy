@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   props: {
     isMaxZoom: Boolean,
@@ -30,52 +30,41 @@ export default {
   methods: {
     // 定位
     locate() {
-      //判断是否是app环境 plus打包外壳添加的
-      console.log(11)
-      if (window.plus) {
-        const plus = window.plus;
-        /**
-         * API参考:
-         * https://www.html5plus.org/doc/zh_cn/geolocation.html;
-         * TODO:position 根据返回的数据进行定位 
-         * 注意:要根据返回的数据坐标类型转换等前地图的坐标
-         */
-        plus.geolocation.getCurrentPosition((position) => {
-          this.$notify({
-            type: 'success',
-            message: JSON.stringify(position)
-          })
-        }, (a) => {
-
-        }, {
-          enableHighAccuracy: true,
-          coordsType: "wgs84",
-          geocode: true
-        })
+      if (this.userlocation) {
+        this.$map.flyTo({
+          center: [
+            this.userlocation.coords.longitude,
+            this.userlocation.coords.latitude
+          ]
+        });
+      } else {
+        this.$notify({
+          type: "success",
+          message: `尚未取得定位信息`
+        });
       }
     },
     zoomIn() {
-      this.$map.zoomIn()
+      this.$map.zoomIn();
     },
     zoomOut() {
-      this.$map.zoomOut()
+      this.$map.zoomOut();
     },
     openUser() {
       if (this.isLogin) {
-        this.$router.replace("user")
+        this.$router.replace("user");
       } else {
-        this.$router.replace("login")
+        this.$router.replace("login");
       }
-
-    },
-
+    }
   },
   computed: {
     ...mapState({
-      isLogin: state => state.isLogin
+      isLogin: state => state.isLogin,
+      userlocation: state => state.userlocation
     })
   }
-}
+};
 </script>
 <style lang="less" scoped>
 .button-box {

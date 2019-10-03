@@ -8,6 +8,9 @@ export default new Vuex.Store({
   state: {
     userinfo: null,
     isLogin: false,//是否登录
+
+    // 用户实时位置
+    userlocation: null
   },
   mutations: {
     setUserInfo(state, newvalue) {
@@ -20,6 +23,12 @@ export default new Vuex.Store({
           state.isLogin = false;
         }
         state.userinfo = newvalue;
+      }
+    },
+
+    setUserlocation(state, newvalue) {
+      if (state.userlocation !== newvalue) {
+        state.userlocation = newvalue;
       }
     }
   },
@@ -64,6 +73,46 @@ export default new Vuex.Store({
         commit('setUserInfo', null);
       }
     },
+
+    /**
+     * 启动用户位置自动更新
+     */
+    async startWatchLocation({ commit, state }) {
+      if (window.plus) {
+        // 手机设备真实位置
+        const plus = window.plus;
+        plus.geolocation.getCurrentPosition(position => {
+          commit("setUserlocation", position);
+        });
+        plus.geolocation.watchPosition(position => {
+          commit("setUserlocation", position);
+        });
+      }
+      else {
+        // 浏览器模拟位置
+        const defaultPostiton = {
+          coords: {
+            latitude: 34.64370896168853,
+            longitude: 98.04180297572702
+          },
+          timestamp: new Date().getTime()
+        }
+        commit("setUserlocation", defaultPostiton);
+        const update = () => {
+          const d = 0.01;
+          const p = {
+            coords: {
+              latitude: 34.64370896168853+Math.random() * d - d / 2,
+              longitude: 98.04180297572702+Math.random() * d - d / 2
+            },
+            timestamp: new Date().getTime()
+          };
+          commit("setUserlocation", p);
+          setTimeout(update,2000);
+        }
+        update();
+      }
+    }
 
   }
 })
