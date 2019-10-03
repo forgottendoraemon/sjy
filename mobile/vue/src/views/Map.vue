@@ -9,7 +9,7 @@
 import Vue from "vue";
 import Search from "@/components/Map/Search";
 import mapstyle from "../mapconfig/style";
-import maplayers from "../mapconfig/maplayers";
+import mapdata from '../assets/geojson/mapdata'
 import Aside from "@/components/Map/Aside";
 import { mapState } from "vuex";
 
@@ -24,6 +24,26 @@ export default {
   },
   methods: {
     initMap() {
+
+      /**
+       * 将数据源替换为json数据源
+       */
+
+      mapstyle.sources={};
+      for(let p in mapdata){
+        mapstyle.sources[p] = {
+          type: "geojson",
+          data: mapdata[p]
+        }
+      }
+      mapstyle.layers.forEach(layer => {
+          const src = layer["source-layer"];
+          if (src) {
+              layer.source = src;
+              delete layer["source-layer"];
+          }
+      });
+
       const mymap = new mapboxgl.Map({
         container: "map-wrap",
         style: mapstyle,

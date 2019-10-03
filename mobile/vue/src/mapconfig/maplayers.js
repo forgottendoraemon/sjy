@@ -1,5 +1,4 @@
 import style from './style'
-
 /**
  * 可互动的图层配置
  * {
@@ -19,7 +18,7 @@ const layerConfig = {
                 // 将照片放置到服务器的static/shuixi目录按`${id}-${number}.jpg`的规则设置文件名
                 // 缩略图（256宽度）放置到服务器的static/shuixi目录按`${id}-${number}.jpg.thumb.jpg`的规则设置文件名
                 photo: p => {
-                    
+
                     const ps = [];
                     for (let i = 0; i < p.photoCount; i++) {
                         ps.push(`/photo/shuixi/${p.id}-${i + 1}.jpg`);
