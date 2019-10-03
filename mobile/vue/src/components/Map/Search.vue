@@ -240,7 +240,7 @@ export default {
     .item {
       border-bottom: 1px solid #ededed;
       color: #535353;
-      padding: 10px 0;
+      /*padding: 10px 0;*/
     }
   }
   .colorblue {
