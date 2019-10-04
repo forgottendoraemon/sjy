@@ -207,12 +207,16 @@ export default {
           if (mind <= maxDistance * maxDistance) {
             // 满足自动触发的条件
             const id = mindFeature.properties.id;
-            const ext = extdata[layer][id];
-            if (ext) {
-              lastTriggerTime = new Date().getTime();
-              const selectScenicSpot = { feature: mindFeature, ext };
-              this.$store.commit("setSelectScenicSpot", selectScenicSpot);
-              this.$router.push("/info");
+            const tid = `${layer}-${id}`;
+            if (lastTriggerId != tid) {
+              const ext = extdata[layer][id];
+              if (ext) {
+                lastTriggerTime = new Date().getTime();
+                lastTriggerId = tid;
+                const selectScenicSpot = { feature: mindFeature, ext };
+                this.$store.commit("setSelectScenicSpot", selectScenicSpot);
+                this.$router.push("/info");
+              }
             }
           }
         });
