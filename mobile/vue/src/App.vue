@@ -7,13 +7,19 @@
         <router-view />
       </keep-alive>
     </transition>
+    <Warning />
   </div>
 </template>
 
 <script>
+import Warning from "./components/Warning";
+
 export default {
-  name: 'app',
-}
+  name: "app",
+  components: {
+    Warning
+  }
+};
 </script>
 <style>
 html,
