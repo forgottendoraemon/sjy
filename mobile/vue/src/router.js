@@ -19,6 +19,11 @@ const routes = [
     component: () => import('./views/Map.vue')
   },
   {
+    path: '/info',
+    name: 'info',
+    component: () => import('./views/Info.vue')
+  },
+  {
     path: '/user',
     component: () => import('./views/User_NavBar'),
     children: [

@@ -1,0 +1,14 @@
+{
+    "shidi": {
+        "1": {
+            "info": "湿地1想象下",
+            "photos": "1.jpg;2.jpg",
+            "audio": "warning.wav"
+        },
+        "2": {
+            "info": "湿地2学习方法付付付",
+            "photos": "1.jpg",
+            "audio": "warning.wav"
+        }
+    }
+}

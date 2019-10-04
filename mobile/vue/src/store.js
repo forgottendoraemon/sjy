@@ -10,7 +10,9 @@ export default new Vuex.Store({
     isLogin: false,//是否登录
 
     // 用户实时位置
-    userlocation: null
+    userlocation: null,
+    // 当前选中的景点信息 {feature:any,ext:{info,photo,audio}}
+    selectScenicSpot: null
   },
   mutations: {
     setUserInfo(state, newvalue) {
@@ -29,6 +31,12 @@ export default new Vuex.Store({
     setUserlocation(state, newvalue) {
       if (state.userlocation !== newvalue) {
         state.userlocation = newvalue;
+      }
+    },
+
+    setSelectScenicSpot(state, newvalue) {
+      if (state.selectScenicSpot !== newvalue) {
+        state.selectScenicSpot = newvalue;
       }
     }
   },
@@ -102,13 +110,13 @@ export default new Vuex.Store({
           const d = 0.01;
           const p = {
             coords: {
-              latitude: 34.64370896168853+Math.random() * d - d / 2,
-              longitude: 98.04180297572702+Math.random() * d - d / 2
+              latitude: 34.64370896168853 + Math.random() * d - d / 2,
+              longitude: 98.04180297572702 + Math.random() * d - d / 2
             },
             timestamp: new Date().getTime()
           };
           commit("setUserlocation", p);
-          setTimeout(update,2000);
+          setTimeout(update, 2000);
         }
         update();
       }

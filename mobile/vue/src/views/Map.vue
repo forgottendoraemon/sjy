@@ -9,9 +9,10 @@
 import Vue from "vue";
 import Search from "@/components/Map/Search";
 import mapstyle from "../mapconfig/style";
-import mapdata from '../assets/geojson/mapdata'
+import mapdata from "../assets/geojson/mapdata";
 import Aside from "@/components/Map/Aside";
 import { mapState } from "vuex";
+import extdata from "../assets/geojson/extdata.json";
 
 const userlocationLayerId = "userlocation";
 
@@ -24,24 +25,23 @@ export default {
   },
   methods: {
     initMap() {
-
       /**
        * 将数据源替换为json数据源
        */
 
-      mapstyle.sources={};
-      for(let p in mapdata){
+      mapstyle.sources = {};
+      for (let p in mapdata) {
         mapstyle.sources[p] = {
           type: "geojson",
           data: mapdata[p]
-        }
+        };
       }
       mapstyle.layers.forEach(layer => {
-          const src = layer["source-layer"];
-          if (src) {
-              layer.source = src;
-              delete layer["source-layer"];
-          }
+        const src = layer["source-layer"];
+        if (src) {
+          layer.source = src;
+          delete layer["source-layer"];
+        }
       });
 
       const mymap = new mapboxgl.Map({
@@ -89,6 +89,23 @@ export default {
           layout: {}
         });
       });
+    },
+    /**
+     * 用户点击图层上的要素，跳转到info页面
+     */
+    intiClickInfo() {
+      for (let p in extdata) {
+        this.$map.on("click", p, evt => {
+          const [feature] = evt.features;
+          const id = feature.properties.id;
+          const ext = extdata[p][id];
+          if (ext) {
+            const selectScenicSpot = { feature, ext };
+            this.$store.commit("setSelectScenicSpot", selectScenicSpot);
+            this.$router.push("/info");
+          }
+        });
+      }
     }
   },
   components: {
@@ -128,6 +145,7 @@ export default {
     this.createUserLocationLayer();
     //启动定位
     this.$store.dispatch("startWatchLocation");
+    this.intiClickInfo();
   },
   //路由卫士
   beforeRouteEnter: (to, from, next) => {
