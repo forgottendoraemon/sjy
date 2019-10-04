@@ -3,6 +3,7 @@
     <div id="map-wrap"></div>
     <Aside :isMinZoom="isMinZoom" :isMaxZoom="isMaxZoom" />
     <Search />
+    <AutoInfo />
   </div>
 </template>
 <script>
@@ -13,6 +14,7 @@ import mapdata from "../assets/geojson/mapdata";
 import Aside from "@/components/Map/Aside";
 import { mapState } from "vuex";
 import extdata from "../assets/geojson/extdata.json";
+import AutoInfo from "@/components/Map/AutoInfo";
 
 const userlocationLayerId = "userlocation";
 
@@ -110,7 +112,8 @@ export default {
   },
   components: {
     Search,
-    Aside
+    Aside,
+    AutoInfo
   },
   computed: {
     ...mapState({
