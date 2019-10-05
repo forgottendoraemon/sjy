@@ -187,6 +187,7 @@ export default {
         { lng: currentLatlng[0], lat: currentLatlng[1] },
         { lng: targetLatlng[0], lat: targetLatlng[1] }
       );
+
       // 更新线路数据
       const rpsrc = this.$map.getSource(routingPolylinesLayerId);
       const geojsonData = {
@@ -203,7 +204,25 @@ export default {
         })
       };
       rpsrc.setData(geojsonData);
+
       // 虚线部分
+      const allpath = [];
+      path.forEach(ps => {
+        ps.forEach(p => allpath.push(p));
+      });
+      const spoint = [allpath[0].lng, allpath[0].lat];
+      let epoint;
+      if (allpath.length > 2) {
+        epoint = [
+          allpath[allpath.length - 2].lng,
+          allpath[allpath.length - 2].lat
+        ];
+      } else {
+        epoint = [
+          allpath[allpath.length - 1].lng,
+          allpath[allpath.length - 1].lat
+        ];
+      }
       const rpsrc2 = this.$map.getSource(routingDashPolylinesLayerId);
       const geojsonData2 = {
         type: "FeatureCollection",
@@ -213,7 +232,7 @@ export default {
             properties: {},
             geometry: {
               type: "LineString",
-              coordinates: [currentLatlng, [path[0][0].lng, path[0][0].lat]]
+              coordinates: [currentLatlng, spoint]
             }
           },
           {
@@ -221,10 +240,7 @@ export default {
             properties: {},
             geometry: {
               type: "LineString",
-              coordinates: [
-                targetLatlng,
-                [path[path.length - 1][0].lng, path[path.length - 1][0].lat]
-              ]
+              coordinates: [targetLatlng, epoint]
             }
           }
         ]

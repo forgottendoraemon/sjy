@@ -493,7 +493,7 @@ function findRouting(startLatlng, endLatlng) {
             }
         }
         else {
-            for (var i = einfo.minlineindex; i > sinfo.minlineindex; i--) {
+            for (var i = sinfo.minlineindex; i > einfo.minlineindex-1; i--) {
                 minepath.push(sinfo.mincoords[i]);
             }
         }

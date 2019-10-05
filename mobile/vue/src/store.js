@@ -145,11 +145,13 @@ export default new Vuex.Store({
         }
         commit("setUserlocation", defaultPostiton);
         const update = () => {
-          const d = 0.01;
+          const d = 0.03;
           const p = {
             coords: {
               latitude: 34.64370896168853 + Math.random() * d - d / 2,
               longitude: 98.04180297572702 + Math.random() * d - d / 2
+              // latitude: 34.64784573228701,
+              // longitude: 98.04338701978581
             },
             timestamp: new Date().getTime()
           };
