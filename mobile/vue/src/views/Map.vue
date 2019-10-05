@@ -4,6 +4,7 @@
     <Aside :isMinZoom="isMinZoom" :isMaxZoom="isMaxZoom" />
     <Search />
     <AutoInfo />
+    <Routinger />
   </div>
 </template>
 <script>
@@ -15,6 +16,7 @@ import Aside from "@/components/Map/Aside";
 import { mapState } from "vuex";
 import extdata from "../assets/geojson/extdata.json";
 import AutoInfo from "@/components/Map/AutoInfo";
+import Routinger from "@/components/Map/Routinger";
 
 const userlocationLayerId = "userlocation";
 
@@ -113,7 +115,8 @@ export default {
   components: {
     Search,
     Aside,
-    AutoInfo
+    AutoInfo,
+    Routinger
   },
   computed: {
     ...mapState({

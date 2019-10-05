@@ -25,6 +25,8 @@ const host = location.host
   ? `${location.protocol}//${location.host}`
   : location.href.split("/index.html#/")[0];
 
+import polylabel from "polylabel";
+
 export default {
   data() {
     return {
@@ -57,7 +59,25 @@ export default {
         this.audioplaying = false;
       }
     },
-    startNav() {}
+    startNav() {
+      // 计算几何的中心点坐标
+      const geometry = this.selectScenicSpot.feature.geometry;
+      let navTargetLatlng;
+      if (geometry.type == "Point") {
+        navTargetLatlng = geometry.coordinates;
+      } else {
+        navTargetLatlng = polylabel(geometry.coordinates, 0.00001);
+      }
+      this.$router.replace("/");
+
+      this.$store.commit("setNavTargetLatlng", navTargetLatlng);
+      this.$store.commit(
+        "setNavTargetName",
+        this.selectScenicSpot.feature.properties.name
+      );
+      this.$store.commit("setIsRouting",true);
+      
+    }
   },
   components: {},
   computed: {

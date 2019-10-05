@@ -9,10 +9,30 @@ export default new Vuex.Store({
     userinfo: null,
     isLogin: false,//是否登录
 
-    // 用户实时位置
+    /**
+     * 用户当前位置
+     * coords: {
+            latitude: number,
+            longitude: number
+          },
+          timestamp: number
+     */
     userlocation: null,
     // 当前选中的景点信息 {feature:any,ext:{info,photo,audio}}
-    selectScenicSpot: null
+    selectScenicSpot: null,
+    /**
+     * 导航的终点坐标
+     * [lng,lat]
+     */
+    navTargetLatlng: null,
+    /**
+     * 导航目标的名称描述
+     */
+    navTargetName:null,
+    /**
+     * 是否启动导航
+     */
+    isRouting:false
   },
   mutations: {
     setUserInfo(state, newvalue) {
@@ -38,7 +58,25 @@ export default new Vuex.Store({
       if (state.selectScenicSpot !== newvalue) {
         state.selectScenicSpot = newvalue;
       }
-    }
+    },
+
+    setNavTargetLatlng(state, newvalue) {
+      if (state.navTargetLatlng !== newvalue) {
+        state.navTargetLatlng = newvalue;
+      }
+    },
+
+    setNavTargetName(state, newvalue) {
+      if (state.navTargetName !== newvalue) {
+        state.navTargetName = newvalue;
+      }
+    },
+
+    setIsRouting(state, newvalue) {
+      if (state.isRouting !== newvalue) {
+        state.isRouting = newvalue;
+      }
+    },
   },
   actions: {
     /**

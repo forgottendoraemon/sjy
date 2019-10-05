@@ -84,9 +84,10 @@ export default {
         }
       });
       if (message.length) {
-        this.$notify({
-          type: "danger",
+        this.$toast({
+          type: "fail",
           message: `此处有${message.join("、")}`,
+          icon:'warn-o',
           duration: 10000
         });
         this.playAudio();

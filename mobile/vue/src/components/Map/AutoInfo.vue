@@ -6,7 +6,7 @@ import mapdata from "../../assets/geojson/mapdata";
 import { mapState } from "vuex";
 import extdata from "../../assets/geojson/extdata.json";
 
-import distanceSquare from '../../utils/distance'
+import distanceSquare from "../../utils/distance";
 
 /**
  * 触发自动景点介绍的最大距离（米）
@@ -38,13 +38,15 @@ export default {
     triggerAvailable() {
       return (
         this.$router.currentRoute.name == "map" && // 用户处在地图页
+        !this.isRouting &&
         new Date().getTime() - lastTriggerTime > minTriggerSecond * 1000
       ); //满足最小时间间隔
     }
   },
   computed: {
     ...mapState({
-      userlocation: state => state.userlocation
+      userlocation: state => state.userlocation,
+      isRouting: state => state.isRouting
     })
   },
   watch: {
