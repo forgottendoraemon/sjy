@@ -32,6 +32,7 @@
 </template>
 <script>
 import mapdata from "../../assets/geojson/mapdata";
+import navTarget from '../../utils/navTarget'
 
 /**
  * 不同类型搜索结果的显示样式
@@ -212,6 +213,16 @@ export default {
         .addTo(this.$map);
       // 当用户点击气泡上的关闭按钮后，清除搜索结果
       currentSearchPopup.once("close", clearFeatrue);
+      // 将搜索结果设置为导航目标
+
+      // 计算几何的中心点坐标
+      const geometry = e.geometry;
+      let navTargetLatlng = navTarget(geometry);
+      this.$store.commit("setNavTargetLatlng", navTargetLatlng);
+      this.$store.commit(
+        "setNavTargetName",
+        e.properties.name
+      );
     }
   }
 };

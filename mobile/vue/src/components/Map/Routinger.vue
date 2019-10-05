@@ -11,7 +11,7 @@
         <van-button
           round
           size="small"
-          v-if="!navTargetLatlng"
+          v-if="!isRouting"
           icon="exchange"
           type="info"
           @click="startNav"
@@ -19,7 +19,7 @@
         <van-button
           round
           size="small"
-          v-if="navTargetLatlng"
+          v-if="isRouting"
           icon="close"
           type="info"
           @click="stopRouting"
@@ -45,6 +45,7 @@ function initRouting() {
 
 const endmarkerLayerId = "navEndMarker";
 const routingPolylinesLayerId = "routingPolyline";
+const routingDashPolylinesLayerId = "routingDashPolyline";
 
 export default {
   data() {
@@ -71,7 +72,7 @@ export default {
         if (getDistance(currentLatlng, targetLatlng) < 200) {
           throw `距离过近`;
         }
-        // 启动导航
+        // 加载路网数据
         initRouting();
 
         // 在地图上显示终点位置图标
@@ -113,14 +114,37 @@ export default {
           },
           type: "line",
           paint: {
-            "line-color": "#00f",
-            "line-width": 5
+            "line-color": "#5298fe",
+            "line-width": 3
+          },
+          layout: { "line-cap": "round", "line-join": "round" }
+        });
+        // 连接路网与用户和目标的虚线层
+        this.$map.addLayer({
+          id: routingDashPolylinesLayerId,
+          source: {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: []
+            }
+          },
+          type: "line",
+          paint: {
+            "line-color": "#bbb",
+            "line-width": 3,
+            "line-dasharray": [1.5, 1.5]
           },
           layout: { "line-cap": "round", "line-join": "round" }
         });
 
         // 地图缩放显示当前位置与目标位置
-        this.$map.fitBounds([currentLatlng,targetLatlng]);
+        const [x1, y1] = currentLatlng;
+        const [x2, y2] = targetLatlng;
+        this.$map.fitBounds([
+          [x1 < x2 ? x1 : x2, y1 < y2 ? y1 : y2],
+          [x1 > x2 ? x1 : x2, y1 > y2 ? y1 : y2]
+        ]);
 
         this.updateRouting(currentLatlng, targetLatlng);
       } catch (error) {
@@ -136,9 +160,22 @@ export default {
      * 退出导航模式
      */
     stopRouting: function() {
-      this.$map.removeLayer(endmarkerLayerId);
-      this.$map.removeLayer(routingPolylinesLayerId);
+      if (this.$map.getLayer(endmarkerLayerId)) {
+        this.$map.removeLayer(endmarkerLayerId);
+        this.$map.removeSource(endmarkerLayerId);
+      }
+      if (this.$map.getLayer(routingPolylinesLayerId)) {
+        this.$map.removeLayer(routingPolylinesLayerId);
+        this.$map.removeSource(routingPolylinesLayerId);
+      }
+      if (this.$map.getLayer(routingDashPolylinesLayerId)) {
+        this.$map.removeLayer(routingDashPolylinesLayerId);
+        this.$map.removeSource(routingDashPolylinesLayerId);
+      }
+      this.pathDistance = "";
+
       this.$store.commit("setNavTargetLatlng", null);
+      this.$store.commit("setNavTargetName", null);
       this.$store.commit("setIsRouting", false);
     },
     /**
@@ -146,7 +183,7 @@ export default {
      */
     updateRouting: function(currentLatlng, targetLatlng) {
       // 计算路径
-      var routing_result = Routing.findRouting(
+      var { path, distance } = Routing.findRouting(
         { lng: currentLatlng[0], lat: currentLatlng[1] },
         { lng: targetLatlng[0], lat: targetLatlng[1] }
       );
@@ -154,7 +191,7 @@ export default {
       const rpsrc = this.$map.getSource(routingPolylinesLayerId);
       const geojsonData = {
         type: "FeatureCollection",
-        features: routing_result.path.map(ps => {
+        features: path.map(ps => {
           return {
             type: "Feature",
             properties: {},
@@ -166,8 +203,35 @@ export default {
         })
       };
       rpsrc.setData(geojsonData);
+      // 虚线部分
+      const rpsrc2 = this.$map.getSource(routingDashPolylinesLayerId);
+      const geojsonData2 = {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: [currentLatlng, [path[0][0].lng, path[0][0].lat]]
+            }
+          },
+          {
+            type: "Feature",
+            properties: {},
+            geometry: {
+              type: "LineString",
+              coordinates: [
+                targetLatlng,
+                [path[path.length - 1][0].lng, path[path.length - 1][0].lat]
+              ]
+            }
+          }
+        ]
+      };
+      rpsrc2.setData(geojsonData2);
 
-      this.pathDistance = (routing_result.distance / 1000).toFixed(1) + "公里";
+      this.pathDistance = (distance / 1000).toFixed(1) + "公里";
 
       // 地图跟随
       this.$map.flyTo({
@@ -191,6 +255,45 @@ export default {
   watch: {
     isRouting(isRouting) {
       isRouting && this.startRouting(this.navTargetLatlng);
+    },
+
+    userlocation(p) {
+      if (this.isRouting) {
+        try {
+          let currentLatlng = [
+            this.userlocation.coords.longitude,
+            this.userlocation.coords.latitude
+          ];
+          this.updateRouting(currentLatlng, this.navTargetLatlng);
+        } catch (error) {
+          this.$notify({
+            type: "warning",
+            message: error
+          });
+          this.stopRouting();
+        }
+      }
+    },
+
+    navTargetLatlng(p) {
+      if (this.isRouting) {
+        if (this.$map.getLayer(endmarkerLayerId)) {
+          this.$map.removeLayer(endmarkerLayerId);
+          this.$map.removeSource(endmarkerLayerId);
+        }
+        if (this.$map.getLayer(routingPolylinesLayerId)) {
+          this.$map.removeLayer(routingPolylinesLayerId);
+          this.$map.removeSource(routingPolylinesLayerId);
+        }
+        if (this.$map.getLayer(routingDashPolylinesLayerId)) {
+          this.$map.removeLayer(routingDashPolylinesLayerId);
+          this.$map.removeSource(routingDashPolylinesLayerId);
+        }
+
+        this.pathDistance = "";
+
+        this.startRouting(this.navTargetLatlng);
+      }
     }
   }
 };

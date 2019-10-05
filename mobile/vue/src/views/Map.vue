@@ -17,6 +17,7 @@ import { mapState } from "vuex";
 import extdata from "../assets/geojson/extdata.json";
 import AutoInfo from "@/components/Map/AutoInfo";
 import Routinger from "@/components/Map/Routinger";
+import navTarget from "../utils/navTarget";
 
 const userlocationLayerId = "userlocation";
 
@@ -110,6 +111,31 @@ export default {
           }
         });
       }
+    },
+
+    /**
+     * 设置导航目标的交互
+     */
+    initNavTarget() {
+      // 点击地图上的要素
+      // 可以导航的图层
+      const canNavLayers = ["shuixi", "shidi", "cun"];
+
+      canNavLayers.forEach(layer => {
+        this.$map.on("click", layer, evt => {
+          const [feature] = evt.features;
+          let navTargetLatlng = navTarget(feature.geometry);
+          this.$store.commit("setNavTargetLatlng", navTargetLatlng);
+          this.$store.commit("setNavTargetName", feature.properties.name);
+        });
+      });
+
+      // 长按空白处设置导航目标
+      this.$map.on("contextmenu", ({ lngLat }) => {
+        this.$store.commit("setNavTargetLatlng", [lngLat.lng,lngLat.lat]);
+        this.$store.commit("setNavTargetName", "地图上的点");
+      });
+      this.$map.on("click", evt => {});
     }
   },
   components: {
@@ -151,7 +177,10 @@ export default {
     this.createUserLocationLayer();
     //启动定位
     this.$store.dispatch("startWatchLocation");
+    //inofo信息页面
     this.intiClickInfo();
+    //操作地图设置导航目标
+    this.initNavTarget();
   },
   //路由卫士
   beforeRouteEnter: (to, from, next) => {
