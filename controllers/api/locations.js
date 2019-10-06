@@ -65,7 +65,7 @@ const controller = {
         const result = await execSQL(
             `SELECT locations.id, ST_AsGeoJSON(locations.geom) as geom,userid, "time",users.name
             FROM public.locations
-            join users on userid = users.id`
+            left join users on userid = users.id`
         );
         return result.rows.map(r => {
             r.geom = JSON.parse(r.geom);

@@ -69,6 +69,26 @@ export default {
             })
         },
         /**
+         * 验证手机号
+         * @param {*} phonenumber 
+         */
+        checkPhoneNumber(phonenumber) {
+            return new Promise((resolve, reject) => {
+                const reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+                if (reg.test(phonenumber)) {
+                    Vue.axios.get(`/user/phonenumberexist?phonenumber=${phonenumber}`).then(ctx => {
+                        if (ctx.data) {
+                            resolve('手机号已被使用,请绑定其他号码')
+                        } else {
+                            resolve("");
+                        }
+                    })
+                } else {
+                    resolve("请输入正确的手机号");
+                }
+            })
+        },
+        /**
          * 获取用户名是否被占用
          * @param {string} name 
          */

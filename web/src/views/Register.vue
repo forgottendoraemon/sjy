@@ -17,25 +17,25 @@
             <i slot="prefix" class="iconfont icon-user01"></i>
           </el-input>
         </el-form-item>
-        <el-form-item prop="email" class="email-item" ref="email">
+        <el-form-item prop="phonenumber" class="phonenumber-item" ref="phonenumber">
           <el-input
-            v-model="userForm.email"
-            placeholder="邮箱地址"
-            class="email-input"
-            type="email"
-            name="email"
+            v-model="userForm.phonenumber"
+            placeholder="手机号"
+            class="phonenumber-input"
+            type="phonenumber"
+            name="phonenumber"
           >
             <i slot="prefix" class="iconfont el-icon-message"></i>
           </el-input>
           <el-button
             type="primary"
-            class="email-btn"
-            @click="handleValidateEmail"
+            class="phonenumber-btn"
+            @click="handleValidatephonenumber"
             :disabled="timeoutNum===0?false:true"
           >{{timeoutNum===0?'发送验证':timeoutNum+'s后重试'}}</el-button>
         </el-form-item>
-        <el-form-item prop="emailcode" class="email-item">
-          <el-input v-model="userForm.emailcode" placeholder="请输入邮箱验证码" type="number">
+        <el-form-item prop="phonenumbercode" class="phonenumber-item">
+          <el-input v-model="userForm.phonenumbercode" placeholder="请输入短信验证码" type="number">
             <i slot="prefix" class="iconfont el-icon-warning"></i>
           </el-input>
         </el-form-item>
@@ -71,56 +71,63 @@
         <input type="submit" @click="handleSubmitBtn" style="display:none" />
       </el-form>
     </el-scrollbar>
-    <ValidateEmailDial :dialogVisible.sync="valiEmailDialVisi" :email="userForm.email" />
   </div>
 </template>
 
 <script>
 import validate from "@/assets/js/validate.js";
 import mixins from "@/assets/js/mixins.js";
-import ValidateEmailDial from "@/components/register_components/ValidateEmailDial.vue";
 import axios from "@/assets/js/axios";
 
 export default {
-  components: {
-    ValidateEmailDial
-  },
-  mixins: [validate,mixins],
+  components: {},
+  mixins: [validate, mixins],
   data() {
     return {
       errorTip: "", // 后台返回的错误提示
       // 表单数据
       userForm: {
         username: "",
-        email: "",
-        emailcode: "",
+        phonenumber: "",
+        phonenumbercode: "",
         password: "",
         password2: ""
       },
       // 正在登陆,button显示loading
       isLoging: false,
-      // 验证邮箱对话框
-      valiEmailDialVisi: false,
+      // 验证手机号码对话框
+      valiphonenumberDialVisi: false,
       // 邮件本地验证通过?
-      isRealEmail: false,
+      isRealphonenumber: false,
       // 已发送验证码?
-      isSentEmail: false,
+      isSentphonenumber: false,
       timeoutNum: 0,
       timer: null,
       // 验证规则
       rules: {
         username: [{ validator: this.checkName, trigger: "blur" }],
-        emailcode: [
+        phonenumbercode: [
           { required: true, trigger: "blur", message: "请输入验证码" }
         ],
-        email: [
+        phonenumber: [
           {
             required: true,
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: "blur"
+            message: "请输入正确的手机号",
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) {
+                return callback(new Error("手机号不能为空"));
+              } else {
+                const reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+                if (reg.test(value)) {
+                  callback();
+                } else {
+                  return callback(new Error("请输入正确的手机号"));
+                }
+              }
+            }
           },
-          { validator: this.isEmailExist, trigger: "blur" }
+          { validator: this.isphonenumberExist, trigger: "blur" }
         ],
         password: [{ validator: this.validatePass, trigger: "blur" }],
         password2: [{ validator: this.validatePasswrod2, trigger: "blur" }]
@@ -139,52 +146,50 @@ export default {
         duration
       });
     },
-    // 检测邮箱是否被占用
-    isEmailExist(rule, value, callback) {
-      let reg = new RegExp(
-        "^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"
-      );
+    // 检测手机号码是否被占用
+    isphonenumberExist(rule, value, callback) {
+      let reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
       if (!reg.test(value)) {
-        return callback(new Error("请输入正确的邮箱地址"));
+        callback(new Error("请输入正确的手机号码"));
       }
 
-      axios.get(`/user/emailexist?email=${value}`).then(res => {
+      axios.get(`/user/phonenumberexist?phonenumber=${value}`).then(res => {
         if (res.data) {
-          callback(new Error("邮箱已被使用,请绑定其他邮箱"));
+          callback(new Error("手机号码已被使用,请绑定其他手机号码"));
         } else {
           callback();
         }
       });
     },
-    // 发送邮箱验证码
-    handleValidateEmail() {
-      // 通过本地验证后发送邮箱验证
+    // 发送手机号码验证码
+    handleValidatephonenumber() {
+      // 通过本地验证后发送手机号码验证
       if (
-        this.$refs.email.validateState === "success" &&
+        this.$refs.phonenumber.validateState === "success" &&
         this.$refs.username.validateState === "success"
       ) {
         // 发送请求....
         axios
-          .post("/user/emailcode", {
-            email: this.userForm.email,
+          .post("/user/phonenumbercode", {
+            phonenumber: this.userForm.phonenumber,
             username: this.userForm.username
           })
           .then(() => {
             this.$message({
-              message: "邮箱验证码发送成功, 请登录邮箱获取验证码",
+              message: "手机号码验证码发送成功",
               type: "success",
               duration: 5000
             });
           })
           .catch(() => {
             this.$message({
-              message: "邮箱验证码发送失败, 请重试",
+              message: "手机号码验证码发送失败, 请重试",
               type: "warning",
               duration: 5000
             });
           });
 
-        this.isSentEmail = true;
+        this.isSentphonenumber = true;
         // 60s 定时递减
         this.timeoutNum = 60;
         this.createTimer();
@@ -230,14 +235,17 @@ export default {
         let data = Object.assign({}, this.userForm);
         delete data.password2;
 
-        axios.post("/user/register", data).then(() => {
-          this.showMessage("注册成功", "success");
-          setTimeout(() => this.routerPush("/login"), 1000);
-          this.isLoging = false;
-        }).catch(res=>{
+        axios
+          .post("/user/register", data)
+          .then(() => {
+            this.showMessage("注册成功", "success");
+            setTimeout(() => this.routerPush("/login"), 1000);
+            this.isLoging = false;
+          })
+          .catch(res => {
             this.errorTip = res.data.message;
             this.isLoging = false;
-        });
+          });
       });
     }
   },
@@ -251,12 +259,12 @@ export default {
 
 <style scoped lang="scss">
 @import "@/assets/scss/login.scss";
-.email-item {
+.phonenumber-item {
   position: relative;
-  .email-input {
+  .phonenumber-input {
     width: 78%;
   }
-  .email-btn {
+  .phonenumber-btn {
     position: absolute;
     top: 1px;
     right: 1px;

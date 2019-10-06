@@ -40,8 +40,8 @@
           width="calc((100%-90px)/5)"
         ></el-table-column>
         <el-table-column
-          prop="email"
-          label="邮箱"
+          prop="phonenumber"
+          label="手机号"
           :formatter="format"
           align="center"
           width="calc((100%-50px)/5)"

@@ -20,7 +20,7 @@
           <el-input v-model="formData.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" required>
-          <el-input  show-password v-model="formData.password"></el-input>
+          <el-input show-password v-model="formData.password"></el-input>
         </el-form-item>
         <el-form-item label="角色" required>
           <el-select v-model="formData.roles" placeholder="请选择帐号角色">
@@ -29,8 +29,8 @@
             <el-option label="访客" value="visitor"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="帐号邮箱" prop="email">
-          <el-input v-model="formData.email"></el-input>
+        <el-form-item label="手机号"  prop="phonenumber">
+          <el-input v-model="formData.phonenumber"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('formData')">提交</el-button>
@@ -66,7 +66,24 @@ export default {
         password: [{ validator: this.validatePass, trigger: "blur" }],
         username: [{ validator: this.checkName, trigger: "blur" }],
         roles: [{ required: true, message: "权限不能为空", trigger: "change" }],
-        email: [{ required: false, type: "email", message: "请输入合法邮箱" }]
+        phonenumber: [
+          {
+            message: "请输入正确的手机号",
+            trigger: "blur",
+            validator: (rule, value, callback) => {
+              if (!value) {
+                 callback(new Error("手机号不能为空"));
+              } else {
+                const reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+                if (reg.test(value)) {
+                  callback();
+                } else {
+                   callback(new Error("请输入正确的手机号"));
+                }
+              }
+            }
+          }
+        ]
       }
     };
   },

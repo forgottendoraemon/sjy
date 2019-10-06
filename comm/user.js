@@ -39,6 +39,12 @@ function verifyEmail(email) {
     };
 }
 
+function verifyPhonenumber(phonenumber){
+    if (!phonenumber || !((/^1([38]\d|5[0-35-9]|7[3678])\d{8}$/).test(phonenumber))) {
+        throw "手机号格式不正确";
+    };
+}
+
 /**
  * 用户添加请求基础验证
  * @param {*} ctx 
@@ -48,18 +54,18 @@ function verifyCreateUserReq(ctx, roles) {
     let postData = ctx.request.body;
     const username = postData.username.trim();
     const password = postData.password;
-    const email = postData.email;
-    const emailcode = postData.emailcode;
+    const phonenumber = postData.phonenumber;
+    const phonenumbercode = postData.phonenumbercode;
 
     verifyUserName(username);
     verifyPassowrd(password);
 
-    // 访客必须提供邮箱
+    // 访客必须提供手机号
     if (roles === RoleNames.Visitor) {
-        verifyEmail(email);
+        verifyPhonenumber(phonenumber);
     }
 
-    return { username, password, email, emailcode };
+    return { username, password, phonenumber, phonenumbercode };
 }
 
 async function initBasemapLayer(data) {
@@ -83,6 +89,10 @@ async function existUserName(username) {
 
 async function exitEmail(email) {
     return await userSet.count('email=$1', [email]) === 1;
+}
+
+async function exitPhonenumber(phonenumber) {
+    return await userSet.count('phonenumber=$1', [phonenumber]) === 1;
 }
 
 /**
@@ -315,5 +325,6 @@ module.exports = {
     passwordHash,
     verifyPassowrd,
     verifyEmail,
-    getSubUsers
+    getSubUsers,
+    exitPhonenumber
 };
