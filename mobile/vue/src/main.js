@@ -7,7 +7,7 @@ import "./assets/css/icons.css";
 
 //确保window.plus 加载后加载
 //TODO:消息通知请参考 https://www.html5plus.org/doc/zh_cn/push.html
-document.addEventListener("plusready", () => {
+// document.addEventListener("plusready", () => {
   require("./plugins/axios");
   Vue.config.productionTip = false
   new Vue({
@@ -15,7 +15,7 @@ document.addEventListener("plusready", () => {
     store,
     render: h => h(App)
   }).$mount('#app')
-})
+// })
 
 
 

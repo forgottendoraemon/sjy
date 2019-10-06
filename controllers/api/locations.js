@@ -61,7 +61,16 @@ const controller = {
      * 获取所有用户的最新位置
      */
     get: async () => {
-        return await dataSet.query();
+        // return await dataSet.query();
+        const result = await execSQL(
+            `SELECT locations.id, ST_AsGeoJSON(locations.geom) as geom,userid, "time",users.name
+            FROM public.locations
+            join users on userid = users.id`
+        );
+        return result.rows.map(r => {
+            r.geom = JSON.parse(r.geom);
+            return r;
+        });
     },
     /**
      * 获取所有访客的最新位置
@@ -90,35 +99,52 @@ const controller = {
         return result.rows;
     },
     /**
-     * 提交最新位置
+     * 提交一组位置记录
      * {
-     * time:new Date(),
-     * geom:{"type":"Point","coordinates":[101.1,36.1]},
-     * uid:uuid
+     *  uid:uuid,
+     *  locations:Array<{
+     *      time:number,
+     *      coordinates:[lng,lat]
+     *  }>
      * }
      */
     post: async ($form, $user) => {
         const uid = $user ? $user.id : $form.uid;
-        const location = {
-            userid: uid,
-            time: new Date($form.time),
-            geom: $form.geom
-        };
-        // 将位置添加到历史位置数据库
-        await historyDataSet.add(location);
+        const locations = $form.locations.map(p => (
+            {
+                userid: uid,
+                time: new Date(p.time),
+                geom: {
+                    "type": "Point",
+                    "coordinates": p.coordinates
+                }
+            }
+        ));
+        let lastLocationTime = 0, lastLocation;
+        for (let i = 0; i < locations.length; i++) {
+            const location = locations[i];
+            // 将位置添加到历史位置数据库
+            await historyDataSet.add(location);
+            if (lastLocationTime < location.time.getTime()) {
+                lastLocation = location;
+                lastLocationTime = location.time.getTime();
+            }
+        }
+
         const locationlast = await dataSet.firstOrDefault('userid=$1', [uid]);
         // 更新或添加实时位置
         if (locationlast) {
-            if (locationlast.time.getTime() < location.time.getTime()) {
+            if (locationlast.time.getTime() < lastLocationTime) {
                 await dataSet.updateByWhere('userid=$1', [uid], {
-                    time: $form.time,
-                    geom: $form.geom
+                    time: lastLocation.time,
+                    geom: lastLocation.geom
                 });
             }
         }
         else {
-            await dataSet.add(location);
+            await dataSet.add(lastLocation);
         }
+
         // 更新园区人数
         updatePeopleCount();
     },

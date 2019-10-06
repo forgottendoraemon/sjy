@@ -9,7 +9,7 @@ const { defaultAdmin } = require('../web.config').user
 const userSet = new DataSet('users');
 
 /* 用户名密码表单验证函数 */
-function verifyUserName (username) {
+function verifyUserName(username) {
     if (username === "") {
         throw "用户名不能为空";
     }
@@ -21,7 +21,7 @@ function verifyUserName (username) {
     }
 }
 
-function verifyPassowrd (password) {
+function verifyPassowrd(password) {
     if (password === "") {
         throw "密码不能为空";
     }
@@ -33,7 +33,7 @@ function verifyPassowrd (password) {
     }
 }
 
-function verifyEmail (email) {
+function verifyEmail(email) {
     if (!email || !new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$").test(email)) {
         throw "邮箱格式不正确";
     };
@@ -44,7 +44,7 @@ function verifyEmail (email) {
  * @param {*} ctx 
  * @param {*} roles 
  */
-function verifyCreateUserReq (ctx, roles) {
+function verifyCreateUserReq(ctx, roles) {
     let postData = ctx.request.body;
     const username = postData.username.trim();
     const password = postData.password;
@@ -62,33 +62,33 @@ function verifyCreateUserReq (ctx, roles) {
     return { username, password, email, emailcode };
 }
 
-async function initBasemapLayer (data) {
+async function initBasemapLayer(data) {
     return await layerSet.add(data)
 }
 
 
-async function getUserByName (username) {
+async function getUserByName(username) {
     let result = await userSet.query('name = $1', [username]);
     return result[0];
 }
 
-async function getUserById (id) {
+async function getUserById(id) {
     let result = await userSet.query('id = $1', [id]);
     return result[0];
 }
 
-async function existUserName (username) {
+async function existUserName(username) {
     return await userSet.count('name=$1', [username]) === 1;
 }
 
-async function exitEmail (email) {
+async function exitEmail(email) {
     return await userSet.count('email=$1', [email]) === 1;
 }
 
 /**
  * 读取当前系统中用户的列表
  */
-async function getRegisterUserInfos () {
+async function getRegisterUserInfos() {
     const users = await userSet.query();
     return users;
 }
@@ -97,19 +97,19 @@ async function getRegisterUserInfos () {
  * 获取指定用户的子用户列表
  * @param {} uid 
  */
-async function getSubUsers (uid) {
+async function getSubUsers(uid) {
     const users = await userSet.query("parentid=$1", [uid]);
     return users.map(toClientUser);
 }
 
-function isAdministrator (user) {
+function isAdministrator(user) {
     return user.roles === RoleNames.Administrator;
 }
 
 /**
  * 获取用户列表
  */
-async function getUserList () {
+async function getUserList() {
     return await userSet.query();
 }
 
@@ -117,7 +117,7 @@ async function getUserList () {
  * 获取一组用户ID对应的用户名
  * @param {Array} ids 用户ID
  */
-async function mapUserName (ids) {
+async function mapUserName(ids) {
     if (ids.length == 0) return {};
     const idsnotd = [...new Set(ids)];
     const db = require('./db');
@@ -136,7 +136,7 @@ async function mapUserName (ids) {
  * @param {*} password 原密码
  * @param {*} newpassword 新密码
  */
-async function changePassword (user, password, newpassword) {
+async function changePassword(user, password, newpassword) {
     if (validPassword(user, password)) {
         verifyPassowrd(newpassword);
         user.password = passwordHash(user, newpassword);
@@ -153,7 +153,7 @@ async function changePassword (user, password, newpassword) {
  * 刷新用户的最后登录时间
  * @param {*} user 用户
  */
-async function updateUserLoginTimeNow (user) {
+async function updateUserLoginTimeNow(user) {
     user.lastlogintime = new Date();
     await userSet.update(user);
 }
@@ -164,7 +164,7 @@ async function updateUserLoginTimeNow (user) {
  * @param {*} username 
  * @param {*} password 
  */
-async function verifyUser (username, password) {
+async function verifyUser(username, password) {
     let user = await getUserByName(username);
     if (user) {
         if (validPassword(user, password)) {
@@ -183,7 +183,7 @@ async function verifyUser (username, password) {
  * 创建一个新用户
  * @param {*} user 
  */
-async function createUser (user) {
+async function createUser(user) {
     const uuid = require('node-uuid');
     let uid = uuid.v1();
     user.id = uid;
@@ -198,7 +198,7 @@ async function createUser (user) {
  * 删除指定id的用户
  * @param {*} id 
  */
-async function deleteUser (id) {
+async function deleteUser(id) {
     return await userSet.removeById(id) === 1;
 }
 
@@ -207,12 +207,13 @@ async function deleteUser (id) {
  * 用户名、角色
  * @param {*} user 
  */
-function toClientUser (user) {
+function toClientUser(user) {
     return {
         name: user.name,
         isAdministrator: isAdministrator(user),
         roles: user.roles,
-        email: user.email
+        email: user.email,
+        id: user.id
     };
 }
 
@@ -222,7 +223,7 @@ function toClientUser (user) {
  * @param {*} user 
  * @param {*} password 
  */
-function passwordHash (user, password) {
+function passwordHash(user, password) {
     let s = user.id;
     let np = "";
     for (let i = 0; i < password.length; i++) {
@@ -237,17 +238,17 @@ function passwordHash (user, password) {
     return sha512.update(np).digest('hex');
 }
 
-function isPrimeNumberIn100 (i) {
+function isPrimeNumberIn100(i) {
     return (i == 2 || i == 3 || i == 5 || i == 7) || (i % 2 != 0 && i % 3 != 0 && i % 5 != 0 && i % 7 != 0);
 }
 
-function validPassword (user, password) {
+function validPassword(user, password) {
     let ph = passwordHash(user, password);
     return user.password === ph;
 }
 
 /* 用户初始化 */
-function initUser () {
+function initUser() {
     userSet.count(`name='${defaultAdmin.username}'`).then(function (count) {
         if (count == 0) {
             createUser({ name: defaultAdmin.username, password: defaultAdmin.password, roles: RoleNames.Administrator }).then(() => console.log("user inited"));
@@ -260,7 +261,7 @@ function initUser () {
 /**
  * 重置管理员用户的密码和角色
  */
-function resetAdminUser () {
+function resetAdminUser() {
     console.log("resetAdminUser");
     userSet.single(`name='${defaultAdmin.username}'`).then(au => {
         au.password = passwordHash(au, defaultAdmin.passowrd);

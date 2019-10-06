@@ -8,16 +8,19 @@
       </keep-alive>
     </transition>
     <Warning />
+    <LocationSend/>
   </div>
 </template>
 
 <script>
 import Warning from "./components/Warning";
+import LocationSend from "./components/LocationSend";
 
 export default {
   name: "app",
   components: {
-    Warning
+    Warning,
+    LocationSend
   }
 };
 </script>

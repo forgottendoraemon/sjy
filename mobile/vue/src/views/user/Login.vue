@@ -31,7 +31,6 @@
         </div>
       </form>
     </van-cell-group>
-    <!-- <van-loading color="white" /> -->
   </div>
 </template>
 

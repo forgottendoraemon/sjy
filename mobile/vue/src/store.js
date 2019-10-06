@@ -86,7 +86,6 @@ export default new Vuex.Store({
       try {
         const result = await Vue.axios.get(`/user/user`);
         commit('setUserInfo', result.data);
-        // commit('setUserInfo', data);
       } catch (error) {
         commit('setUserInfo', null);
       }
@@ -101,8 +100,9 @@ export default new Vuex.Store({
         const result = await Vue.axios.post(`/user/login`, data);
         console.log(result)
         commit('setUserInfo', result.data);
-        // commit('setUserInfo', data);
-        return result
+        // 将UID保存起来，即便用户不登录，依然采用此ID
+        localStorage.setItem("uid", result.data.id);
+        return result;
       } catch (error) {
         commit('setUserInfo', null);
         return error

@@ -31,7 +31,7 @@ function startUpdate(map) {
                 features: data.map(e => ({
                     type: "Feature",
                     geometry: e.geom,
-                    properties: { userid: e.userid, time: e.time }
+                    properties: { name: e.name || e.userid, time: e.time }
                 }))
             };
             map.getSource(layerid).setData(geojsonData);
@@ -85,7 +85,7 @@ export default function (map, userinfo, maplayers) {
             // 清除轨迹
             const clearFeatrue = () => {
                 if (map.getLayer(lineLayerid)) {
-                    console.log(lineLayerid,map.getLayer(lineLayerid));
+                    console.log(lineLayerid, map.getLayer(lineLayerid));
                     map.removeLayer(lineLayerid);
                     map.removeSource(lineLayerid);
                 }
@@ -93,10 +93,10 @@ export default function (map, userinfo, maplayers) {
 
             currentSearchPopup = new mapboxgl.Popup({ closeOnClick: false })
                 .setLngLat(feature.geometry.coordinates)
-                .setHTML(`userid:${feature.properties.userid}<br/>time:${feature.properties.time}`)
+                .setHTML(`名称:${feature.properties.name}<br/>时间:${feature.properties.time}`)
                 .addTo(map)
                 .once("close", clearFeatrue);
-            
+
             // 移除现有线路
             clearFeatrue();
             // 获取轨迹数据

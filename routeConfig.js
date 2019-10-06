@@ -7,6 +7,7 @@ function configStatic(app) {
     // }));
     // app.use(staticFileHander(`${__dirname}/HTMapMarkersystem-Mobile/dist`));
     app.use(staticFileHander(`${__dirname}/static`, { brotli: false }));
+    app.use(staticFileHander(`${__dirname}/web/dist`, { brotli: false }));
 }
 
 /**
@@ -340,7 +341,7 @@ function configHistory(app) {
 module.exports.config = function (app) {
     configController(app);
     // configMobile(app);
-    // configHistory(app);
+    configHistory(app);
     configStatic(app);
 }
 
