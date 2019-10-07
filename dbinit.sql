@@ -80,6 +80,7 @@ CREATE TABLE public.camera
     geom geometry(MultiPoint,4326),
     name character varying(80) COLLATE pg_catalog."default",
     info character varying(200) COLLATE pg_catalog."default",
+    ip character varying(20) COLLATE pg_catalog."default",
     CONSTRAINT camera_pkey PRIMARY KEY (id)
 )
 WITH (
