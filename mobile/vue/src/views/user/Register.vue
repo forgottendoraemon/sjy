@@ -141,10 +141,8 @@ export default {
   methods: {
     register() {
       Vue.axios.post("/user/register", this.userForm).then(() => {
-        this.$toast({
-          message: `注册成功`
-        });
-        setTimeout(() => this.$router.routerPush("/login"), 1000);
+        this.$toast({message: `注册成功`});
+        setTimeout(() => this.$router.push("/login"), 1000);
       });
     },
     checkupForm(checkReg) {

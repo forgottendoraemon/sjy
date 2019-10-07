@@ -28,11 +28,11 @@ export default new Vuex.Store({
     /**
      * 导航目标的名称描述
      */
-    navTargetName:null,
+    navTargetName: null,
     /**
      * 是否启动导航
      */
-    isRouting:false
+    isRouting: false
   },
   mutations: {
     setUserInfo(state, newvalue) {
@@ -129,9 +129,19 @@ export default new Vuex.Store({
         const plus = window.plus;
         plus.geolocation.getCurrentPosition(position => {
           commit("setUserlocation", position);
+        }, (error) => {
+          alert(error.message);
+        }, {
+          enableHighAccuracy: true,
+          geocode: false
         });
         plus.geolocation.watchPosition(position => {
           commit("setUserlocation", position);
+        }, (error) => {
+          alert(error.message);
+        }, {
+          enableHighAccuracy: true,
+          geocode: false
         });
       }
       else {

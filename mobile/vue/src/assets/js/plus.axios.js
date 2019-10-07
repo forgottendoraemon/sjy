@@ -1,7 +1,7 @@
 
 //TODO:App访问网络的方式
 //API参考 https://www.html5plus.org/doc/zh_cn/xhr.html
-const server = "http://127.0.0.1:3000";
+const server = window.Server;
 const plus = window.plus;
 const axios = {
     get(url, data) {
