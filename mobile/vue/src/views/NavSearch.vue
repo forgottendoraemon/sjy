@@ -116,12 +116,11 @@ export default {
   display: flex;
   flex-direction: column;
 
+  background-color: #eee;
   .search-content {
     flex-grow: 1;
     padding: 0px 2px;
     font-size: 0.9rem;
-
-    background-color: #eee;
 
     .item {
       background: #fff;
