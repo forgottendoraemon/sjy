@@ -5,7 +5,7 @@ import App from './App.vue';
 import './plugins/vant.js';
 import router from './router';
 import store from './store';
-import "./assets/css/icons.css";
+import "./assets/css/iconfont.css";
 
 function main() {
   require("./plugins/axios");

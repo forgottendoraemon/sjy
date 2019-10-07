@@ -74,16 +74,7 @@ export default {
             type: "geojson",
             data: {
               type: "FeatureCollection",
-              features: [
-                {
-                  type: "Feature",
-                  geometry: {
-                    type: "Point",
-                    coordinates: [98.04180297572702, 34.64370896168853]
-                  },
-                  properties: {}
-                }
-              ]
+              features: []
             }
           },
           type: "circle",

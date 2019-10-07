@@ -147,8 +147,8 @@ export default new Vuex.Store({
         // 浏览器模拟位置
         const defaultPostiton = {
           coords: {
-            latitude: 34.64370896168853,
-            longitude: 98.04180297572702
+            latitude: 34.901172901335016,
+            longitude: 98.16624942431474
           },
           timestamp: new Date().getTime()
         }
@@ -157,8 +157,8 @@ export default new Vuex.Store({
           const d = 0.03;
           const p = {
             coords: {
-              latitude: 34.64370896168853 + Math.random() * d - d / 2,
-              longitude: 98.04180297572702 + Math.random() * d - d / 2
+              latitude: 34.901172901335016 + Math.random() * d - d / 2,
+              longitude: 98.16624942431474 + Math.random() * d - d / 2
               // latitude: 34.64784573228701,
               // longitude: 98.04338701978581
             },

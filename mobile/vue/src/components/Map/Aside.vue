@@ -17,6 +17,9 @@
       <van-button class="map-button" @click.stop="locate" type="default">
         <i class="iconfont icon-dingwei"></i>
       </van-button>
+      <van-button class="map-button" @click.stop="showNavSearch" type="default">
+        <i class="iconfont icon-daohang"></i>
+      </van-button>
     </div>
   </div>
 </template>
@@ -56,6 +59,9 @@ export default {
       } else {
         this.$router.replace("login");
       }
+    },
+    showNavSearch(){
+      this.$router.replace('navsearch');
     }
   },
   computed: {

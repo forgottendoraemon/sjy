@@ -24,6 +24,11 @@ const routes = [
     component: () => import('./views/Info.vue')
   },
   {
+    path: '/navsearch',
+    name: 'navsearch',
+    component: () => import('./views/NavSearch.vue')
+  },
+  {
     path: '/user',
     component: () => import('./views/User_NavBar'),
     children: [
