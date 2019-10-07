@@ -45,6 +45,8 @@ async function updatePeopleCount() {
                 sms.send(phonenumbers, text).catch(error => {
                     console.error(`预警信息发送失败${error}`);
                 });
+            }).catch(error => {
+                console.error(error);
             });
     }
     CurrentLevel = level;
