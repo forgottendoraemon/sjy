@@ -51,6 +51,7 @@ import { mapState } from "vuex";
 import mapstyle from "../mapconfig/style";
 import maplayers from "../mapconfig/maplayers";
 import locationLayer from "../assets/js/locationLayer";
+import cameraLayer from "../assets/js/cameraLayer";
 
 export default {
   data() {
@@ -91,6 +92,8 @@ export default {
       mymap.on("load", () => {
         // 处理实时位置图层
         locationLayer(mymap, this.userinfo, maplayers);
+        // 摄像头图层
+        cameraLayer(mymap, this.userinfo, maplayers);
         this.$store.commit("setLayerList", maplayers);
         // 处理可点击的图层
         maplayers

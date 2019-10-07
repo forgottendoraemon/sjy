@@ -7,7 +7,18 @@ const { DataSet } = require('../../comm/db');
 /**
  * 要搜索的数据表
  */
-const mapTables = ["shuixi", "shidi", "xiangdao", "xiandao", "shengdao", "guodao", "poi", "cun", "xiangzhen"];
+const mapTables = [
+    "shuixi",
+    "shidi",
+    "xiangdao",
+    "xiandao",
+    "shengdao",
+    "guodao",
+    "poi",
+    "cun",
+    "xiangzhen",
+    "camera"
+];
 /**
  * 要搜索的字段
  */

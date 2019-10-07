@@ -49,7 +49,7 @@ function stopUpdate() {
 
 export default function (map, userinfo, maplayers) {
     // 在图层列表添加实时位置图层
-    const haslayer = maplayers[0].source === locationLayerInfo.source;
+    const haslayer = maplayers.findIndex(l => l.source == locationLayerInfo.source) != -1;
     // 如果用户是管理员身份，则额外添加一个实时位置层
     if (userinfo && userinfo.roles === "admin") {
         if (!haslayer) maplayers.unshift(locationLayerInfo);
@@ -128,7 +128,7 @@ export default function (map, userinfo, maplayers) {
         startUpdate(map);
     }
     else {
-        if (haslayer) maplayers.shift();
+        if (haslayer) maplayers.splice(maplayers.findIndex(l => l.source == locationLayerInfo.source),1);
         map.removeLayer(layerid);
         stopUpdate();
     }
