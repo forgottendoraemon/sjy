@@ -270,7 +270,17 @@ export default {
   mounted() {},
   watch: {
     isRouting(isRouting) {
-      isRouting && this.startRouting(this.navTargetLatlng);
+      if (isRouting) {
+        if (!this.userlocation) {
+          this.$notify({
+            type: "warning",
+            message: "定位失败，无法启动导航"
+          });
+          this.stopRouting();
+        } else {
+          this.startRouting(this.navTargetLatlng);
+        }
+      }
     },
 
     userlocation(p) {

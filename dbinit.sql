@@ -99,3 +99,9 @@ CREATE INDEX sidx_camera_geom
     ON public.camera USING gist
     (geom)
     TABLESPACE pg_default;
+
+
+--数据库权限示例代码
+-- create role user_test with login password '123456';
+-- GRANT USAGE ON SCHEMA public TO user_test;
+-- GRANT SELECT, UPDATE, INSERT ON cun TO user_test;

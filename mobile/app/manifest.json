@@ -23,13 +23,9 @@
         "Console" : {
             "description" : "跟踪调试输出日志"
         },
-        "Contacts" : {},
         "Events" : {
             "description" : "应用扩展事件"
-        },
-        "Maps" : {},
-        "Fingerprint" : {},
-        "Push" : {}
+        }
     },
     "plus" : {
         "splashscreen" : {
@@ -46,7 +42,12 @@
                 "password" : "", /*iOS应用打包个人证书导入密码*/
                 "p12" : "", /*iOS应用打包个人证书，打包配置文件关联的个人证书*/
                 "devices" : "universal", /*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
-                "frameworks" : []
+                "frameworks" : [],
+                "privacyDescription" : {
+                    "NSLocationWhenInUseUsageDescription" : "需要访问位置信息",
+                    "NSLocationAlwaysUsageDescription" : "需要访问位置信息",
+                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "需要访问位置信息"
+                }
             },
             "google" : {
                 "packagename" : "", /*Android应用包名，如io.dcloud.HelloH5*/
@@ -54,14 +55,8 @@
                 "password" : "", /*Android应用打包使用密钥库中证书的密码*/
                 "aliasname" : "", /*Android应用打包使用密钥库中证书的别名*/
                 "permissions" : [
-                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera\"/>",
-                    "<uses-permission android:name=\"android.permission.USE_FINGERPRINT\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>"
+                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>"
                 ]
             },
             "orientation" : [ "portrait-primary" ], /*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/

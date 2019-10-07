@@ -36,7 +36,6 @@ export default new Vuex.Store({
   },
   mutations: {
     setUserInfo(state, newvalue) {
-      console.log(`setUserInfo = ${newvalue}`);
       if (state.userinfo !== newvalue) {
         if (newvalue) {
           state.isLogin = true;
