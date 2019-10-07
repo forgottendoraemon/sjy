@@ -14,6 +14,8 @@ var CurentQHPeopleCount = -1;
  */
 const KeepTimeHour = 3;
 
+var CurrentLevel = null;
+
 /**
  * 更新园区人数
  */
@@ -23,6 +25,29 @@ async function updatePeopleCount() {
             join quhua on ST_Intersects(locations.geom,quhua.geom)
             WHERE locations.time>$1`, [new Date(new Date().getTime() - KeepTimeHour * 3600 * 1000)]);
     CurentQHPeopleCount = Number(rows[0].count);
+
+    // 更新预警级别信息
+    let level = null;
+    for (let i = 0; i < WarningLvevl.length; i++) {
+        const element = WarningLvevl[i];
+        if (CurentQHPeopleCount < element.count) break;
+        level = element;
+    }
+    // 当预警级别变更时，群发短信
+    if (level && level != CurrentLevel) {
+        const sms = require('../../comm/sms');
+        const text = `【信息平台】时间:${new Date().toLocaleString()} 超员${level.name}(${CurentQHPeopleCount}人)`;
+        execSQL(`SELECT phonenumber 
+            FROM users 
+            WHERE roles = '${RoleNames.Administrator}' or roles = '${RoleNames.Worker}'`)
+            .then(({ rows }) => {
+                const phonenumbers = rows.filter(t => t.phonenumber).map(t => t.phonenumber);
+                sms.send(phonenumbers, text).catch(error => {
+                    console.error(`预警信息发送失败${error}`);
+                });
+            });
+    }
+    CurrentLevel = level;
 }
 
 /**
