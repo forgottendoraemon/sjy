@@ -62,7 +62,7 @@ var geojson2mvt = function(options) {
             // y loop
             for(var y=tileBounds.yMin; y<=tileBounds.yMax; y++) {
 
-                console.log(`Getting tile ${z} ${x} ${y} `)
+                // console.log(`Getting tile ${z} ${x} ${y} `)
                 var mvt = getTile(z, x, y, tileIndex, layerNames);
 
                 // TODO what should be written to the tile if there is no data?

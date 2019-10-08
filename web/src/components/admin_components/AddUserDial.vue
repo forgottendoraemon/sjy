@@ -27,9 +27,10 @@
             <el-option label="管理员" value="admin"></el-option>
             <el-option label="工作人员" value="worker"></el-option>
             <el-option label="访客" value="visitor"></el-option>
+            <el-option label="数据管理员" value="datamanager"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="手机号"  prop="phonenumber">
+        <el-form-item label="手机号" prop="phonenumber">
           <el-input v-model="formData.phonenumber"></el-input>
         </el-form-item>
         <el-form-item>
@@ -72,13 +73,13 @@ export default {
             trigger: "blur",
             validator: (rule, value, callback) => {
               if (!value) {
-                 callback(new Error("手机号不能为空"));
+                callback(new Error("手机号不能为空"));
               } else {
                 const reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
                 if (reg.test(value)) {
                   callback();
                 } else {
-                   callback(new Error("请输入正确的手机号"));
+                  callback(new Error("请输入正确的手机号"));
                 }
               }
             }

@@ -315,7 +315,11 @@ const RoleNames = {
     /**
      * 访客
      */
-    Visitor: "visitor"
+    Visitor: "visitor",
+    /**
+     * 数据管理员
+     */
+    DataManager: 'datamanager'
 };
 
 initUser();
