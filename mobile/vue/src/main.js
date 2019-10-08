@@ -25,13 +25,25 @@ if (debug) {
 else {
   document.addEventListener("plusready", main); // app打包
 
-  // Android处理返回键
+  // 返回键处理
   plus.key.addEventListener('backbutton', function () {
-    ('iOS' == plus.os.name) ? plus.nativeUI.confirm('确认退出？', function (e) {
-      if (e.index > 0) {
-        plus.runtime.quit();
+    if (router.currentRoute.name == "map") {
+      // 如果在地图页按下返回，提示用户是否要退出程序
+      if ('iOS' == plus.os.name) {
+        plus.nativeUI.confirm('确认退出？', function (e) {
+          if (e.index > 0) {
+            plus.runtime.quit();
+          }
+        }, '退出程序', ['取消', '确定'])
       }
-    }, '退出程序', ['取消', '确定']) : (confirm('确认退出？') && plus.runtime.quit());
+      else {
+        (confirm('确认退出？') && plus.runtime.quit());
+      }
+    }
+    else {
+      // 返回地图页
+      router.replace('/map');
+    }
   }, false);
 }
 

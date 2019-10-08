@@ -2,9 +2,12 @@
   <div>
     <!-- 用户 -->
     <div class="button-box button-top-box">
-      <van-button class="map-button" @click.stop="openUser" type="default">
+      <!-- <van-button class="map-button" @click.stop="openUser" type="default">
         <van-icon :name="isLogin?'friends':'friends-o'" />
         <div style="font-size: 12px;">{{isLogin?'用户':'登录'}}</div>
+      </van-button>-->
+      <van-button :disabled="!mapLoad" class="map-button" @click.stop="showLayer" type="default">
+        <i class="iconfont icon-tuceng"></i>
       </van-button>
     </div>
     <div class="button-box button-right-box topHalf">
@@ -53,6 +56,9 @@ export default {
     zoomOut() {
       this.$map.zoomOut();
     },
+    showLayer() {
+      this.$router.replace("layerlist");
+    },
     openUser() {
       if (this.isLogin) {
         this.$router.replace("user");
@@ -60,14 +66,15 @@ export default {
         this.$router.replace("login");
       }
     },
-    showNavSearch(){
-      this.$router.replace('navsearch');
+    showNavSearch() {
+      this.$router.replace("navsearch");
     }
   },
   computed: {
     ...mapState({
       isLogin: state => state.isLogin,
-      userlocation: state => state.userlocation
+      userlocation: state => state.userlocation,
+      mapLoad: state => state.mapLoad
     })
   }
 };

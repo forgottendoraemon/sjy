@@ -3,50 +3,22 @@ import style from './style'
  * 可互动的图层配置
  * {
  *  name:图层的中文名
- *  enableClick:是否响应鼠标点击事件
  *  enableTable:是否具有表格视图
  * }
  */
 const layerConfig = {
     "shuixi": {
         name: "水系",
-        enableClick: true,
         enableTable: true,
         fields: [
             { name: 'name', display: '名称', type: 'string' },
-            {
-                // 将照片放置到服务器的static/shuixi目录按`${id}-${number}.jpg`的规则设置文件名
-                // 缩略图（256宽度）放置到服务器的static/shuixi目录按`${id}-${number}.jpg.thumb.jpg`的规则设置文件名
-                photo: p => {
-
-                    const ps = [];
-                    for (let i = 0; i < p.photoCount; i++) {
-                        ps.push(`/photo/shuixi/${p.id}-${i + 1}.jpg`);
-                    }
-                    return ps;
-                }
-            }
         ]
     },
     "shidi": {
         name: "湿地",
-        enableClick: true,
         enableTable: true,
         fields: [
-            { name: 'name', display: '名称', type: 'string' },
-            {
-                photo: p => {
-                    // 测试
-                    return [
-                        `http://localhost:3000/photo/shidi/2-1.jpg`
-                    ]
-                    // const ps = [];
-                    // for (let i = 0; i < p.photoCount; i++) {
-                    //     ps.push(`photo/shidi/${p.id}-${i + 1}.jpg`);
-                    // }
-                    // return ps;
-                }
-            }
+            { name: 'name', display: '名称', type: 'string' }
         ]
     },
 
@@ -62,7 +34,7 @@ const layerConfig = {
 
 const dic = {};
 style.layers.forEach(layer => {
-    const source = layer['source-layer'];
+    const source = layer.id;
     const config = layerConfig[source];
     if (config) {
         const id = layer.id;
@@ -82,6 +54,6 @@ for (let p in dic) {
 layers = layers.reverse();
 
 /**
- * Array<{name,ids,source,visible,enableClick,enableTable}>
+ * Array<{name,ids,source,visible,enableTable}>
  */
 export default layers;

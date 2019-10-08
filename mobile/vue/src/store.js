@@ -32,7 +32,16 @@ export default new Vuex.Store({
     /**
      * 是否启动导航
      */
-    isRouting: false
+    isRouting: false,
+    /**
+     * 地图是否已经加载完成(底图图层已经添加)
+     */
+    mapLoad: false,
+    /**
+     * 以列表形式查看数据的的图层
+     * {name,ids,source,visible,enableTable}
+     */
+    listViewLayerItem: null
   },
   mutations: {
     setUserInfo(state, newvalue) {
@@ -76,6 +85,19 @@ export default new Vuex.Store({
         state.isRouting = newvalue;
       }
     },
+
+    setMapLoad(state, newvalue) {
+      if (state.mapLoad !== newvalue) {
+        state.mapLoad = newvalue;
+      }
+    },
+
+    setListViewLayerItem(state, newvalue) {
+      if (state.listViewLayerItem !== newvalue) {
+        state.listViewLayerItem = newvalue;
+      }
+    },
+
   },
   actions: {
     /**

@@ -22,7 +22,7 @@
             <van-col span="22">{{item.name}}</van-col>
             <!-- 搜索内容数的图标 -->
             <van-col span="2">
-              <span class="iconfont icon-jiantou"></span>
+              <span class="iconfont icon-jiantou1"></span>
             </van-col>
           </van-row>
         </p>
@@ -121,6 +121,7 @@ export default {
     flex-grow: 1;
     padding: 0px 2px;
     font-size: 0.9rem;
+    overflow: auto;
 
     .item {
       background: #fff;

@@ -1,29 +1,21 @@
 <template>
   <div v-if="navTargetName" class="nva-body">
     <van-row type="flex" justify="center">
-      <van-col span="16">
+      <van-col span="12">
         <!-- 目标描述 -->
         <h5>{{navTargetName}}</h5>
         <!-- 距离 -->
         <p>{{pathDistance}}</p>
       </van-col>
-      <van-col span="8">
-        <van-button
-          round
-          size="small"
-          v-if="!isRouting"
-          icon="exchange"
-          type="info"
-          @click="startNav"
-        >导航到此</van-button>
-        <van-button
-          round
-          size="small"
-          v-if="isRouting"
-          icon="close"
-          type="info"
-          @click="stopRouting"
-        >停止导航</van-button>
+      <van-col span="6">
+        <van-button size="small" v-if="!isRouting" icon="exchange" type="info" @click="startNav">
+          导航
+        </van-button>
+      </van-col>
+      <van-col span="6">
+        <van-button size="small" icon="close" type="info" @click="stopRouting">
+          关闭
+        </van-button>
       </van-col>
     </van-row>
   </div>

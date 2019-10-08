@@ -57,11 +57,10 @@ export default {
       });
       Vue.prototype.$map = mymap;
       window.$map = mymap;
-      /**
-       * TODO:
-       * 定义监听地图zoom变化事件 判断地图是否是最大级别了和最小级别了
-       * 设置 isMinZoom isMaxZoom
-       */
+
+      mymap.on("load", () => {
+        this.$store.commit("setMapLoad",true);
+      });
     },
     /**
      * 添加用户位置图层
@@ -123,7 +122,7 @@ export default {
 
       // 长按空白处设置导航目标
       this.$map.on("contextmenu", ({ lngLat }) => {
-        this.$store.commit("setNavTargetLatlng", [lngLat.lng,lngLat.lat]);
+        this.$store.commit("setNavTargetLatlng", [lngLat.lng, lngLat.lat]);
         this.$store.commit("setNavTargetName", "地图上的点");
       });
       this.$map.on("click", evt => {});

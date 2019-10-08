@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <!-- TODO: -->
-    <transition name="slide-left">
+    <transition :name="transitionName">
       <keep-alive>
-        <!--请设置 路由切换后，其内容将显示在下面的位置 -->
         <router-view />
       </keep-alive>
     </transition>
     <Warning />
-    <LocationSend/>
+    <LocationSend />
   </div>
 </template>
 
@@ -18,9 +16,25 @@ import LocationSend from "./components/LocationSend";
 
 export default {
   name: "app",
+  data() {
+    return {
+      transitionName: ""
+    };
+  },
   components: {
     Warning,
     LocationSend
+  },
+  watch: {
+    $route(to, from) {
+      //  监听路由变化时的状态为前进还是后退
+      let isBack = to.name == "map";
+      if (isBack) {
+        this.transitionName = "slide-right";
+      } else {
+        this.transitionName = "slide-left";
+      }
+    }
   }
 };
 </script>
@@ -34,6 +48,26 @@ body {
 }
 #app {
   height: 100%;
+}
+.slide-left-enter,
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.slide-left-leave-to,
+.slide-right-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition: 0.3s;
+  position: absolute;
+  top: 0;
 }
 </style>
 

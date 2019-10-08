@@ -29,6 +29,16 @@ const routes = [
     component: () => import('./views/NavSearch.vue')
   },
   {
+    path: '/layerlist',
+    name: 'layerlist',
+    component: () => import('./views/LayerList.vue')
+  },
+  {
+    path: '/listview',
+    name: 'listview',
+    component: () => import('./views/ListView.vue')
+  },
+  {
     path: '/user',
     component: () => import('./views/User_NavBar'),
     children: [
