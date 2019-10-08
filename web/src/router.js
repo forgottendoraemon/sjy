@@ -33,6 +33,11 @@ const routes = [
     component: () => import('./views/Register.vue')
   },
   {
+    path: '/findpw',
+    name: 'findpw',
+    component: () => import('./views/RestPassword.vue')
+  },
+  {
     path: '/map',
     name: 'map',
     component: () => import('./views/Map.vue')

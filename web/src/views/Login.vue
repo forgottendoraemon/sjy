@@ -29,7 +29,7 @@
         </div>
         <div class="tip-btn">
           <span @click="routerPush('/register')">立即注册</span>
-          <!-- <span @click="routerPush('/findpw')" class="forgetPass">忘记密码?</span> -->
+          <span @click="routerPush('/findpw')" class="forgetPass">忘记密码?</span>
         </div>
       </el-form>
     </el-scrollbar>
