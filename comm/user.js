@@ -39,7 +39,7 @@ function verifyEmail(email) {
     };
 }
 
-function verifyPhonenumber(phonenumber){
+function verifyPhonenumber(phonenumber) {
     if (!phonenumber || !((/^1([38]\d|5[0-35-9]|7[3678])\d{8}$/).test(phonenumber))) {
         throw "手机号格式不正确";
     };
@@ -80,6 +80,11 @@ async function getUserByName(username) {
 
 async function getUserById(id) {
     let result = await userSet.query('id = $1', [id]);
+    return result[0];
+}
+
+async function getUserByPhoneNumber(phonenumber) {
+    let result = await userSet.query('phonenumber = $1', [phonenumber]);
     return result[0];
 }
 
@@ -158,6 +163,17 @@ async function changePassword(user, password, newpassword) {
     }
 }
 
+/**
+ * 重置密码
+ * @param {*} user 
+ * @param {*} newpassword 
+ */
+async function restPassword(user, newpassword) {
+    verifyPassowrd(newpassword);
+    user.password = passwordHash(user, newpassword);
+    await userSet.update(user);
+    return true;
+}
 
 /**
  * 刷新用户的最后登录时间
@@ -326,5 +342,7 @@ module.exports = {
     verifyPassowrd,
     verifyEmail,
     getSubUsers,
-    exitPhonenumber
+    exitPhonenumber,
+    getUserByPhoneNumber,
+    restPassword
 };

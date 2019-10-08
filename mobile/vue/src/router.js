@@ -34,6 +34,31 @@ const routes = [
     component: () => import('./views/LayerList.vue')
   },
   {
+    path: '/my',
+    name: 'my',
+    component: () => import('./views/My.vue')
+  },
+  {
+    path: '/changepassowrd',
+    name: 'changepassowrd',
+    component: () => import('./views/ChangePassword.vue')
+  },
+  {
+    path:'/restpassword',
+    name: 'restpassword',
+    component: () => import('./views/RestPassword.vue')
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('./views/About.vue')
+  },
+  {
+    path: '/help',
+    name: 'help',
+    component: () => import('./views/Help.vue')
+  },
+  {
     path: '/listview',
     name: 'listview',
     component: () => import('./views/ListView.vue')

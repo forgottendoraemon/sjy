@@ -31,6 +31,18 @@ const phonenumberCodeStore = {
     get: async (username, phonenumber) => phonenumberCodeMap[username + phonenumber]
 };
 
+/**
+ * 密码重置验证码存储
+ */
+const restPwdPhonenumberCodeMap = {};
+/**
+ * 密码重置验证码的存取接口
+ */
+const restPwdPhonenumberCodeStore = {
+    add: async (phonenumber) => restPwdPhonenumberCodeMap[phonenumber] = Math.floor(Math.random() * 1000000).toString(),
+    get: async (phonenumber) => restPwdPhonenumberCodeMap[phonenumber]
+};
+
 module.exports = {
     /**
      * 登录
@@ -220,6 +232,51 @@ module.exports = {
         }
         else {
             ctx.response.unauthorized();
+        }
+    },
+
+    /**
+     * 发送重置密码的，短信验证码
+     * {phonenumber}
+     */
+    postrespwdphonenumbercode: async (ctx) => {
+        const phonenumber = ctx.request.body.phonenumber;
+        if (phonenumber) {
+            if (!await usercomm.exitPhonenumber(phonenumber)) throw '无效的手机号';
+
+            const sms = require('../comm/sms');
+            const code = await restPwdPhonenumberCodeStore.add(phonenumber);
+            await sms.send([phonenumber], `【信息平台】您的密码重置验证码为${code}`);
+
+            ctx.response.ok();
+        }
+        else {
+            throw '手机号格式不正确';
+        }
+    },
+
+    /**
+     * 通过手机短信验证码，重置密码
+     * {phonenumber,phonenumbercode,password}
+     */
+    postrestpassword: async ctx => {
+        const { phonenumber, phonenumbercode, password } = ctx.request.body;
+        if (await restPwdPhonenumberCodeStore.get(phonenumber) === phonenumbercode) {
+            const user = await usercomm.getUserByPhoneNumber(phonenumber);
+            if (user) {
+                if (await usercomm.restPassword(user, password)) {
+                    ctx.response.ok();
+                }
+                else {
+                    ctx.response.badRequest();
+                }
+            }
+            else {
+                throw '找不到绑定该手机号的用户';
+            }
+        }
+        else {
+            throw '验证码错误';
         }
     },
 

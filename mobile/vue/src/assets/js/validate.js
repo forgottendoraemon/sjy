@@ -69,6 +69,25 @@ export default {
             })
         },
         /**
+         * 验证给定的手机号是否存在
+         */
+        checkPhoneNumberExist(phonenumber) {
+            return new Promise((resolve, reject) => {
+                const reg = /^1([38]\d|5[0-35-9]|7[3678])\d{8}$/;
+                if (reg.test(phonenumber)) {
+                    Vue.axios.get(`/user/phonenumberexist?phonenumber=${phonenumber}`).then(ctx => {
+                        if (ctx.data) {
+                            resolve('');
+                        } else {
+                            resolve("输入的手机号未注册");
+                        }
+                    })
+                } else {
+                    resolve("请输入正确的手机号");
+                }
+            })
+        },
+        /**
          * 验证手机号
          * @param {*} phonenumber 
          */

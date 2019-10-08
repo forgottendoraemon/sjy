@@ -25,7 +25,7 @@ export default {
         loginRegister: [
           {
             title: "欢迎登录",
-            loginRegister: "注册",
+            loginRegister: "",
           },
           {
             title: "欢迎注册",

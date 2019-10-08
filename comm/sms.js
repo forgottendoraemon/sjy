@@ -14,7 +14,11 @@ async function send(numbers, body) {
         encodeURI(`action=send&account=100059&password=C66z2D&mobile=${numbers.join(',')}&content=${body}&extno=10690100059&rt=json`)
     );
     if(result.data.status!=="0"){
+        console.error(`短信发送失败 ${result.status} ${numbers.join(',')} ${body}`);
         throw `短信发送失败 ${result.status}`;
+    }
+    else{
+        console.log(`短信发送成功${numbers.join(',')} ${body}`);
     }
 }
 

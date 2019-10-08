@@ -31,17 +31,24 @@
         </div>
       </form>
     </van-cell-group>
+    <van-row>
+      <van-col class="bottom-buttons" span="12">
+        <van-button class="register-buton" size="small" icon="records" type="default" to="/register">注册用户</van-button>
+      </van-col>
+      <van-col class="bottom-buttons" span="12">
+        <van-button class="respassword-buton" size="small" icon="question-o" type="default" to="/restpassword">忘记密码</van-button>
+      </van-col>
+    </van-row>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
-import { Notify, Toast } from 'vant';
-import * as globalConst from '@/assets/js/globalConst.js'
-import validate from '@/assets/js/validate.js';
-import { mapState } from 'vuex';
-Vue.use(Notify)
-  .use(Toast);
+import { Notify, Toast } from "vant";
+import * as globalConst from "@/assets/js/globalConst.js";
+import validate from "@/assets/js/validate.js";
+import { mapState } from "vuex";
+Vue.use(Notify).use(Toast);
 export default {
   mixins: [validate],
   data() {
@@ -53,24 +60,24 @@ export default {
       errorMsg: {
         username: "",
         password: ""
-      },
-    }
+      }
+    };
   },
   computed: {
     ...mapState({
-      isLogin: state => state.isLogin,
+      isLogin: state => state.isLogin
     })
   },
   methods: {
     emptyErrText() {
-      this.passErrorText = ""
-      this.userxErrorText = ""
+      this.passErrorText = "";
+      this.userxErrorText = "";
     },
     login() {
       if (this.isLogin) {
-        this.routerReplace('/')
+        this.routerReplace("/");
       }
-      this.debounce(this.loginFn, 500)
+      this.debounce(this.loginFn, 500);
     },
     /**
      * 重置表单
@@ -79,106 +86,108 @@ export default {
       this.userForm = {
         username: "",
         password: ""
-      }
+      };
     },
     loginFn() {
-      let checkOk = this.checkForm()
+      let checkOk = this.checkForm();
       if (!checkOk) {
-        return
+        return;
       }
       this.emptyErrText();
       let data = {
         username: this.userForm.username.trim(),
         password: this.userForm.password.trim()
-      }
+      };
 
       Toast.loading({
         mask: true,
-        message: '请求中...',
+        message: "请求中...",
         duration: 0
-      })
+      });
       // 请求登陆
       this.$store
         .dispatch("login", data)
         .then(res => {
           if (res.data && !res.data.error) {
             // 登陆成功则跳转到首页，失败则显示返回的错误信息
-            Toast.clear()
+            Toast.clear();
             Notify({
-              message: '登录成功',
+              message: "登录成功",
               duration: 2000,
-              background: '#1989fa'
-            })
+              background: "#1989fa"
+            });
             // this.$router.push("/")
-            this.resetForm()
-            this.routerReplace('/')
-
+            this.resetForm();
+            this.routerReplace("/");
           } else {
-            Toast.clear()
+            Toast.clear();
             // this.progressDialog.open = false
             Notify({
-              message: '用户名或密码错误',
+              message: "用户名或密码错误",
               duration: 2000,
-              background: '#ff4444'
+              background: "#ff4444"
             });
           }
         })
         .catch(err => {
-          Toast.clear()
-          console.log(err)
+          Toast.clear();
+          console.log(err);
           Notify({
-            message: '登陆失败,请重试!',
+            message: "登陆失败,请重试!",
             duration: 2000,
-            background: '#ff4444'
+            background: "#ff4444"
           });
           // this.showAndCloseSnackbar('登陆失败,请重试!', 2000)
-        })
+        });
     },
     routerReplace(path) {
-      this.$router.replace(path)
+      this.$router.replace(path);
     },
     checkupForm(checkReg) {
       const val = this.userForm[checkReg];
       switch (checkReg) {
         case "username":
           this.checkName(val).then(res => {
-            this.errorMsg.username = res
-          })
+            this.errorMsg.username = res;
+          });
           break;
         case "password":
           this.checkPass(val).then(res => {
-            this.errorMsg.password = res
-          })
+            this.errorMsg.password = res;
+          });
           break;
         default:
           break;
       }
     },
     /**
-      * 验证用户密码
-    */
+     * 验证用户密码
+     */
     checkForm() {
       const usernameReg = globalConst.USERNAME_REGEX;
       const passwordReg = globalConst.PASSWORD_REGEX;
-      if (!passwordReg.test(this.userForm.password) || !usernameReg.test(this.userForm.username)) {
+      if (
+        !passwordReg.test(this.userForm.password) ||
+        !usernameReg.test(this.userForm.username)
+      ) {
         if (!passwordReg.test(this.userForm.password)) {
-          this.errorMsg.password = "密码错误"
+          this.errorMsg.password = "密码错误";
         }
         if (!usernameReg.test(this.userForm.username)) {
-          this.errorMsg.username = "用户名输入不对"
+          this.errorMsg.username = "用户名输入不对";
         }
-        return false
+        return false;
       }
-      return true
+      return true;
     },
     debounce(fn, delay = 500) {
-      clearTimeout(this.timer)
+      clearTimeout(this.timer);
       this.timer = setTimeout(() => {
-        fn()
+        fn();
       }, delay);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="less">
@@ -192,6 +201,14 @@ export default {
       button {
         width: 100%;
       }
+    }
+  }
+
+  .bottom-buttons {
+    text-align: center;
+
+    .van-button--default {
+      border: none;
     }
   }
 }

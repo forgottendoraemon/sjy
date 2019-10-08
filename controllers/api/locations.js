@@ -36,7 +36,7 @@ async function updatePeopleCount() {
     // 当预警级别变更时，群发短信
     if (level && level != CurrentLevel) {
         const sms = require('../../comm/sms');
-        const text = `【信息平台】时间:${new Date().toLocaleString()} 超员${level.name}(${CurentQHPeopleCount}人)`;
+        const text = `【信息平台】时间:${new Date().toLocaleString()} 超员${level.name} ${CurentQHPeopleCount}人`;
         execSQL(`SELECT phonenumber 
             FROM users 
             WHERE roles = '${RoleNames.Administrator}' or roles = '${RoleNames.Worker}'`)
