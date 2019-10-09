@@ -64,6 +64,11 @@ const routes = [
     component: () => import('./views/ListView.vue')
   },
   {
+    path: '/find',
+    name: 'find',
+    component: () => import('./views/Find.vue')
+  },
+  {
     path: '/user',
     component: () => import('./views/User_NavBar'),
     children: [

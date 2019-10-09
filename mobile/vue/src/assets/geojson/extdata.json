@@ -17,5 +17,17 @@
             "photos": "1.jpg;2.jpg",
             "audio": "warning.wav"
         }
+    },
+    "poi":{
+        "1":{
+            "info":"宾馆惺惺惜惺惺想寻寻",
+            "photos":"3.jpg"
+        }
+    },
+    "cun":{
+        "1":{
+            "info":"xxxx村",
+            "photos":"1.jpg"
+        }
     }
 }

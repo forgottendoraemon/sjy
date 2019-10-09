@@ -11,7 +11,7 @@
     <LocationSend />
     <van-tabbar route v-if="showTabMenu">
       <van-tabbar-item replace to="/" icon="home-o">地图</van-tabbar-item>
-      <van-tabbar-item replace to="/navsearch">
+      <van-tabbar-item replace to="/find">
         <span>发现</span>
         <i
           slot="icon"
