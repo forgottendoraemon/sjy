@@ -1,0 +1,21 @@
+{
+    "shidi": {
+        "1": {
+            "info": "湿地1想象下,水电费是否收费不接受对方可垃圾",
+            "photos": "1.jpg;2.jpg",
+            "audio": "warning.wav"
+        },
+        "2": {
+            "info": "湿地2学习方法付付付",
+            "photos": "1.jpg",
+            "audio": "warning.wav"
+        }
+    },
+    "shuixi": {
+        "11": {
+            "info": "水系xxxxxx",
+            "photos": "1.jpg;2.jpg",
+            "audio": "warning.wav"
+        }
+    }
+}

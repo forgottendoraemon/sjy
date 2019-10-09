@@ -1,4 +1,4 @@
-window.Server = "http://127.0.0.1:3000"; // 后台服务器的地址
+window.Server = "http://219.247.228.220"; // 后台服务器的地址
 
 import Vue from 'vue';
 import App from './App.vue';

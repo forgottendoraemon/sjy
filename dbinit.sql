@@ -105,3 +105,7 @@ CREATE INDEX sidx_camera_geom
 -- create role user_test with login password '123456';
 -- GRANT USAGE ON SCHEMA public TO user_test;
 -- GRANT SELECT, UPDATE, INSERT ON cun TO user_test;
+
+--数据库导入导出命令(管理员终端执行)
+-- pg_dump -h localhost -U postgres sjy > dump20191009.sql
+-- psql -h localhost -U postgres sjy < dump20191009.sql

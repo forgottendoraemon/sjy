@@ -22,7 +22,7 @@
           >
             <template>
               <div v-for="(item, index) in currentSelectLayerInfo.fields" :key="index">
-                <div class="item" v-if="item.name">
+                <div class="item" v-if="item.name!='photos'">
                   <div class="label">
                     <i class="iconfont icon-T"></i>
                     {{item.display}}
@@ -31,14 +31,14 @@
                     <div class="text-desc">{{currentSelectFeature.properties[item.name]}}</div>
                   </div>
                 </div>
-                <div class="image-item" v-else-if="item.photo">
+                <div class="image-item" v-else-if="item.name=='photos'">
                   <div class="label">
                     <i class="iconfont icon-tupian"></i>
                     照片
                   </div>
                   <div class="albumn">
                     <el-row>
-                      <el-col :span="24" v-if="!item.photo(currentSelectFeature.properties).length">
+                      <el-col :span="24" v-if="!currentSelectFeature.properties.photos">
                         <div style="text-align:center;">
                           <span class="no-photo">暂无照片</span>
                         </div>
@@ -48,12 +48,12 @@
                           :span="11"
                           :push="1"
                           class="albumn-item"
-                          v-for="(imgItem,imgIndex) in item.photo(currentSelectFeature.properties)"
+                          v-for="(imgItem,imgIndex) in getPhotoUrls(currentSelectFeature.properties.photos)"
                           :key="imgIndex"
                         >
                           <div
                             class="zoomImage"
-                            @click="openViewer(item.photo(currentSelectFeature.properties),imgIndex)"
+                            @click="openViewer(getPhotoUrls(currentSelectFeature.properties.photos),imgIndex)"
                             :style="`background-image:url(${imgItem+'.thumb.jpg'})`"
                           ></div>
                         </el-col>
@@ -111,16 +111,22 @@ export default {
   methods: {
     // 关闭属性面板
     close() {
-      this.$store.commit("setCurrentSelectFeature",null);
+      this.$store.commit("setCurrentSelectFeature", null);
     },
     openViewer(imageList, $index, prop) {
       this.currentIndex = $index;
       this.imageList = imageList;
       this.isViewerOpen = true;
     },
+    getPhotoUrls(photos) {
+      if (photos) {
+        return photos.split(";").map(n => `/photo/${n}`);
+      } else {
+        return [];
+      }
+    },
     // 未保存退出时恢复原状
-    restore() {
-    }
+    restore() {}
   }
 };
 </script>

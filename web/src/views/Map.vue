@@ -53,6 +53,14 @@ import maplayers from "../mapconfig/maplayers";
 import locationLayer from "../assets/js/locationLayer";
 import cameraLayer from "../assets/js/cameraLayer";
 
+import axios from "axios";
+let extData = null;
+async function getExtData() {
+  if (extData) return extData;
+  const result = await axios.get("/mapdata/extdata.json");
+  return (extData = result.data);
+}
+
 export default {
   data() {
     return {
@@ -111,8 +119,30 @@ export default {
               mymap.on("click", layerid, evt => {
                 const [feature] = evt.features;
                 console.log(feature);
-                this.$store.commit("setCurrentSelectLayerInfo", layerconfig);
-                this.$store.commit("setCurrentSelectFeature", feature);
+                // 填充扩展数据
+                if (layerconfig.extdata) {
+                  getExtData().then(ed => {
+                    const e = ed[layerconfig.source];
+                    if (e) {
+                      const d = e[feature.properties.id];
+                      if (d) {
+                        feature.properties.info = d.info;
+                        feature.properties.photos = d.photos;
+                        this.$store.commit(
+                          "setCurrentSelectLayerInfo",
+                          layerconfig
+                        );
+                        this.$store.commit("setCurrentSelectFeature", feature);
+                        return;
+                      }
+                    }
+                    this.$store.commit(
+                      "setCurrentSelectLayerInfo",
+                      layerconfig
+                    );
+                    this.$store.commit("setCurrentSelectFeature", feature);
+                  });
+                }
               });
             });
           });

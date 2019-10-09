@@ -71,6 +71,10 @@ class TileTask {
                 }
                 console.log('stdout: ' + stdout);
                 this.runing = false;
+                const i = tileTaskList.findIndex(t => t == this);
+                if (i != -1) {
+                    tileTaskList.splice(i, 1);
+                }
                 r();
             });
         })

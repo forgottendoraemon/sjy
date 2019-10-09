@@ -50,7 +50,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import extdata from "../assets/geojson/extdata.json";
+import extdata from "../assets/geojson/findextdata.json";
 import mapdata from "../assets/geojson/mapdata";
 import showFeature from "../utils/showFeature";
 /**
