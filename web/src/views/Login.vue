@@ -6,7 +6,7 @@
           <h3 class="blue">欢迎登陆</h3>
         </div>
         <el-form-item label prop="username">
-          <el-input v-model="userForm.username" @keyup.native="emptyErrTip" placeholder="用户名">
+          <el-input v-model="userForm.username" @keyup.native="emptyErrTip" placeholder="用户名/手机号">
             <i slot="prefix" class="iconfont icon-user01"></i>
           </el-input>
         </el-form-item>

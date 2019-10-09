@@ -186,22 +186,26 @@ async function updateUserLoginTimeNow(user) {
 
 /* 用户验证和添加业务 */
 /**
- * 验证用户名和密码
+ * 验证用户名(手机号)和密码
  * @param {*} username 
  * @param {*} password 
  */
 async function verifyUser(username, password) {
     let user = await getUserByName(username);
+    if (!user) {
+        // 如果按用户名无法查找到用户，尝试使用手机号
+        user = await getUserByPhoneNumber(username);
+    }
     if (user) {
         if (validPassword(user, password)) {
             return user;
         }
         else {
-            throw "用户名或密码错误";
+            throw "用户名/手机号或密码错误";
         }
     }
     else {
-        throw "用户名或密码错误";
+        throw "用户名/手机号或密码错误";
     }
 }
 

@@ -7,7 +7,7 @@
           required
           clearable
           :error="errorMsg.username?true:false"
-          :placeholder="errorMsg.username?errorMsg.username:'请输入用户名'"
+          :placeholder="errorMsg.username?errorMsg.username:'用户名/手机号'"
           autofocus="autofocus"
           @focus="errorMsg.username=''"
           @blur="checkupForm('username')"
