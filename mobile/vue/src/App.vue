@@ -10,8 +10,8 @@
     <Warning />
     <LocationSend />
     <van-tabbar route v-if="showTabMenu">
-      <van-tabbar-item replace to="/" icon="home-o">地图</van-tabbar-item>
-      <van-tabbar-item replace to="/find">
+      <van-tabbar-item  to="/" icon="home-o">地图</van-tabbar-item>
+      <van-tabbar-item  to="/find">
         <span>发现</span>
         <i
           slot="icon"
@@ -20,7 +20,7 @@
           :style="{color:props.active?'#1989fa':''}"
         />
       </van-tabbar-item>
-      <van-tabbar-item replace to="/my">
+      <van-tabbar-item  to="/my">
         <span>我的</span>
         <i
           slot="icon"
@@ -52,14 +52,6 @@ export default {
   computed: {},
   watch: {
     $route(to, from) {
-      //  监听路由变化时的状态为前进还是后退
-      let isBack = to.name == "map";
-      if (isBack) {
-        this.transitionName = "slide-right";
-      } else {
-        this.transitionName = "slide-left";
-      }
-
       const showrs = ["map", "my", "find"];
       this.showTabMenu = !!showrs.find(r => to.name == r);
     }
@@ -82,11 +74,14 @@ body {
 
 #app .body {
   flex-grow: 1;
+  height: 0;
+  overflow: hidden;
 }
 
 #app .van-tabbar--fixed {
   position: relative;
 }
+/*
 .slide-left-enter,
 .slide-right-leave-to {
   opacity: 0;
@@ -106,6 +101,6 @@ body {
   transition: 0.3s;
   position: absolute;
   top: 0;
-}
+}*/
 </style>
 

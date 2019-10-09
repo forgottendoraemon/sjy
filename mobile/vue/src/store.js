@@ -151,7 +151,7 @@ export default new Vuex.Store({
         plus.geolocation.getCurrentPosition(position => {
           commit("setUserlocation", position);
         }, (error) => {
-          alert(error.message);
+          console.error(error.message);
         }, {
           enableHighAccuracy: true,
           geocode: false
@@ -159,7 +159,7 @@ export default new Vuex.Store({
         plus.geolocation.watchPosition(position => {
           commit("setUserlocation", position);
         }, (error) => {
-          alert(error.message);
+          console.error(error.message);
         }, {
           enableHighAccuracy: true,
           geocode: false

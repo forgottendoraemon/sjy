@@ -2,7 +2,7 @@
   <div class="info-page">
     <van-nav-bar
       :title="listViewLayerItem.name"
-      left-text="地图"
+      left-text="返回"
       left-arrow
       @click-left="onClickLeft"
     />
@@ -25,11 +25,11 @@ import showFeature from "../utils/showFeature";
 export default {
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
     },
     showFeature(e) {
       //回到地图页
-      this.$router.replace("/");
+      this.$router.push("/");
       // 将选中的要素显示在地图上
       showFeature(e);
     }

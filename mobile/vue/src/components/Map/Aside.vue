@@ -57,17 +57,17 @@ export default {
       this.$map.zoomOut();
     },
     showLayer() {
-      this.$router.replace("layerlist");
+      this.$router.push("layerlist");
     },
     openUser() {
       if (this.isLogin) {
-        this.$router.replace("user");
+        this.$router.push("user");
       } else {
-        this.$router.replace("login");
+        this.$router.push("login");
       }
     },
     showNavSearch() {
-      this.$router.replace("navsearch");
+      this.$router.push("navsearch");
     }
   },
   computed: {

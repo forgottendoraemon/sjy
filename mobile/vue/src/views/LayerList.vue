@@ -1,6 +1,6 @@
 <template>
   <div class="info-page">
-    <van-nav-bar title="图层列表" left-text="地图" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="图层列表" left-text="返回" left-arrow @click-left="onClickLeft" />
     <div class="content">
       <template v-for="(item,index) in layerList">
         <div class="item" :key="index">
@@ -10,7 +10,12 @@
               <van-switch @change="changeVisbile(item)" v-model="item.visible" size="16px" />
             </van-col>
             <van-col span="20" v-if="item.enableTable">
-              <van-cell :title="item.name" is-link value="内容" @click="showLayerData(item)" />
+              <van-cell
+                :title="item.name"
+                :is-link="item.visible"
+                :value="item.visible?'内容':''"
+                @click="showLayerData(item)"
+              />
             </van-col>
             <van-col span="20" v-if="!item.enableTable">
               <van-cell :title="item.name" />
@@ -24,6 +29,7 @@
 <script>
 import { mapState } from "vuex";
 import maplayers from "../mapconfig/maplayers";
+console.log(maplayers);
 
 export default {
   data() {
@@ -33,11 +39,13 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
     },
     showLayerData(layerItem) {
-      this.$store.commit("setListViewLayerItem", layerItem);
-      this.$router.replace("listview");
+      if (layerItem.visible) {
+        this.$store.commit("setListViewLayerItem", layerItem);
+        this.$router.push("listview");
+      }
     },
     changeVisbile(layerItem) {
       for (let layerid of layerItem.ids) {

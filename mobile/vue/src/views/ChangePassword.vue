@@ -1,7 +1,7 @@
 <template>
   <div class="info-page">
     <div>
-      <van-nav-bar title="修改密码" left-text="地图" left-arrow @click-left="onClickLeft" />
+      <van-nav-bar title="修改密码" left-text="返回" left-arrow @click-left="onClickLeft" />
     </div>
     <div class="content">
       <div class="form-page">
@@ -85,7 +85,7 @@ export default {
   computed: {},
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
     },
     change() {
       Vue.axios

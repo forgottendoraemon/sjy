@@ -1,7 +1,7 @@
 <template>
   <div class="info-page">
     <div>
-      <van-nav-bar title="我的" left-text="地图" left-arrow @click-left="onClickLeft" />
+      <van-nav-bar title="我的" left-text="返回" left-arrow @click-left="onClickLeft" />
     </div>
     <div class="content">
       <!-- 用户登录信息 -->
@@ -69,11 +69,11 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
     },
     userinfoClick() {
       if (!this.userinfo) {
-        this.$router.replace("/login");
+        this.$router.push("/login");
       }
     },
     logout() {

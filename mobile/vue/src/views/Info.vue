@@ -1,6 +1,6 @@
 <template>
   <div class="info-page">
-    <van-nav-bar :title="title" left-text="地图" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar :title="title" left-text="返回" left-arrow @click-left="onClickLeft" />
     <van-swipe :autoplay="3000" :height="250">
       <van-swipe-item v-for="(image, index) in images" :key="index">
         <van-image width="100%" height="100%" fit="cover" :src="image" />
@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
     },
     playAudio() {
       if (this.audio) {
@@ -64,7 +64,7 @@ export default {
       const geometry = this.selectScenicSpot.feature.geometry;
       let navTargetLatlng = navTarget(geometry);
       
-      this.$router.replace("/");
+      this.$router.push("/");
 
       this.$store.commit("setNavTargetLatlng", navTargetLatlng);
       this.$store.commit(

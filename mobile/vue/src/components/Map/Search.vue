@@ -16,17 +16,8 @@
     <!-- 搜索内容的显示 -->
     <div v-if="isHaveSearchResult" :style="{maxHeight:searchHeight+'px'}" class="search-content">
       <template v-for="(item,index) in searchResult">
-        <p class="item" :key="index" @click="findElement(item.feature)">
-          <van-row>
-            <van-col span="22">{{item.name}}</van-col>
-            <!-- 搜索内容数的图标 -->
-            <van-col span="2">
-              <span class="iconfont colorblue"></span>
-            </van-col>
-          </van-row>
-        </p>
+        <van-cell :title="item.name" :key="index" @click="findElement(item.feature)" is-link />
       </template>
-      <!-- <p style="color:#ccc" v-if="searchResult.length==0">无</p> -->
     </div>
   </form>
 </template>
@@ -123,7 +114,7 @@ export default {
     border-bottom: 1px solid #ccc;
     background-color: rgba(255, 255, 255, 0.9);
     overflow: auto;
-    padding: 10px 20px;
+    padding: 10px 10px;
     /deel/.van-search__content {
       background-color: #ffffff;
     }

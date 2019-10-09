@@ -1,7 +1,7 @@
 <template>
   <div class="info-page">
     <div>
-      <van-nav-bar title="导航" left-text="地图" left-arrow @click-left="onClickLeft" />
+      <van-nav-bar title="导航" left-text="返回" left-arrow @click-left="onClickLeft" />
       <van-search placeholder="当前位置" disabled>
         <van-icon slot="left-icon" name="location-o" />
       </van-search>
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
     },
     onSearch(val) {
       let key = val.trim();
@@ -92,7 +92,7 @@ export default {
       // 计算几何的中心点坐标
       const geometry = feature.geometry;
       let navTargetLatlng = navTarget(geometry);
-      this.$router.replace("/");
+      this.$router.push("/");
       this.$store.commit("setNavTargetLatlng", navTargetLatlng);
       this.$store.commit("setNavTargetName", feature.properties.name);
       this.$store.commit("setIsRouting", true);

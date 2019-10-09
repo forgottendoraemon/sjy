@@ -1,7 +1,7 @@
 <template>
   <div class="info-page">
     <div>
-      <van-nav-bar title="发现" left-text="地图" left-arrow @click-left="onClickLeft" />
+      <van-nav-bar title="发现" left-text="返回" left-arrow @click-left="onClickLeft" />
     </div>
     <div class="content">
       <!-- 搜索框和背景 -->
@@ -35,7 +35,7 @@
       <div class="result">
         <template v-for="(item,index) in resultList">
           <van-row :key="index" @click="findElement(item)">
-            <van-col span="8">
+            <van-col span="8" v-if="item.feature">
               <van-image width="100%" fit="cover" :src="item.photo" />
             </van-col>
             <van-col span="16">
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
     },
     onSearch(val) {
       let key = val.trim();
@@ -163,7 +163,7 @@ export default {
     findElement(e) {
       if (!e || !e.feature) return;
       //回到地图页
-      this.$router.replace("/");
+      this.$router.push("/");
       this.showAction = false;
       showFeature(e.feature);
     }

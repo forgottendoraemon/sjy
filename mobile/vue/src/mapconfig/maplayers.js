@@ -34,7 +34,7 @@ const layerConfig = {
 
 const dic = {};
 style.layers.forEach(layer => {
-    const source = layer.id;
+    const source = layer["source-layer"];
     const config = layerConfig[source];
     if (config) {
         const id = layer.id;

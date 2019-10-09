@@ -11,6 +11,7 @@
 import Vue from "vue";
 import Search from "@/components/Map/Search";
 import mapstyle from "../mapconfig/style";
+import maplayers from '../mapconfig/maplayers';
 import mapdata from "../assets/geojson/mapdata";
 import Aside from "@/components/Map/Aside";
 import { mapState } from "vuex";
@@ -20,6 +21,7 @@ import Routinger from "@/components/Map/Routinger";
 import navTarget from "../utils/navTarget";
 
 const userlocationLayerId = "userlocation";
+let firstLocation = true;
 
 export default {
   data() {
@@ -53,8 +55,10 @@ export default {
         container: "map-wrap",
         style: mapstyle,
         minZoom: 5,
-        maxZoom: 18
+        maxZoom: 18,
+        dragRotate:false
       });
+      mymap.touchZoomRotate.disableRotation();
       Vue.prototype.$map = mymap;
       window.$map = mymap;
 
@@ -157,6 +161,11 @@ export default {
           ]
         };
         locationSrc.setData(geojsonData);
+      }
+      // 有时首次定位显示不出定位图标
+      if(firstLocation){
+        this.$map.resize();
+        firstLocation = false;
       }
     }
   },

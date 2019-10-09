@@ -141,7 +141,7 @@ export default {
         });
     },
     routerReplace(path) {
-      this.$router.replace(path);
+      this.$router.push(path);
     },
     checkupForm(checkReg) {
       const val = this.userForm[checkReg];

@@ -46,21 +46,21 @@ export default {
   },
   methods: {
     onClickLeft() {
-      this.$router.replace("/");
+      this.$router.back();
       this.isRegister = false;
     },
     onClickRight() {
       if (this.isLogin) {
         if (this.isRegister) {
-          this.$router.replace("user")
+          this.$router.push("user")
         } else {
-          this.$router.replace("resetPwd")
+          this.$router.push("resetPwd")
         }
       } else {
         if (this.isRegister) {
-          this.$router.replace("login")
+          this.$router.push("login")
         } else {
-          this.$router.replace("register")
+          this.$router.push("register")
         }
       }
       this.isRegister = !this.isRegister
@@ -95,11 +95,11 @@ export default {
     top: 46px;
     bottom: 0;
     right: 0;
-    background-image: url("./logo.png");
+    /*background-image: url("./logo.png");
     background-repeat: no-repeat;
     background-size: 100%;
     background-position: bottom center;
-    background-origin: content-box;
+    background-origin: content-box;*/
   }
 }
 </style>
